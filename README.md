@@ -8,10 +8,17 @@
 
 Projeto básico para dashboard com angular
 
+# Instalação
+```
+git clone https://github.com/walternascimentobarroso/wdashboard.git 
+
+npm install
+```
+
 # Módulos
  * Dashboard
  * Perfil
  * Login
 
 ## Gerar Módulos
-`ng g component my-new-component --spec false`
+`ng g component pages/my-new-component --spec false`

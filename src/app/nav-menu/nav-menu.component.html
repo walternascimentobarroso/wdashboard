@@ -1,39 +1,40 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="isHandset ? 'dialog' : 'navigation'" [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
-    [opened]="!(isHandset | async)!.matches">
-    <mat-toolbar color="primary">{{logo}}</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="#" [class.mat-elevation-z8]="!isActive">
-        <mat-icon>dashboard</mat-icon>
-        <span>Dashboard</span>
-      </a>
-      <a mat-list-item href="#">
-        <mat-icon>group</mat-icon>
-        <span>Usuários</span>
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="(isHandset | async)!.matches">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>{{projectname}}</span>
-      <span class="fill-space"></span>
-      <button mat-button [matMenuTriggerFor]="menu">Usuário
-        <mat-icon>arrow_drop_down</mat-icon>
-      </button>
-      <mat-menu dir="rtl" #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>person_outline</mat-icon>
-          Perfil
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item>
-          <mat-icon>power_settings_new</mat-icon>
-          Sair
-        </button>
-      </mat-menu>
-    </mat-toolbar>
-  </mat-sidenav-content>
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="isHandset ? 'dialog' : 'navigation'" [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
+        [opened]="!(isHandset | async)!.matches">
+        <mat-toolbar color="primary">{{logo}}</mat-toolbar>
+        <mat-nav-list>
+            <a mat-list-item routerLink="/" [class.mat-elevation-z8]="!isActive">
+                <mat-icon>dashboard</mat-icon>
+                <span>Dashboard</span>
+            </a>
+            <a mat-list-item routerLink="/">
+                <mat-icon>group</mat-icon>
+                <span>Usuários</span>
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="(isHandset | async)!.matches">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span>{{projectname}}</span>
+            <span class="fill-space"></span>
+            <button mat-button [matMenuTriggerFor]="menu">Usuário
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu dir="rtl" #menu="matMenu">
+                <a mat-menu-item routerLink="/perfil">
+                    <mat-icon>person_outline</mat-icon>
+                    Perfil
+                </a>
+                <mat-divider></mat-divider>
+                <a mat-menu-item>
+                    <mat-icon>power_settings_new</mat-icon>
+                    Sair
+                </a>
+            </mat-menu>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
 </mat-sidenav-container>
