@@ -12,7 +12,10 @@ import {
     MatIconModule,
     MatListModule,
     MatMenuModule,
-    MatCardModule
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule
 } from '@angular/material';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AppRoutingModule } from './/app-routing.module';
@@ -34,6 +37,9 @@ import { AppRoutingModule } from './/app-routing.module';
         MatListModule,
         MatMenuModule,
         MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
         AppRoutingModule
     ],
     providers: [],
