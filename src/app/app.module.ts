@@ -15,16 +15,18 @@ import {
     MatCardModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule, MatTableModule, MatPaginatorModule, MatSortModule
 } from '@angular/material';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { MyTableComponent } from './my-table/my-table.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
-        PerfilComponent
+        PerfilComponent,
+        MyTableComponent
     ],
     imports: [
         BrowserModule,
@@ -40,7 +42,10 @@ import { AppRoutingModule } from './/app-routing.module';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        AppRoutingModule
+        AppRoutingModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule
     ],
     providers: [],
     bootstrap: [AppComponent]

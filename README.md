@@ -19,6 +19,7 @@ npm install
  * Dashboard
  * Perfil
  * Login
+ * Usuários
 
 ## Gerar Módulos
 `ng g component pages/my-new-component --spec false`
