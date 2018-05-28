@@ -20,13 +20,15 @@ import {
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MyTableComponent } from './my-table/my-table.component';
+import { UsersComponent } from './pages/users/users.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
         PerfilComponent,
-        MyTableComponent
+        MyTableComponent,
+        UsersComponent
     ],
     imports: [
         BrowserModule,
