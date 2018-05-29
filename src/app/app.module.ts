@@ -21,6 +21,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MyTableComponent } from './my-table/my-table.component';
 import { UsersComponent } from './pages/users/users.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { UsersComponent } from './pages/users/users.component';
         NavMenuComponent,
         PerfilComponent,
         MyTableComponent,
-        UsersComponent
+        UsersComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
