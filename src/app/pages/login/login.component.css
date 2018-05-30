@@ -1,0 +1,8 @@
+.card {
+    flex: 1 1 auto;
+    margin: 20px;
+}
+
+.container > * {
+    width: 100%;
+}
