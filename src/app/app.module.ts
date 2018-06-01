@@ -15,13 +15,15 @@ import {
     MatCardModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule, MatTableModule, MatPaginatorModule, MatSortModule
+    MatInputModule, MatTableModule, MatPaginatorModule, MatSortModule, MatGridListModule
 } from '@angular/material';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MyTableComponent } from './my-table/my-table.component';
 import { UsersComponent } from './pages/users/users.component';
 import { LoginComponent } from './pages/login/login.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +32,9 @@ import { LoginComponent } from './pages/login/login.component';
         PerfilComponent,
         MyTableComponent,
         UsersComponent,
-        LoginComponent
+        LoginComponent,
+        DashboardComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
@@ -49,7 +53,8 @@ import { LoginComponent } from './pages/login/login.component';
         AppRoutingModule,
         MatTableModule,
         MatPaginatorModule,
-        MatSortModule
+        MatSortModule,
+        MatGridListModule
     ],
     providers: [],
     bootstrap: [AppComponent]
