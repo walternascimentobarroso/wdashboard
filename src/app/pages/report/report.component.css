@@ -1,0 +1,12 @@
+.card {
+    flex: 1 1 auto;
+    margin: 20px;
+}
+
+.flex {
+    display: flex;
+}
+
+.fill-space {
+    flex: 1 1 auto;
+}
