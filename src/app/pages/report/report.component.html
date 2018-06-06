@@ -16,10 +16,12 @@
     <mat-card-content>
         <div class="flex">
             <span class="fill-space"></span>
-            <button mat-fab align="end">
+            <button mat-fab align="end" (click)="demoFromHTML()">
                 <mat-icon>picture_as_pdf</mat-icon>
             </button>
         </div>
-        <my-table></my-table>
+        <div id="content" #content>
+            <my-table></my-table>
+        </div>
     </mat-card-content>
 </mat-card>
