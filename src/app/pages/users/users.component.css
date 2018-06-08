@@ -1,3 +1,16 @@
+.breadcumbs {
+    margin: 20px;
+    text-transform: uppercase;
+}
+
+.breadcumbs > a:link  {
+    text-decoration: none;
+}
+
+.breadcumbs > .active {
+    color: #8a8787;
+}
+
 .card {
     flex: 1 1 auto;
     margin: 20px;

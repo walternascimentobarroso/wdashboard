@@ -15,7 +15,12 @@ import {
     MatCardModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule, MatTableModule, MatPaginatorModule, MatSortModule, MatGridListModule
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatGridListModule,
+    MatBottomSheetModule
 } from '@angular/material';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AppRoutingModule } from './/app-routing.module';
@@ -25,6 +30,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ReportComponent } from './pages/report/report.component';
+import { BottomSheetComponent, BottomSheetShow } from './bottom-sheet/bottom-sheet.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +42,9 @@ import { ReportComponent } from './pages/report/report.component';
         LoginComponent,
         DashboardComponent,
         HomeComponent,
-        ReportComponent
+        ReportComponent,
+        BottomSheetComponent,
+        BottomSheetShow
     ],
     imports: [
         BrowserModule,
@@ -56,9 +64,11 @@ import { ReportComponent } from './pages/report/report.component';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatGridListModule
+        MatGridListModule,
+        MatBottomSheetModule
     ],
     providers: [],
+    entryComponents: [BottomSheetComponent, BottomSheetShow],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

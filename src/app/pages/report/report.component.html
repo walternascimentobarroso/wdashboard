@@ -16,15 +16,7 @@
     <mat-card-content>
         <div class="flex">
             <span class="fill-space"></span>
-            <button mat-fab align="end" (click)="demoFromHTML()">
-                <mat-icon>picture_as_pdf</mat-icon>
-            </button>
-            <button mat-fab align="end" (click)="downloadXLS()">
-                <mat-icon>home</mat-icon>
-            </button>
-            <button mat-fab align="end" (click)="downloadDOCX()">
-                <mat-icon>home</mat-icon>
-            </button>
+            <app-bottom-sheet></app-bottom-sheet>
         </div>
         <div id="content" #content>
             <my-table></my-table>
