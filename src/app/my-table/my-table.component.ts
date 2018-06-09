@@ -13,7 +13,7 @@ export class MyTableComponent implements OnInit {
     dataSource: MyTableDataSource;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-    displayedColumns = ['id', 'name'];
+    displayedColumns = ['id', 'name', 'action'];
 
     ngOnInit() {
         this.paginator._intl.firstPageLabel = 'Primeira Página';
