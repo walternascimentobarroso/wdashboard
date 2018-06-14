@@ -5,7 +5,7 @@ set -e # termina o script com um código diferente de 0 se alguma coisa falhar
 npm install
 
 # roda o script de build da nossa aplicação
-ng build --prod
+ng build --prod --base-href=/wdashboard/
 
 # pull requests e commits para outras branches diferentes da master
 # não devem fazer o deploy, isso é opcional caso queira deletar as próximas 6 linhas
