@@ -1,5 +1,6 @@
 # Wdashboard
 <!-- Badges section here. -->
+[![Build Status](https://travis-ci.org/walternascimentobarroso/wdashboard.svg?branch=master)](https://travis-ci.org/walternascimentobarroso/wdashboard)
 [![GitHub issues](https://img.shields.io/github/issues/walternascimentobarroso/wdashboard.svg)](https://github.com/walternascimentobarroso/wdashboard/issues)
 [![GitHub forks](https://img.shields.io/github/forks/walternascimentobarroso/wdashboard.svg)](https://github.com/walternascimentobarroso/wdashboard/network)
 [![GitHub stars](https://img.shields.io/github/stars/walternascimentobarroso/wdashboard.svg)](https://github.com/walternascimentobarroso/wdashboard/stargazers)

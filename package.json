@@ -1,6 +1,7 @@
 {
   "name": "wdashboard",
   "version": "0.0.0",
+  "homepage": "https://walternascimentobarroso.github.io/wdashboard",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
