@@ -14,6 +14,15 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {}
 
+    createLogin() {
+        this.afAuth.auth
+            .createUserWithEmailAndPassword("walterteste@gmail.com", "password")
+            .then(user => {
+                console.log(user);
+            })
+            .catch(error => console.log(error));
+    }
+
     login() {
         return this.afAuth.auth
             .signInWithEmailAndPassword("walter.tir@gmail.com", "p4m3l4")

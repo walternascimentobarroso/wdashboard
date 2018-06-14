@@ -8,12 +8,12 @@ import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
 
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'perfil', component: PerfilComponent },
     { path: 'users', component: UsersComponent },
     { path: 'report', component: ReportComponent },
     { path: 'login', component: LoginComponent }
-
 ];
 @NgModule({
     exports: [RouterModule],
