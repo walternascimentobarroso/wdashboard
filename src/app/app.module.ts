@@ -21,7 +21,8 @@ import {
     MatSortModule,
     MatGridListModule,
     MatBottomSheetModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule
 } from "@angular/material";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
 import { AppRoutingModule } from ".//app-routing.module";
@@ -43,6 +44,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { AuthGuard } from "./services/auth/auth.guard";
 import { AuthService } from "./services/auth/auth.service";
 import { CrudService } from "./services/crud/crud.service";
+import { UsersFormComponent } from './pages/users-form/users-form.component';
 
 @NgModule({
     declarations: [
@@ -56,7 +58,8 @@ import { CrudService } from "./services/crud/crud.service";
         HomeComponent,
         ReportComponent,
         BottomSheetComponent,
-        BottomSheetShow
+        BottomSheetShow,
+        UsersFormComponent
     ],
     imports: [
         BrowserModule,
@@ -79,6 +82,7 @@ import { CrudService } from "./services/crud/crud.service";
         MatGridListModule,
         MatBottomSheetModule,
         MatTooltipModule,
+        MatCheckboxModule,
         AngularFireDatabaseModule,
         AngularFireModule.initializeApp(FirebaseConfig)
     ],
