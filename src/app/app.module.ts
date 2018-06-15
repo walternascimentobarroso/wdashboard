@@ -45,6 +45,7 @@ import { AuthGuard } from "./services/auth/auth.guard";
 import { AuthService } from "./services/auth/auth.service";
 import { CrudService } from "./services/crud/crud.service";
 import { UsersFormComponent } from './pages/users-form/users-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -83,6 +84,7 @@ import { UsersFormComponent } from './pages/users-form/users-form.component';
         MatBottomSheetModule,
         MatTooltipModule,
         MatCheckboxModule,
+        ReactiveFormsModule,
         AngularFireDatabaseModule,
         AngularFireModule.initializeApp(FirebaseConfig)
     ],
