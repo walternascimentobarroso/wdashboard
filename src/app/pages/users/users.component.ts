@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
     styleUrls: ["./users.component.css"]
 })
 export class UsersComponent implements OnInit {
-    private PATH = "users";
+    private path = "users";
     users: any;
 
     constructor(private crudservice: CrudService) {}
@@ -19,12 +19,15 @@ export class UsersComponent implements OnInit {
     }
 
     getAll() {
-        this.users = this.crudservice.getAll(this.PATH);
-        console.log(this.users);
+        this.users = this.crudservice.getAll(this.path);
     }
 
     create() {
         let data = { name: "teste3", password: "123", admin: false };
-        this.crudservice.create(this.PATH, data);
+        this.crudservice.create(this.path, data);
+    }
+
+    delete(key) {
+        this.crudservice.delete(this.path, key);
     }
 }

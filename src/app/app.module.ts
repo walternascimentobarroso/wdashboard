@@ -20,7 +20,8 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatGridListModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatTooltipModule
 } from "@angular/material";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
 import { AppRoutingModule } from ".//app-routing.module";
@@ -77,6 +78,7 @@ import { CrudService } from "./services/crud/crud.service";
         MatSortModule,
         MatGridListModule,
         MatBottomSheetModule,
+        MatTooltipModule,
         AngularFireDatabaseModule,
         AngularFireModule.initializeApp(FirebaseConfig)
     ],

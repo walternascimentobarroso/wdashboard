@@ -19,18 +19,30 @@
                 <tr>
                     <th>#</th>
                     <th>Nome</th>
+                    <th>Excluir</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let user of users | async; index as i">
                     <td>{{i+1}}</td>
                     <td>{{user.name}}</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger" (click)="delete(user.key)">
+                            <i class="fa fa-trash"></i> Excluir</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </mat-card-content>
 
-    <mat-card-content class="container">
+    <mat-card-content>
+        <div class="flex">
+            <button mat-fab color="primary" matTooltip="Adiciona Novo Usuário">
+                <mat-icon>add</mat-icon>
+            </button>
+            <span class="fill-space"></span>
+            <app-bottom-sheet></app-bottom-sheet>
+        </div>
         <my-table></my-table>
     </mat-card-content>
 </mat-card>
