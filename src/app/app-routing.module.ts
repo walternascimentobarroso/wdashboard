@@ -5,14 +5,15 @@ import { UsersComponent } from './pages/users/users.component';
 import { ReportComponent } from './pages/report/report.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
+import { AuthGuard } from './services/auth/auth.guard';
 
 const routes: Routes = [
 
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
-    { path: 'perfil', component: PerfilComponent },
-    { path: 'users', component: UsersComponent },
-    { path: 'report', component: ReportComponent },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
+    { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+    { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent }
 ];
 @NgModule({

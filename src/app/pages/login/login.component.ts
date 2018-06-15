@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
+        localStorage['token'] = 'xptoh26410x5=50';
         return this.afAuth.auth
             .signInWithEmailAndPassword("walter.tir@gmail.com", "p4m3l4")
             .then(user => {

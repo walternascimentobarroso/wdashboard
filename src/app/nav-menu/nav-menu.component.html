@@ -33,7 +33,7 @@
                     Perfil
                 </a>
                 <mat-divider></mat-divider>
-                <a mat-menu-item routerLink="/login">
+                <a mat-menu-item (click)="logout()">
                     <mat-icon>power_settings_new</mat-icon>
                     Sair
                 </a>
@@ -42,3 +42,4 @@
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
+<!-- <router-outlet></router-outlet> -->

@@ -38,6 +38,7 @@ import {
 import { FirebaseConfig } from "./../environments/firebase.config";
 import { AngularFireModule } from "angularfire2/index";
 import { AngularFireAuth } from "angularfire2/auth";
+import { AuthGuard } from './services/auth/auth.guard';
 
 @NgModule({
     declarations: [
@@ -75,7 +76,7 @@ import { AngularFireAuth } from "angularfire2/auth";
         MatBottomSheetModule,
         AngularFireModule.initializeApp(FirebaseConfig)
     ],
-    providers: [AngularFireAuth],
+    providers: [AuthGuard, AngularFireAuth],
     entryComponents: [BottomSheetComponent, BottomSheetShow],
     bootstrap: [AppComponent]
 })
