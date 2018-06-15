@@ -23,4 +23,9 @@ npm install
  * Usuários
 
 ## Gerar Módulos
+Módulos, são as paginas da sistema, Ex.: Perfil, Login e etc.
 `ng g component pages/my-new-component --spec false`
+
+## Gerar Componentes
+Componentes, são os itens reutilizaveis, Ex.: Table, Butões e etc.
+`ng g component components/my-new-component --spec false`

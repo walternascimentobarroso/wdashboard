@@ -5,8 +5,8 @@ import {
     BreakpointState
 } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment";
-import { AuthService } from "../services/auth/auth.service";
+import { environment } from "./../../../environments/environment";
+import { AuthService } from "./../../services/auth/auth.service";
 
 @Component({
     selector: "nav-menu",
@@ -20,7 +20,7 @@ export class NavMenuComponent {
     isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(
         Breakpoints.Handset
     );
-    constructor(private breakpointObserver: BreakpointObserver, private authservice: AuthService) { }
+    constructor(private breakpointObserver: BreakpointObserver, protected authservice: AuthService) { }
 
     logout() {
         this.authservice.logout();
