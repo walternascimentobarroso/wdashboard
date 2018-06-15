@@ -29,3 +29,7 @@ Módulos, são as paginas da sistema, Ex.: Perfil, Login e etc.
 ## Gerar Componentes
 Componentes, são os itens reutilizaveis, Ex.: Table, Butões e etc.
 `ng g component components/my-new-component --spec false`
+
+## Gerar Serviços
+Serviços, são os feramentas para auxiliar nos processos do sistemas, Ex.: Autenticação, CRUD e etc.
+`ng g service services/myfolder/my-new-service --spec false`

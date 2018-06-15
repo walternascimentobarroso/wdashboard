@@ -13,6 +13,23 @@
         <mat-card-subtitle>Lista de Usuários</mat-card-subtitle>
     </mat-card-header>
 
+    <mat-card-content>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users | async; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{user.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+
     <mat-card-content class="container">
         <my-table></my-table>
     </mat-card-content>

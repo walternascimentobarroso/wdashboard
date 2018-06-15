@@ -37,9 +37,11 @@ import {
 
 import { FirebaseConfig } from "./../environments/firebase.config";
 import { AngularFireModule } from "angularfire2/index";
+import { AngularFireDatabaseModule } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
-import { AuthGuard } from './services/auth/auth.guard';
-import { AuthService } from './services/auth/auth.service';
+import { AuthGuard } from "./services/auth/auth.guard";
+import { AuthService } from "./services/auth/auth.service";
+import { CrudService } from "./services/crud/crud.service";
 
 @NgModule({
     declarations: [
@@ -75,9 +77,10 @@ import { AuthService } from './services/auth/auth.service';
         MatSortModule,
         MatGridListModule,
         MatBottomSheetModule,
+        AngularFireDatabaseModule,
         AngularFireModule.initializeApp(FirebaseConfig)
     ],
-    providers: [AuthGuard, AuthService, AngularFireAuth],
+    providers: [AuthGuard, AuthService, AngularFireAuth, CrudService],
     entryComponents: [BottomSheetComponent, BottomSheetShow],
     bootstrap: [AppComponent]
 })

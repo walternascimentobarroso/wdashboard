@@ -20,7 +20,7 @@ export class NavMenuComponent {
     isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(
         Breakpoints.Handset
     );
-    constructor(private breakpointObserver: BreakpointObserver, protected authservice: AuthService) { }
+    constructor(private breakpointObserver: BreakpointObserver, public authservice: AuthService) { }
 
     logout() {
         this.authservice.logout();
