@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "angularfire2/auth";
 
@@ -6,10 +6,13 @@ import { AngularFireAuth } from "angularfire2/auth";
 export class AuthService {
     authState: any = null;
     constructor(private afAuth: AngularFireAuth, private router: Router) {
-
-        this.afAuth.authState.subscribe((auth) => {
-            this.authState = auth
+        this.afAuth.authState.subscribe(auth => {
+            this.authState = auth;
         });
+    }
+
+    authenticated(): boolean {
+        return this.authState !== null;
     }
 
     createLogin() {
@@ -22,7 +25,7 @@ export class AuthService {
     }
 
     login() {
-        localStorage['token'] = 'xptoh26410x5=50';
+        localStorage["token"] = "xptoh26410x5=50";
         return this.afAuth.auth
             .signInWithEmailAndPassword("walterteste@gmail.com", "password")
             .then(user => {
@@ -33,9 +36,10 @@ export class AuthService {
     }
 
     logout() {
-        localStorage.removeItem('token');
-        return this.afAuth.auth.signOut().then(function () {
-            this.router.navigate(['login']);
-        }).catch(error => console.log(error));
+        localStorage.removeItem("token");
+        return this.afAuth.auth
+            .signOut()
+            .then(() => {})
+            .catch(error => console.log(error));
     }
 }

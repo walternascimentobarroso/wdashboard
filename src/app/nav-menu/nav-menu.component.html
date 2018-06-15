@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" *ngIf="authservice.authenticated()">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="isHandset ? 'dialog' : 'navigation'" [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
         [opened]="!(isHandset | async)!.matches">
         <mat-toolbar color="primary">{{logo}}</mat-toolbar>
@@ -42,4 +42,6 @@
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
-<!-- <router-outlet></router-outlet> -->
+<div *ngIf="!authservice.authenticated()">
+    <app-login></app-login>
+</div>
