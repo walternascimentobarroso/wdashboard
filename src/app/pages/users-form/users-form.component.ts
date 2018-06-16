@@ -1,5 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
+import { CrudService } from "../../services/crud/crud.service";
+import { AuthService } from "../../services/auth/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-users-form",
@@ -7,27 +10,35 @@ import { FormGroup, FormControl } from "@angular/forms";
     styleUrls: ["./users-form.component.css"]
 })
 export class UsersFormComponent implements OnInit {
+    private path = "users";
+    hide: boolean = true;
     user: any;
-    userForm = new FormGroup({
+    form = new FormGroup({
         name: new FormControl(),
         email: new FormControl(),
         password: new FormControl(),
         admin: new FormControl()
     });
 
-    constructor() {}
+    constructor(private authservice: AuthService, private crudservice: CrudService, private router: Router) { }
 
-    onFormSubmit(): void {
+    onSubmit(): void {
         this.user = {
-            name: this.userForm.get("name").value,
-            email: this.userForm.get("email").value,
-            password: this.userForm.get("password").value,
-            admin: this.userForm.get("admin").value
-                ? this.userForm.get("admin").value
+            name: this.form.get("name").value,
+            email: this.form.get("email").value,
+            password: this.form.get("password").value,
+            admin: this.form.get("admin").value
+                ? this.form.get("admin").value
                 : false
         };
-        console.log(this.user);
+        this.create(this.user);
+        this.authservice.createLogin(this.user.email, this.user.password);
+        this.router.navigate(["users"]);
     }
 
-    ngOnInit() {}
+    create(data) {
+        return this.crudservice.create(this.path, data);
+    }
+
+    ngOnInit() { }
 }

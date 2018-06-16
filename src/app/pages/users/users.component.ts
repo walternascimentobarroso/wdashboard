@@ -23,7 +23,6 @@ export class UsersComponent implements OnInit {
 
     ngOnInit() {
         this.getAll();
-        this.create();
         this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
     }
 
@@ -32,11 +31,6 @@ export class UsersComponent implements OnInit {
             this.users = item;
             this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
         });
-    }
-
-    create() {
-        let data = { name: "teste3", password: "123", admin: false };
-        this.crudservice.create(this.path, data);
     }
 
     delete(key) {

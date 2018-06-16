@@ -15,13 +15,8 @@ export class AuthService {
         return this.authState !== null;
     }
 
-    createLogin() {
-        this.afAuth.auth
-            .createUserWithEmailAndPassword("walterteste@gmail.com", "password")
-            .then(user => {
-                console.log(user);
-            })
-            .catch(error => console.log(error));
+    createLogin(email, password) {
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     }
 
     login() {
@@ -39,7 +34,7 @@ export class AuthService {
         localStorage.removeItem("token");
         return this.afAuth.auth
             .signOut()
-            .then(() => {})
+            .then(() => { })
             .catch(error => console.log(error));
     }
 }
