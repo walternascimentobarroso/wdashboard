@@ -4,23 +4,20 @@ import { MyTableDataSource } from './my-table-datasource';
 
 @Component({
     selector: 'my-table',
-    templateUrl: './my-table.component.html',
-    styleUrls: ['./my-table.component.css']
+    templateUrl: './my-table.component.html'
 })
 export class MyTableComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     dataSource: MyTableDataSource;
+    data = [
+        { key: '2', name: 'Helium' }
+    ];
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-    displayedColumns = ['id', 'name', 'action'];
+    displayedColumns = ['key', 'name', 'action'];
 
     ngOnInit() {
-        this.paginator._intl.firstPageLabel = 'Primeira Página';
-        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        this.paginator._intl.lastPageLabel = 'Última Página';
-        this.paginator._intl.nextPageLabel = 'Próxima Página';
-        this.paginator._intl.previousPageLabel = 'Página Anterior';
-        this.dataSource = new MyTableDataSource(this.paginator, this.sort);
+        this.dataSource = new MyTableDataSource(this.paginator, this.sort, this.data);
     }
 }

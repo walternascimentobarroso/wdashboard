@@ -2,9 +2,9 @@
     <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
 
         <!-- Id Column -->
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="key">
             <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+            <mat-cell *matCellDef="let row">{{row.key}}</mat-cell>
         </ng-container>
 
         <!-- Name Column -->

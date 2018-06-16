@@ -1,4 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort } from '@angular/material';
+import { UsersTableDataSource } from './users-table-datasource';
 import { CrudService } from "../../services/crud/crud.service";
 import { Observable } from "rxjs";
 
@@ -9,17 +11,27 @@ import { Observable } from "rxjs";
 })
 export class UsersComponent implements OnInit {
     private path = "users";
-    users: any;
+    users: any = [];
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
+    dataSource: UsersTableDataSource;
 
-    constructor(private crudservice: CrudService) {}
+    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+    displayedColumns = ['key', 'name', 'action'];
+
+    constructor(private crudservice: CrudService) { }
 
     ngOnInit() {
         this.getAll();
         this.create();
+        this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
     }
 
     getAll() {
-        this.users = this.crudservice.getAll(this.path);
+        this.crudservice.getAll(this.path).forEach(item => {
+            this.users = item;
+            this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
+        });
     }
 
     create() {
