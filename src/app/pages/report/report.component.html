@@ -18,6 +18,48 @@
             <span class="fill-space"></span>
             <app-bottom-sheet></app-bottom-sheet>
         </div>
-        <my-table></my-table>
+
+        <div class="mat-elevation-z8">
+            <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+                <!-- Responsible Column -->
+                <ng-container matColumnDef="responsible">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Responsável</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.responsible}}</mat-cell>
+                </ng-container>
+
+                <!-- Equipment Column -->
+                <ng-container matColumnDef="equipment">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Equipamento</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.equipment}}</mat-cell>
+                </ng-container>
+
+                <!-- Owner Column -->
+                <ng-container matColumnDef="owner">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Proprietário</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.owner}}</mat-cell>
+                </ng-container>
+
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Ação</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <button mat-button color="accent" (click)="edit(row)">
+                            <mat-icon>edit</mat-icon>
+                            Editar
+                        </button>
+                        <app-delete-dialog [key]="row.key" [title]="'Relatórios'" [path]="'reports'" [description]="row.owner"></app-delete-dialog>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+            <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100, 250]">
+            </mat-paginator>
+        </div>
+
     </mat-card-content>
 </mat-card>

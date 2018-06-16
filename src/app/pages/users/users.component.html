@@ -24,16 +24,16 @@
         <div class="mat-elevation-z8">
             <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="key">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
-                    <mat-cell *matCellDef="let row">{{row.key}}</mat-cell>
-                </ng-container>
-
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
                     <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.email}}</mat-cell>
                 </ng-container>
 
                 <!-- Action Column -->

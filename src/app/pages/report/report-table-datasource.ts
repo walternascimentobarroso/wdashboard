@@ -9,7 +9,7 @@ import { Observable, of as observableOf, merge } from 'rxjs';
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class UsersTableDataSource extends DataSource<any> {
+export class ReportTableDataSource extends DataSource<any> {
     data: any[];
 
     constructor(private paginator: MatPaginator, private sort: MatSort, private dat) {
@@ -73,8 +73,9 @@ export class UsersTableDataSource extends DataSource<any> {
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'name': return compare(a.name, b.name, isAsc);
-                case 'email': return compare(+a.email, +b.email, isAsc);
+                case 'owner': return compare(a.owner, b.owner, isAsc);
+                case 'responsible': return compare(a.responsible, b.responsible, isAsc);
+                case 'equipment': return compare(+a.equipment, +b.equipment, isAsc);
                 default: return 0;
             }
         });

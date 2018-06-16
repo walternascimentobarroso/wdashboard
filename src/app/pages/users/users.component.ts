@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     dataSource: UsersTableDataSource;
 
-    displayedColumns = ['key', 'name', 'action'];
+    displayedColumns = ['name', 'email', 'action'];
 
     constructor(private crudservice: CrudService, private router: Router) { }
 
