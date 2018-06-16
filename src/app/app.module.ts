@@ -1,6 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
@@ -22,7 +21,8 @@ import {
     MatGridListModule,
     MatBottomSheetModule,
     MatTooltipModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule
 } from "@angular/material";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
 import { AppRoutingModule } from ".//app-routing.module";
@@ -32,11 +32,7 @@ import { LoginComponent } from "./pages/login/login.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { ReportComponent } from "./pages/report/report.component";
-import {
-    BottomSheetComponent,
-    BottomSheetShow
-} from "./components/bottom-sheet/bottom-sheet.component";
-
+import { BottomSheetComponent, BottomSheetShow } from "./components/bottom-sheet/bottom-sheet.component";
 import { FirebaseConfig } from "./../environments/firebase.config";
 import { AngularFireModule } from "angularfire2/index";
 import { AngularFireDatabaseModule } from "angularfire2/database";
@@ -45,7 +41,8 @@ import { AuthGuard } from "./services/auth/auth.guard";
 import { AuthService } from "./services/auth/auth.service";
 import { CrudService } from "./services/crud/crud.service";
 import { UsersFormComponent } from './pages/users-form/users-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DeleteDialogComponent, DeleteDialogShow } from './components/delete-dialog/delete-dialog.component';
 
 @NgModule({
     declarations: [
@@ -60,7 +57,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         ReportComponent,
         BottomSheetComponent,
         BottomSheetShow,
-        UsersFormComponent
+        UsersFormComponent,
+        DeleteDialogComponent,
+        DeleteDialogShow
     ],
     imports: [
         BrowserModule,
@@ -84,12 +83,14 @@ import { ReactiveFormsModule } from '@angular/forms';
         MatBottomSheetModule,
         MatTooltipModule,
         MatCheckboxModule,
+        FormsModule,
         ReactiveFormsModule,
+        MatDialogModule,
         AngularFireDatabaseModule,
         AngularFireModule.initializeApp(FirebaseConfig)
     ],
     providers: [AuthGuard, AuthService, AngularFireAuth, CrudService],
-    entryComponents: [BottomSheetComponent, BottomSheetShow],
+    entryComponents: [BottomSheetComponent, BottomSheetShow, DeleteDialogComponent, DeleteDialogShow],
     bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

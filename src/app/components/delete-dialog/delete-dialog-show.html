@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Remover {{data.title}}</h1>
+<div mat-dialog-content>
+    <p>Tem certeza que deseja remover o registro?</p>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.description" disabled>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">CANCELAR</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="data.key" cdkFocusInitial>EXCLUIR</button>
+</div>

@@ -17,7 +17,6 @@ export class UsersComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     dataSource: UsersTableDataSource;
 
-    /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = ['key', 'name', 'action'];
 
     constructor(private crudservice: CrudService, private router: Router) { }
@@ -38,7 +37,4 @@ export class UsersComponent implements OnInit {
         this.router.navigate(["users-form", data]);
     }
 
-    delete(key) {
-        this.crudservice.delete(this.path, key);
-    }
 }
