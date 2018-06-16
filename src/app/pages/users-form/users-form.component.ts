@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { CrudService } from "../../services/crud/crud.service";
 import { AuthService } from "../../services/auth/auth.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: "app-users-form",
@@ -13,14 +13,20 @@ export class UsersFormComponent implements OnInit {
     private path = "users";
     hide: boolean = true;
     user: any;
-    form = new FormGroup({
-        name: new FormControl(),
-        email: new FormControl(),
-        password: new FormControl(),
-        admin: new FormControl()
-    });
+    key: any;
+    form: any;
 
-    constructor(private authservice: AuthService, private crudservice: CrudService, private router: Router) { }
+    constructor(private authservice: AuthService, private crudservice: CrudService, private route: ActivatedRoute, private router: Router) {
+        this.route.params.subscribe(params => {
+            this.key = params['key'];
+            this.form = new FormGroup({
+                name: new FormControl(params['name']),
+                email: new FormControl(params['email']),
+                password: new FormControl(params['password']),
+                admin: new FormControl(params['admin'] == 'false' ? null : params['admin'] )
+            });
+        });
+    }
 
     onSubmit(): void {
         this.user = {
@@ -31,13 +37,22 @@ export class UsersFormComponent implements OnInit {
                 ? this.form.get("admin").value
                 : false
         };
-        this.create(this.user);
-        this.authservice.createLogin(this.user.email, this.user.password);
+
+        if (this.key) {
+            this.edit(this.user);
+        } else {
+            this.create(this.user);
+            this.authservice.createLogin(this.user.email, this.user.password);
+        }
         this.router.navigate(["users"]);
     }
 
     create(data) {
         return this.crudservice.create(this.path, data);
+    }
+
+    edit(data) {
+        return this.crudservice.update(this.path, this.key, data);
     }
 
     ngOnInit() { }

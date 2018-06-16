@@ -23,7 +23,9 @@ export class CrudService {
         return this.db.list(path).push(data);
     }
 
-    update(path: string) { }
+    update(path: string, key, data) {
+        this.db.list(path).update(key, data);
+    }
 
     delete(path: string, id: string) {
         return this.db.list(path).remove(id);

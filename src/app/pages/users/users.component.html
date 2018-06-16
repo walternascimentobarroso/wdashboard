@@ -40,7 +40,7 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Ação</mat-header-cell>
                     <mat-cell *matCellDef="let row">
-                        <button mat-button color="accent">
+                        <button mat-button color="accent" (click)="edit(row)">
                             <mat-icon>edit</mat-icon>
                             Editar
                         </button>

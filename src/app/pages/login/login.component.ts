@@ -9,6 +9,7 @@ import { AuthService } from "../../services/auth/auth.service";
 })
 export class LoginComponent implements OnInit {
     projectname: string = environment.projectname;
+    hide: boolean = true;
     constructor(private authservice: AuthService) {}
 
     ngOnInit() {}

@@ -3,6 +3,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { UsersTableDataSource } from './users-table-datasource';
 import { CrudService } from "../../services/crud/crud.service";
 import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-users",
@@ -19,7 +20,7 @@ export class UsersComponent implements OnInit {
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = ['key', 'name', 'action'];
 
-    constructor(private crudservice: CrudService) { }
+    constructor(private crudservice: CrudService, private router: Router) { }
 
     ngOnInit() {
         this.getAll();
@@ -31,6 +32,10 @@ export class UsersComponent implements OnInit {
             this.users = item;
             this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
         });
+    }
+
+    edit(data) {
+        this.router.navigate(["users-form", data]);
     }
 
     delete(key) {
