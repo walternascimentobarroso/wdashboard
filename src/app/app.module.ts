@@ -43,6 +43,7 @@ import { CrudService } from "./services/crud/crud.service";
 import { UsersFormComponent } from './pages/users-form/users-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteDialogComponent, DeleteDialogShow } from './components/delete-dialog/delete-dialog.component';
+import { ReportFormComponent } from './pages/report-form/report-form.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import { DeleteDialogComponent, DeleteDialogShow } from './components/delete-dia
         BottomSheetShow,
         UsersFormComponent,
         DeleteDialogComponent,
-        DeleteDialogShow
+        DeleteDialogShow,
+        ReportFormComponent
     ],
     imports: [
         BrowserModule,

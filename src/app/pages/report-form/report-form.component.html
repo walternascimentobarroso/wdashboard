@@ -1,0 +1,44 @@
+<div class="breadcumbs">
+    <a routerLink="/home">
+        <mat-icon style="vertical-align: -5px !important;">dashboard</mat-icon>
+        <span>Dashboard</span>
+    </a>
+    <span> > </span>
+    <a routerLink="/report">
+        <mat-icon style="vertical-align: -5px !important;">assignment</mat-icon>
+        <span>Relatórios</span>
+    </a>
+    <span> > </span>
+    <span class="active"> Formulário do Relatório </span>
+</div>
+
+<mat-card class="card">
+    <mat-card-header>
+        <mat-card-title>Relatórios</mat-card-title>
+        <mat-card-subtitle>Formulário do Relatório</mat-card-subtitle>
+    </mat-card-header>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-card-content class="container">
+            <mat-form-field>
+                <mat-icon matPrefix>accessibility</mat-icon>
+                <input formControlName="responsible" matInput placeholder="Responsável">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-icon matPrefix>build</mat-icon>
+                <input formControlName="equipment" matInput placeholder="Equipamento">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-icon matPrefix>sentiment_satisfied_alt</mat-icon>
+                <input formControlName="owner" matInput placeholder="Proprietário">
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Salvar</button>
+            <button mat-raised-button routerLink="/report">Cancelar</button>
+        </mat-card-actions>
+    </form>
+</mat-card>

@@ -32,4 +32,8 @@ export class ReportComponent implements OnInit {
             this.dataSource = new ReportTableDataSource(this.paginator, this.sort, this.reports);
         });
     }
+
+    edit(data) {
+        this.router.navigate(["report-form", data]);
+    }
 }
