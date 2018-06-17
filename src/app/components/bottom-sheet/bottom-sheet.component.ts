@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
 import * as jsPDF from "jspdf";
 import { saveAs } from 'file-saver/FileSaver';
@@ -9,11 +10,43 @@ import { saveAs } from 'file-saver/FileSaver';
     styleUrls: ['./bottom-sheet.component.css']
 })
 export class BottomSheetComponent implements OnInit {
-
+    @Input() data: string;
     constructor(private bottomSheet: MatBottomSheet) { }
 
     openBottomSheet(): void {
-        this.bottomSheet.open(BottomSheetShow);
+        var table = this.json2table(this.data);
+        this.bottomSheet.open(BottomSheetShow, { data: table });
+    }
+
+    json2table(json) {
+        var cols = Object.keys(json[0]),
+            headerRow = '',
+            bodyRows = '';
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        cols.map(function (col) {
+            headerRow += '<th>' + capitalizeFirstLetter(col) + '</th>';
+        });
+
+        json.map(function (row) {
+            bodyRows += '<tr>';
+
+            cols.map(function (colName) {
+                bodyRows += '<td>' + row[colName] + '</td>';
+            });
+
+            bodyRows += '</tr>';
+        });
+
+        let table = `<table>
+        <thead><tr>${headerRow}</tr></thead>
+        <tbody>${bodyRows}</tbody>
+        </table>`;
+
+        return table;
     }
 
     ngOnInit() {
@@ -26,54 +59,8 @@ export class BottomSheetComponent implements OnInit {
     templateUrl: 'bottom-sheet-show.html',
 })
 export class BottomSheetShow {
-    source = `<table>
-        <tr>
-        <th>#</th>
-        <th>Nome</th>
-        </tr>
-        <tr>
-        <td>1</td>
-        <td>Hydrogen</td>
-        </tr>
-        <tr>
-        <td>2</td>
-        <td>Helium</td>
-        </tr>
-        <tr>
-        <td>3</td>
-        <td>Lithium</td>
-        </tr>
-        <tr>
-        <td>4</td>
-        <td>Beryllium</td>
-        </tr>
-        <tr>
-        <td>5</td>
-        <td>Boron</td>
-        </tr>
-        <tr>
-        <td>6</td>
-        <td>Carbon</td>
-        </tr>
-        <tr>
-        <td>7</td>
-        <td>Nitrogen</td>
-        </tr>
-        <tr>
-        <td>8</td>
-        <td>Oxygen</td>
-        </tr>
-        <tr>
-        <td>9</td>
-        <td>Fluorine</td>
-        </tr>
-        <tr>
-        <td>10</td>
-        <td>Neon</td>
-        </tr>
-    </table>`;
 
-    constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheetShow>) { }
+    constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheetShow>, @Inject(MAT_BOTTOM_SHEET_DATA) public source: any) { }
 
     pdf(event: MouseEvent): void {
         var pdf = new jsPDF('p', 'pt', 'letter');
