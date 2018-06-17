@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e # termina o script com um código diferente de 0 se alguma coisa falhar
 
+# try fix the angular install
+npm uninstall -g angular-cli
+npm uninstall -g @angular/cli
+npm cache clean
+npm install -g @angular/cli
+
 # instal all dependency
 npm install
 
