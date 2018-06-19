@@ -1,0 +1,63 @@
+<div class="breadcumbs">
+    <a routerLink="/home">
+        <mat-icon style="vertical-align: -5px !important;">dashboard</mat-icon>
+        <span>Dashboard</span>
+    </a>
+    <span> > </span>
+    <a routerLink="/report">
+        <mat-icon style="vertical-align: -5px !important;">assignment</mat-icon>
+        <span>Relatórios</span>
+    </a>
+    <span> > </span>
+    <span class="active">Relatório </span>
+</div>
+
+<mat-card class="card">
+    <mat-card-header>
+        <mat-card-title>Relatórios</mat-card-title>
+        <mat-card-subtitle>Relatório</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <p>
+            <strong> Responsável: </strong>
+            <span> Responsável </span>
+        </p>
+        <p>
+            <strong> Proprietário: </strong>
+            <span> Proprietário </span>
+        </p>
+
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <strong>Endereço</strong>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Endereço do proprietário
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>
+                    <span>Endereço</span>
+                </p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <strong>Equipamentos</strong>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Equipamento usado no relatório
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>
+                    <span>Equipamento</span>
+                </p>
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+    </mat-card-content>
+</mat-card>

@@ -22,7 +22,8 @@ import {
     MatBottomSheetModule,
     MatTooltipModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule
 } from "@angular/material";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
 import { AppRoutingModule } from ".//app-routing.module";
@@ -44,6 +45,7 @@ import { UsersFormComponent } from './pages/users-form/users-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteDialogComponent, DeleteDialogShow } from './components/delete-dialog/delete-dialog.component';
 import { ReportFormComponent } from './pages/report-form/report-form.component';
+import { ReportViewComponent } from './pages/report-view/report-view.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +63,8 @@ import { ReportFormComponent } from './pages/report-form/report-form.component';
         UsersFormComponent,
         DeleteDialogComponent,
         DeleteDialogShow,
-        ReportFormComponent
+        ReportFormComponent,
+        ReportViewComponent
     ],
     imports: [
         BrowserModule,
@@ -88,6 +91,7 @@ import { ReportFormComponent } from './pages/report-form/report-form.component';
         FormsModule,
         ReactiveFormsModule,
         MatDialogModule,
+        MatExpansionModule,
         AngularFireDatabaseModule,
         AngularFireModule.initializeApp(FirebaseConfig)
     ],

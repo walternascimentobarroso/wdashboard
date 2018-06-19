@@ -33,6 +33,10 @@ export class ReportComponent implements OnInit {
         });
     }
 
+    see(data) {
+        this.router.navigate(["report-view", data]);
+    }
+
     edit(data) {
         this.router.navigate(["report-form", data]);
     }
