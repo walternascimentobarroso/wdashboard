@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { CrudService } from "../../services/crud/crud.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { AngularFireStorage } from "angularfire2/storage";
+import { Observable } from "rxjs";
+import { finalize } from "rxjs/operators";
 
 @Component({
-    selector: 'app-report-form',
-    templateUrl: './report-form.component.html',
-    styleUrls: ['./report-form.component.css']
+    selector: "app-report-form",
+    templateUrl: "./report-form.component.html",
+    styleUrls: ["./report-form.component.css"]
 })
 export class ReportFormComponent implements OnInit {
     private path = "reports";
@@ -15,15 +18,36 @@ export class ReportFormComponent implements OnInit {
     key: any;
     form: any;
 
-    constructor(private crudservice: CrudService, private route: ActivatedRoute, private router: Router) {
+    hideUpload: boolean = false;
+    uploadPercent: Observable<number>;
+
+    constructor(
+        private crudservice: CrudService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private storage: AngularFireStorage
+    ) {
         this.route.params.subscribe(params => {
-            this.key = params['key'];
+            this.key = params["key"];
             this.form = new FormGroup({
-                responsible: new FormControl(params['responsible']),
-                equipment: new FormControl(params['equipment']),
-                owner: new FormControl(params['owner'])
+                responsible: new FormControl(params["responsible"]),
+                equipment: new FormControl(params["equipment"]),
+                owner: new FormControl(params["owner"])
             });
         });
+    }
+
+    uploadFile(event) {
+        this.hideUpload = true;
+        const file = event.target.files[0];
+        const filePath = "name-your-file-path-here";
+        const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, file);
+
+        this.uploadPercent = task.percentageChanges();
+        task.snapshotChanges()
+            .pipe(finalize(() => (this.hideUpload = false)))
+            .subscribe();
     }
 
     onSubmit(): void {
@@ -49,7 +73,5 @@ export class ReportFormComponent implements OnInit {
         return this.crudservice.update(this.path, this.key, data);
     }
 
-    ngOnInit() {
-    }
-
+    ngOnInit() {}
 }

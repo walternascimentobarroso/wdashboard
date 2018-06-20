@@ -34,6 +34,18 @@
                 <mat-icon matPrefix>sentiment_satisfied_alt</mat-icon>
                 <input formControlName="owner" matInput placeholder="Proprietário">
             </mat-form-field>
+
+            <div *ngIf="hideUpload">
+                <span>Carregando imagem...</span>
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </div>
+
+            <div *ngIf="uploadPercent | async">
+                <span>Carregada</span>
+                <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+            </div>
+
+            <input type="file" (change)="uploadFile($event)" />
         </mat-card-content>
 
         <mat-card-actions>
