@@ -1,6 +1,20 @@
 <div class="grid-container">
     <h1 class="mat-h1">Dashboard</h1>
-    <mat-grid-list cols="2" rowHeight="350px">
+
+    <div fxLayout="row" fxLayout.xs="column" fxFlexFill>
+        <div fxFlex>
+            <app-stat [route]="'/users'" [bgClass]="'danger'" [icon]="'group'" [count]="13" [label]="'Usuários!'"></app-stat>
+        </div>
+        <div fxFlex>
+            <app-stat [route]="'/report'" [bgClass]="'warn'" [icon]="'assignment'" [count]="12" [label]="'Relatórios!'"></app-stat>
+        </div>
+        <div fxFlex>
+            <app-stat [route]="'/perfil'" [bgClass]="'success'" [icon]="'person'" [count]="1" [label]="'Logado!'"></app-stat>
+        </div>
+    </div>
+
+
+    <!-- <mat-grid-list cols="2" rowHeight="350px">
         <mat-grid-tile *ngFor="let card of cards" [colspan]="card.cols" [rowspan]="card.rows">
             <mat-card class="dashboard-card">
                 <mat-card-header>
@@ -20,5 +34,5 @@
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
-    </mat-grid-list>
+    </mat-grid-list> -->
 </div>

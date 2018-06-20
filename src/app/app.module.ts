@@ -46,6 +46,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteDialogComponent, DeleteDialogShow } from './components/delete-dialog/delete-dialog.component';
 import { ReportFormComponent } from './pages/report-form/report-form.component';
 import { ReportViewComponent } from './pages/report-view/report-view.component';
+import { StatComponent } from './components/stat/stat.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
     declarations: [
@@ -64,9 +66,11 @@ import { ReportViewComponent } from './pages/report-view/report-view.component';
         DeleteDialogComponent,
         DeleteDialogShow,
         ReportFormComponent,
-        ReportViewComponent
+        ReportViewComponent,
+        StatComponent
     ],
     imports: [
+        FlexLayoutModule,
         BrowserModule,
         BrowserAnimationsModule,
         LayoutModule,
