@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { CrudService } from "../../services/crud/crud.service";
+import { FileService } from "../../services/file/file.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AngularFireStorage } from "angularfire2/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 
@@ -20,12 +20,13 @@ export class ReportFormComponent implements OnInit {
 
     hideUpload: boolean = false;
     uploadPercent: Observable<number>;
+    profileUrl: Observable<string | null>;
 
     constructor(
         private crudservice: CrudService,
         private route: ActivatedRoute,
         private router: Router,
-        private storage: AngularFireStorage
+        private fileservice: FileService
     ) {
         this.route.params.subscribe(params => {
             this.key = params["key"];
@@ -35,19 +36,25 @@ export class ReportFormComponent implements OnInit {
                 owner: new FormControl(params["owner"])
             });
         });
+
+        this.showFile("dFe2OO1CWb0EL1T.jpeg");
     }
 
     uploadFile(event) {
         this.hideUpload = true;
-        const file = event.target.files[0];
-        const filePath = "name-your-file-path-here";
-        const fileRef = this.storage.ref(filePath);
-        const task = this.storage.upload(filePath, file);
-
+        const name = this.fileservice.randomNameFile(
+            15,
+            event.target.files[0].name
+        );
+        const task = this.fileservice.upload(event.target.files[0], name);
         this.uploadPercent = task.percentageChanges();
         task.snapshotChanges()
             .pipe(finalize(() => (this.hideUpload = false)))
             .subscribe();
+    }
+
+    showFile(name) {
+        this.profileUrl = this.fileservice.show(name);
     }
 
     onSubmit(): void {

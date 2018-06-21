@@ -46,6 +46,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { AuthGuard } from "./services/auth/auth.guard";
 import { AuthService } from "./services/auth/auth.service";
 import { CrudService } from "./services/crud/crud.service";
+import { FileService } from "./services/file/file.service";
 import { UsersFormComponent } from "./pages/users-form/users-form.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
@@ -113,7 +114,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
         AuthGuard,
         AuthService,
         AngularFireAuth,
-        CrudService
+        CrudService,
+        FileService
     ],
     entryComponents: [
         BottomSheetComponent,

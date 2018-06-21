@@ -46,6 +46,8 @@
             </div>
 
             <input type="file" (change)="uploadFile($event)" />
+
+            <img [src]="profileUrl | async" />
         </mat-card-content>
 
         <mat-card-actions>
