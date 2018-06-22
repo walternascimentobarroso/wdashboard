@@ -15,7 +15,7 @@
 <mat-card class="card">
     <mat-card-header>
         <mat-card-title>Relatórios</mat-card-title>
-        <mat-card-subtitle>Relatório</mat-card-subtitle>
+        <mat-card-subtitle>Visualização do relatório</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -42,18 +42,36 @@
                     <span>Endereço</span>
                 </p>
             </mat-expansion-panel>
-
+        </mat-accordion>
+        <mat-accordion>
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         <strong>Equipamentos</strong>
                     </mat-panel-title>
                     <mat-panel-description>
-                        Equipamento usado no relatório
+                        Equipamentos usado no relatório
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <p>
+                    <strong> Equipamento: </strong>
                     <span>Equipamento</span>
+                    <span>Nome</span>
+                    <span>Endereço</span>
+                    <span>Observações</span>
+                </p>
+                <p>
+                    <strong> Imagens: </strong>
+                    <mat-card class="imgequip">
+                        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                        <mat-card-content>
+                            <p>
+                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
+                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
+                            </p>
+                        </mat-card-content>
+                    </mat-card>
+
                 </p>
             </mat-expansion-panel>
 

@@ -15,3 +15,7 @@
     flex: 1 1 auto;
     margin: 20px;
 }
+
+.imgequip {
+    max-width: 300px;
+}
