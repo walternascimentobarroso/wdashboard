@@ -24,6 +24,12 @@
             </button>
             <span>{{projectname}}</span>
             <span class="fill-space"></span>
+            <button *ngIf="!fullScreenActive" type="button" mat-icon-button (click)="entrarFullScreen()">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+            <button *ngIf="fullScreenActive" type="button" mat-icon-button (click)="sairFullScreen()">
+                <mat-icon>fullscreen_exit</mat-icon>
+            </button>
             <button mat-button [matMenuTriggerFor]="menu">Usuário
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
