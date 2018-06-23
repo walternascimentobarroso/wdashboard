@@ -17,7 +17,14 @@ export class CrudService {
             ));
     }
 
-    get(path: string) { }
+    get(path: string, key) {
+        return this.db
+            .object(path +"/"+ key)
+            .snapshotChanges()
+            .pipe(map(c => {
+                return { key: c.key, ...c.payload.val() };
+            }));
+    }
 
     create(path: string, data) {
         return this.db.list(path).push(data);
