@@ -29,12 +29,7 @@ export class ReportViewComponent implements OnInit {
     getAll() {
         this.report = this.crudservice.get(this.path, this.key).forEach(item => {
             this.report = item;
-            console.log(this.report);
         });
-        // this.crudservice.getAll(`${this.path}/${this.key}`).forEach(item => {
-        //     this.reports = item;
-        //     console.log(this.reports.payload.val());
-        // });
     }
 
 }

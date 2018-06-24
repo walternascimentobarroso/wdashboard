@@ -19,18 +19,30 @@
     </mat-card-header>
 
     <mat-card-content>
-        <p>
-            <strong> Responsável: </strong>
-            <span> {{ report?.responsible }} </span>
-        </p>
-        <p>
-            <strong> Proprietário: </strong>
-            <span> {{ report?.owner }} </span>
-        </p>
-        <p>
-            <strong> Tipo de Casa: </strong>
-            <span> {{ report?.hometype }} </span>
-        </p>
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <strong>Relatório</strong>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Responsável e Cliente
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>
+                    <strong> Responsável: </strong>
+                    <span> {{ report?.responsible }} </span>
+                </p>
+                <p>
+                    <strong> Proprietário: </strong>
+                    <span> {{ report?.owner }} </span>
+                </p>
+                <p>
+                    <strong> Tipo de Casa: </strong>
+                    <span> {{ report?.hometype }} </span>
+                </p>
+            </mat-expansion-panel>
+        </mat-accordion>
 
         <mat-accordion>
             <mat-expansion-panel>
@@ -60,6 +72,7 @@
                 </p>
             </mat-expansion-panel>
         </mat-accordion>
+
         <mat-accordion>
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -80,14 +93,15 @@
                 </p>
             </mat-expansion-panel>
         </mat-accordion>
+
         <mat-accordion>
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <strong>Equipamentos</strong>
+                        <strong>Etapa 2</strong>
                     </mat-panel-title>
                     <mat-panel-description>
-                        Equipamentos usado no relatório
+                        Equipamento usado no relatório
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <p>
@@ -102,67 +116,31 @@
                         </p>
                         <p *ngIf="equipamento.key == 'name'">
                             <strong> Nome: </strong>
-                            <span>onome</span>
+                            <span>{{equipamento.value}}</span>
                         </p>
                         <p *ngIf="equipamento.key == 'adress'">
                             <strong> Endereço: </strong>
-                            <span>endereço</span>
+                            <span>{{equipamento.value}}</span>
                         </p>
                         <p *ngIf="equipamento.key == 'obs'">
                             <strong> Observações: </strong>
-                            <span>Imagens de teste</span>
+                            <span>{{equipamento.value}}</span>
                         </p>
                     </div>
-                </div>
-                <p>
-                    <strong> Imagens </strong>
-                </p>
-                <div fxLayout="row" fxLayout.xs="column" fxFlexFill>
-                    <div fxFlex>
-                        <mat-card class="imgequip">
-                            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                            <mat-card-content>
-                                <p>
-                                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                    very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                                </p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-                    <div fxFlex>
-                        <mat-card class="imgequip">
-                            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                            <mat-card-content>
-                                <p>
-                                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                    very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                                </p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-
-                    <div fxFlex>
-                        <mat-card class="imgequip">
-                            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                            <mat-card-content>
-                                <p>
-                                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                    very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                                </p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-
-                    <div fxFlex>
-                        <mat-card class="imgequip">
-                            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                            <mat-card-content>
-                                <p>
-                                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                    very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                                </p>
-                            </mat-card-content>
-                        </mat-card>
+                    <p>
+                        <strong> Imagens </strong>
+                    </p>
+                    <div fxLayout="row" fxLayout.xs="column" fxFlexFill>
+                        <div fxFlex *ngFor="let img of etapa2?.value | imgs">
+                            <mat-card class="imgequip">
+                                <img mat-card-image [src]="img.nameimg">
+                                <mat-card-content>
+                                    <p>
+                                        {{img.obs}}
+                                    </p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
                     </div>
                 </div>
             </mat-expansion-panel>
