@@ -25,11 +25,11 @@
         </p>
         <p>
             <strong> Proprietário: </strong>
-            <span> {{ report?.equipment }} </span>
+            <span> {{ report?.owner }} </span>
         </p>
         <p>
             <strong> Tipo de Casa: </strong>
-            <span> {{ report?.equipment }} </span>
+            <span> {{ report?.hometype }} </span>
         </p>
 
         <mat-accordion>
@@ -44,19 +44,19 @@
                 </mat-expansion-panel-header>
                 <p>
                     <strong> CEP: </strong>
-                    <span>69.000-000</span>
+                    <span>{{ report?.cep }} </span>
                 </p>
                 <p>
                     <strong> Rua: </strong>
-                    <span>S5</span>
+                    <span>{{ report?.street }} </span>
                 </p>
                 <p>
                     <strong> Nº: </strong>
-                    <span>222</span>
+                    <span>{{ report?.number }} </span>
                 </p>
                 <p>
                     <strong> Bairro: </strong>
-                    <span>bairro grande</span>
+                    <span>{{ report?.neighborhood }} </span>
                 </p>
             </mat-expansion-panel>
         </mat-accordion>
@@ -72,11 +72,11 @@
                 </mat-expansion-panel-header>
                 <p>
                     <strong> Email: </strong>
-                    <span>cliente1@mail.com</span>
+                    <span>{{ report?.email }} </span>
                 </p>
                 <p>
                     <strong> Telefone: </strong>
-                    <span>(99) 9 9999-9999</span>
+                    <span>{{ report?.phone }} </span>
                 </p>
             </mat-expansion-panel>
         </mat-accordion>
