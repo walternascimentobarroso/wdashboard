@@ -92,25 +92,28 @@
                 </mat-expansion-panel-header>
                 <p>
                     <strong> Equipamento: </strong>
-                    <span>UNIFORME</span>
+                    <span>{{report?.equipment}}</span>
                 </p>
-                <p>
-                    <strong> Titulo: </strong>
-                    <span>title</span>
-                </p>
-                <p>
-                    <strong> Nome: </strong>
-                    <span>onome</span>
-                </p>
-                <p>
-                    <strong> Endereço: </strong>
-                    <span>endereço</span>
-                </p>
-                <p>
-                    <strong> Observações: </strong>
-                    <span>Imagens de teste</span>
-                </p>
-                <!-- <p> -->
+                <div *ngFor="let etapa2 of report?.etapa2 | keys">
+                    <div *ngFor="let equipamento of etapa2?.value | keys">
+                        <p *ngIf="equipamento.key == 'title'">
+                            <strong> Titulo: </strong>
+                            <span>{{equipamento.value}}</span>
+                        </p>
+                        <p *ngIf="equipamento.key == 'name'">
+                            <strong> Nome: </strong>
+                            <span>onome</span>
+                        </p>
+                        <p *ngIf="equipamento.key == 'adress'">
+                            <strong> Endereço: </strong>
+                            <span>endereço</span>
+                        </p>
+                        <p *ngIf="equipamento.key == 'obs'">
+                            <strong> Observações: </strong>
+                            <span>Imagens de teste</span>
+                        </p>
+                    </div>
+                </div>
                 <p>
                     <strong> Imagens </strong>
                 </p>
@@ -162,7 +165,6 @@
                         </mat-card>
                     </div>
                 </div>
-                <!-- </p> -->
             </mat-expansion-panel>
 
         </mat-accordion>

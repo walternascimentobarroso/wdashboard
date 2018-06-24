@@ -57,6 +57,7 @@ import { ReportFormComponent } from "./pages/report-form/report-form.component";
 import { ReportViewComponent } from "./pages/report-view/report-view.component";
 import { StatComponent } from "./components/stat/stat.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { KeysPipe } from './pipes/keys.pipe';
 
 @NgModule({
     declarations: [
@@ -76,7 +77,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
         DeleteDialogShow,
         ReportFormComponent,
         ReportViewComponent,
-        StatComponent
+        StatComponent,
+        KeysPipe
     ],
     imports: [
         FlexLayoutModule,
