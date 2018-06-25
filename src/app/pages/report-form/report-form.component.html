@@ -20,34 +20,62 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-card-content class="container">
-            <mat-form-field>
-                <mat-icon matPrefix>accessibility</mat-icon>
-                <input formControlName="responsible" matInput placeholder="Responsável">
-            </mat-form-field>
+            <fieldset>
+                <legend>Dados Principais</legend>
+                <mat-form-field>
+                    <mat-icon matPrefix>accessibility</mat-icon>
+                    <input formControlName="responsible" matInput placeholder="Responsável">
+                </mat-form-field>
 
-            <mat-form-field>
-                <mat-icon matPrefix>build</mat-icon>
-                <input formControlName="equipment" matInput placeholder="Equipamento">
-            </mat-form-field>
+                <mat-form-field>
+                    <mat-icon matPrefix>build</mat-icon>
+                    <input formControlName="equipment" matInput placeholder="Equipamento">
+                </mat-form-field>
 
-            <mat-form-field>
-                <mat-icon matPrefix>sentiment_satisfied_alt</mat-icon>
-                <input formControlName="owner" matInput placeholder="Proprietário">
-            </mat-form-field>
+                <mat-form-field>
+                    <mat-icon matPrefix>sentiment_satisfied_alt</mat-icon>
+                    <input formControlName="owner" matInput placeholder="Proprietário">
+                </mat-form-field>
 
-            <div *ngIf="hideUpload">
-                <span>Carregando imagem...</span>
-                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-            </div>
+                <mat-form-field>
+                    <mat-icon matPrefix>home</mat-icon>
+                    <input formControlName="hometype" matInput placeholder="Tipo de Casa">
+                </mat-form-field>
+            </fieldset>
+            <fieldset>
+                <legend>Endereço</legend>
+                <mat-form-field>
+                    <mat-icon matPrefix>place</mat-icon>
+                    <input formControlName="cep" matInput placeholder="CEP">
+                </mat-form-field>
 
-            <div *ngIf="uploadPercent | async">
-                <span>Carregada</span>
-                <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-            </div>
+                <mat-form-field>
+                    <mat-icon matPrefix>filter_9_plus</mat-icon>
+                    <input formControlName="number" matInput placeholder="Número">
+                </mat-form-field>
 
-            <input type="file" (change)="uploadFile($event)" />
+                <mat-form-field>
+                    <mat-icon matPrefix>location_city</mat-icon>
+                    <input formControlName="neighborhood" matInput placeholder="Bairro">
+                </mat-form-field>
 
-            <img [src]="profileUrl | async" />
+                <mat-form-field>
+                    <mat-icon matPrefix>streetview</mat-icon>
+                    <input formControlName="street" matInput placeholder="Rua">
+                </mat-form-field>
+            </fieldset>
+            <fieldset>
+                <legend>Contato</legend>
+                <mat-form-field>
+                    <mat-icon matPrefix>email</mat-icon>
+                    <input formControlName="email" matInput placeholder="Email">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-icon matPrefix>phone</mat-icon>
+                    <input formControlName="phone" matInput placeholder="Telefone">
+                </mat-form-field>
+            </fieldset>
         </mat-card-content>
 
         <mat-card-actions>

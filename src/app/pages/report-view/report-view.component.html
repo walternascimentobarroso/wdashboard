@@ -144,7 +144,55 @@
                     </div>
                 </div>
             </mat-expansion-panel>
+        </mat-accordion>
 
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <strong>Etapa 3</strong>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Cômodos
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let etapa3 of report?.etapa3 | keys">
+                    <hr/>
+                    <div *ngFor="let equipamento of etapa3?.value | keys">
+                        <h1 *ngIf="equipamento.key == 'title'">
+                            Cômodo: {{equipamento.value}}
+                        </h1>
+                    </div>
+                    <p>
+                        <strong> Imagens </strong>
+                    </p>
+                    <div fxLayout="row" fxLayout.xs="column" fxFlexFill>
+                        <div fxFlex *ngFor="let img of etapa3?.value | imgs">
+                            <mat-card class="imgequip">
+                                <img mat-card-image [src]="img.nameimg" width="150" height="400">
+                                <mat-card-content>
+                                    <p>
+                                        <strong> Equipamento: </strong>
+                                        <span>{{img.tituloequipment}}</span>
+                                    </p>
+                                    <p>
+                                        <strong> Observação: </strong>
+                                        <span>{{img.obs}}</span>
+                                    </p>
+                                    <p>
+                                        <strong> Valor: </strong>
+                                        <span>{{img.value}}</span>
+                                    </p>
+                                    <p>
+                                        <strong> Local: </strong>
+                                        <span>{{img.locale}}</span>
+                                    </p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
         </mat-accordion>
 
     </mat-card-content>

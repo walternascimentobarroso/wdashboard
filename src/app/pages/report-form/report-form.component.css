@@ -3,7 +3,7 @@
     text-transform: uppercase;
 }
 
-.breadcumbs > a:link  {
+.breadcumbs > a:link {
     text-decoration: none;
 }
 
@@ -26,4 +26,13 @@
 
 .container > * {
     width: 100%;
+}
+
+fieldset > * {
+    width: 100%;
+}
+
+fieldset {
+    margin: 5px;
+    padding: 5px;
 }
