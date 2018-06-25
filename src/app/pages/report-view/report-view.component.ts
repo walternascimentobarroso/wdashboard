@@ -29,6 +29,7 @@ export class ReportViewComponent implements OnInit {
     getAll() {
         this.report = this.crudservice.get(this.path, this.key).forEach(item => {
             this.report = item;
+            console.log(this.report);
         });
     }
 

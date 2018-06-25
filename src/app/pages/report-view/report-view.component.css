@@ -20,3 +20,12 @@
     max-width: 300px;
     margin: 10px;
 }
+
+.flex {
+    display: flex;
+    margin: 20px;
+}
+
+.fill-space {
+    flex: 1 1 auto;
+}
