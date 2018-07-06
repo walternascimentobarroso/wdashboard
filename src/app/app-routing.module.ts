@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'users-form', component: UsersFormComponent, canActivate: [AuthGuard] },
     { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
     { path: 'report-view', component: ReportViewComponent, canActivate: [AuthGuard] },
-    { path: 'report-form', component: ReportFormComponent, canActivate: [AuthGuard] }
+    { path: 'report-form', component: ReportFormComponent, canActivate: [AuthGuard] },
     { path: 'lock', component: LockComponent, canActivate: [AuthGuard] }
 ];
 @NgModule({
