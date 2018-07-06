@@ -59,6 +59,7 @@ import { StatComponent } from "./components/stat/stat.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { KeysPipe } from './pipes/keys.pipe';
 import { ImgsPipe } from './pipes/imgs.pipe';
+import { LockComponent } from './pages/lock/lock.component';
 
 @NgModule({
     declarations: [
@@ -80,7 +81,8 @@ import { ImgsPipe } from './pipes/imgs.pipe';
         ReportViewComponent,
         StatComponent,
         KeysPipe,
-        ImgsPipe
+        ImgsPipe,
+        LockComponent
     ],
     imports: [
         FlexLayoutModule,

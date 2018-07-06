@@ -7,6 +7,7 @@ import { ReportComponent } from './pages/report/report.component';
 import { ReportFormComponent } from './pages/report-form/report-form.component';
 import { ReportViewComponent } from './pages/report-view/report-view.component';
 import { HomeComponent } from './pages/home/home.component';
+import { LockComponent } from './pages/lock/lock.component';
 import { AuthGuard } from './services/auth/auth.guard';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
     { path: 'report', component: ReportComponent, canActivate: [AuthGuard] },
     { path: 'report-view', component: ReportViewComponent, canActivate: [AuthGuard] },
     { path: 'report-form', component: ReportFormComponent, canActivate: [AuthGuard] }
+    { path: 'lock', component: LockComponent, canActivate: [AuthGuard] }
 ];
 @NgModule({
     exports: [RouterModule],

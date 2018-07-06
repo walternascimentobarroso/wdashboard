@@ -24,22 +24,25 @@
             </button>
             <span>{{projectname}}</span>
             <span class="fill-space"></span>
-            <button *ngIf="!fullScreenActive" type="button" mat-icon-button (click)="entrarFullScreen()">
+            <!-- <a routerLink="/lock" matTooltip="Bloquear sessão" type="button" mat-icon-button>
+                <mat-icon>block</mat-icon>
+            </a> -->
+            <button matTooltip="Tela cheia - FullScreen" *ngIf="!fullScreenActive" type="button" mat-icon-button (click)="entrarFullScreen()">
                 <mat-icon>fullscreen</mat-icon>
             </button>
-            <button *ngIf="fullScreenActive" type="button" mat-icon-button (click)="sairFullScreen()">
+            <button matTooltip="Tela normal" *ngIf="fullScreenActive" type="button" mat-icon-button (click)="sairFullScreen()">
                 <mat-icon>fullscreen_exit</mat-icon>
             </button>
             <button mat-button [matMenuTriggerFor]="menu">Usuário
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
             <mat-menu dir="rtl" #menu="matMenu">
-                <!-- <a mat-menu-item routerLink="/perfil">
+                <a matTooltip="Página de perfil" mat-menu-item routerLink="/perfil">
                     <mat-icon>person_outline</mat-icon>
                     Perfil
-                </a> -->
-                <!-- <mat-divider></mat-divider> -->
-                <a mat-menu-item (click)="logout()">
+                </a>
+                <mat-divider></mat-divider>
+                <a matTooltip="Sair" mat-menu-item (click)="logout()">
                     <mat-icon>power_settings_new</mat-icon>
                     Sair
                 </a>
