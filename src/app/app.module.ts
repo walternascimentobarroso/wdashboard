@@ -61,9 +61,14 @@ import { KeysPipe } from './pipes/keys.pipe';
 import { ImgsPipe } from './pipes/imgs.pipe';
 import { LockComponent } from './pages/lock/lock.component';
 
+import { FullComponent } from "./layouts/full/full.component";
+import { BlankComponent } from "./layouts/blank/blank.component";
+
 @NgModule({
     declarations: [
         AppComponent,
+        FullComponent,
+        BlankComponent,
         NavMenuComponent,
         PerfilComponent,
         MyTableComponent,
