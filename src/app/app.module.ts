@@ -27,7 +27,7 @@ import {
     MatProgressBarModule
 } from "@angular/material";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
-import { AppRoutingModule } from ".//app-routing.module";
+import { AppRoutingModule } from "./app-routing.module";
 import { MyTableComponent } from "./components/my-table/my-table.component";
 import { UsersComponent } from "./pages/users/users.component";
 import { LoginComponent } from "./pages/login/login.component";
@@ -41,7 +41,7 @@ import {
 import { FirebaseConfig } from "./../environments/firebase.config";
 import { AngularFireModule } from "angularfire2/index";
 import { AngularFireDatabaseModule } from "angularfire2/database";
-import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireStorageModule } from "angularfire2/storage";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AuthGuard } from "./services/auth/auth.guard";
 import { AuthService } from "./services/auth/auth.service";
@@ -57,12 +57,14 @@ import { ReportFormComponent } from "./pages/report-form/report-form.component";
 import { ReportViewComponent } from "./pages/report-view/report-view.component";
 import { StatComponent } from "./components/stat/stat.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { KeysPipe } from './pipes/keys.pipe';
-import { ImgsPipe } from './pipes/imgs.pipe';
-import { LockComponent } from './pages/lock/lock.component';
+import { KeysPipe } from "./pipes/keys.pipe";
+import { ImgsPipe } from "./pipes/imgs.pipe";
+import { LockComponent } from "./pages/lock/lock.component";
 
 import { FullComponent } from "./layouts/full/full.component";
 import { BlankComponent } from "./layouts/blank/blank.component";
+
+import { ChartsModule as Ng2Charts } from "ng2-charts";
 
 @NgModule({
     declarations: [
@@ -94,6 +96,7 @@ import { BlankComponent } from "./layouts/blank/blank.component";
         BrowserModule,
         BrowserAnimationsModule,
         LayoutModule,
+        Ng2Charts,
         MatToolbarModule,
         MatButtonModule,
         MatSidenavModule,
