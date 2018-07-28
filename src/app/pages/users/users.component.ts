@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit {
     users: any = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    dataSource: UsersTableDataSource;
+    dataSource: any;
 
     displayedColumns = ['name', 'email', 'action'];
 
@@ -25,6 +25,10 @@ export class UsersComponent implements OnInit {
         this.getAll();
         this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
     }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+      }
 
     getAll() {
         this.crudservice.getAll(this.path).forEach(item => {

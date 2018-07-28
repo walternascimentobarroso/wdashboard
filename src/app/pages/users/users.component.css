@@ -23,3 +23,9 @@
 .fill-space {
     flex: 1 1 auto;
 }
+
+.fullwidth {
+    padding: 10px;
+    margin: 10px;
+    width: 95%;
+}
