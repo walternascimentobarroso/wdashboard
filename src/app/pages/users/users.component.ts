@@ -13,6 +13,7 @@ import { Router } from "@angular/router";
 export class UsersComponent implements OnInit {
     private path = "users";
     users: any = [];
+    usersClone: any[];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     dataSource: any;
@@ -26,13 +27,20 @@ export class UsersComponent implements OnInit {
         this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
     }
 
-    applyFilter(filterValue: string) {
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-      }
+    applyFilter(val: string) {
+        this.users = this.usersClone;
+        if (val && val.trim() != '') {
+            this.users = this.users.filter((item) => {
+                return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+            })
+        }
+        this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
+    }
 
     getAll() {
         this.crudservice.getAll(this.path).forEach(item => {
             this.users = item;
+            this.usersClone = item;
             this.dataSource = new UsersTableDataSource(this.paginator, this.sort, this.users);
         });
     }
