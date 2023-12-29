@@ -1,0 +1,11 @@
+{
+  "server-component": {
+    "welcome": "¡Bienvenido!"
+  },
+  "counter": {
+    "increment": "Incremento",
+    "decrement": "Decremento"
+  },
+  "switcher-title": "Cambiar el idioma",
+  "current-locale": "Configuración regional actual"
+}
