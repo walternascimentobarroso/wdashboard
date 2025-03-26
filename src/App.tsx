@@ -1,7 +1,18 @@
-export default function App() {
+import { FC } from "react";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import Content from "./components/Content";
+
+const App: FC = () => {
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-900">
-      <h1 className="text-3xl font-bold text-white">Hello, Tailwind CSS!</h1>
+    <div className="flex h-screen">
+      <Sidebar />
+      <div className="flex flex-col flex-1">
+        <Header />
+        <Content />
+      </div>
     </div>
   );
-}
+};
+
+export default App;
