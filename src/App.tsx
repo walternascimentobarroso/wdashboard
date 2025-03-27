@@ -1,17 +1,12 @@
 import { FC } from "react";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import Content from "./components/Content";
+import Page from "./app/dashboard/page";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const App: FC = () => {
   return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex flex-col flex-1">
-        <Header />
-        <Content />
-      </div>
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Page />
+    </ThemeProvider>
   );
 };
 
