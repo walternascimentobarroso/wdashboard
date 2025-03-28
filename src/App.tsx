@@ -1,11 +1,12 @@
 import { FC } from "react";
-import Page from "./app/dashboard/page";
+import { AppRoutes } from './routes'
+
 import { ThemeProvider } from "@/components/theme-provider";
 
 const App: FC = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Page />
+      <AppRoutes />
     </ThemeProvider>
   );
 };
