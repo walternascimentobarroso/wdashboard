@@ -4,12 +4,12 @@ import * as React from "react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Header } from "./Header"
-import { Sidebar, SidebarItem } from "./Sidebar"
+import { Sidebar, SidebarItem, SidebarCategory } from "./Sidebar"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
 import { useResponsive } from "@/lib/use-responsive"
-import { navigationItems } from "@/lib/navigation"
+import { navigationConfig } from "@/lib/navigation"
 import { usePathname } from "next/navigation"
 
 interface DashboardLayoutProps {
@@ -58,16 +58,48 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   }
 
   const renderNavigation = () => {
-    return navigationItems.map((item) => (
-      <SidebarItem
-        key={item.id}
-        icon={item.icon}
-        label={item.label}
-        href={item.href}
-        expanded={sidebarExpanded}
-        active={pathname === item.href}
-      />
-    ))
+    return (
+      <>
+        {/* Main Categories */}
+        {navigationConfig.categories.map((category) => (
+          <SidebarCategory 
+            key={category.id} 
+            title={category.label} 
+            expanded={sidebarExpanded}
+          >
+            {category.items.map((item) => (
+              <SidebarItem
+                key={item.id}
+                icon={item.icon}
+                label={item.label}
+                href={item.href}
+                expanded={sidebarExpanded}
+                active={pathname === item.href}
+              />
+            ))}
+          </SidebarCategory>
+        ))}
+
+        {/* User Items */}
+        {navigationConfig.userItems && navigationConfig.userItems.length > 0 && (
+          <SidebarCategory 
+            title="" 
+            expanded={sidebarExpanded}
+          >
+            {navigationConfig.userItems.map((item) => (
+              <SidebarItem
+                key={item.id}
+                icon={item.icon}
+                label={item.label}
+                href={item.href}
+                expanded={sidebarExpanded}
+                active={pathname === item.href}
+              />
+            ))}
+          </SidebarCategory>
+        )}
+      </>
+    )
   }
 
   if (isMobile) {
