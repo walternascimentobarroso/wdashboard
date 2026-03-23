@@ -53,7 +53,7 @@ export class MockAuthService extends BaseMockService {
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     await this.delay(MOCK_DELAYS.AUTH);
-    this.randomError();
+    // Disable random errors for authentication to ensure reliable login
 
     const users = this.store.get('users') as User[];
     const user = users.find(u => u.email === credentials.email);

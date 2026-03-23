@@ -1,59 +1,37 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/modules/auth/components/AuthProvider';
-import { Button } from '@/components/ui/button';
-import { KPICard } from '@/modules/dashboard/components/KPICard';
-import { LineChart } from '@/components/charts/LineChart';
-import { BarChart } from '@/components/charts/BarChart';
-import { mockDashboardService } from '@/modules/dashboard/services/dashboard';
-import { KPI, ChartData } from '@/types/kpi';
-import { useToastHelpers } from '@/components/shared/Toast';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
-  const { user, logout, isLoading } = useAuth();
-  const [kpis, setKpis] = useState<KPI[]>([]);
-  const [lineChartData, setLineChartData] = useState<ChartData | null>(null);
-  const [barChartData, setBarChartData] = useState<ChartData | null>(null);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const toast = useToastHelpers();
-
-  const loadDashboardData = async () => {
-    try {
-      const [kpiResponse, lineResponse, barResponse] = await Promise.all([
-        mockDashboardService.getKPIs(),
-        mockDashboardService.getChartData({ type: 'line', metric: 'Users', timeRange: '7d' }),
-        mockDashboardService.getChartData({ type: 'bar', metric: 'Files', timeRange: '7d' }),
-      ]);
-
-      setKpis(kpiResponse.data);
-      setLineChartData(lineResponse);
-      setBarChartData(barResponse);
-    } catch (error) {
-      toast.error('Failed to load dashboard data', error instanceof Error ? error.message : 'Unknown error');
-    }
-  };
-
-  const refreshData = async () => {
-    setIsRefreshing(true);
-    try {
-      const response = await mockDashboardService.getKPIs({ refresh: true });
-      setKpis(response.data);
-      toast.success('Dashboard data refreshed');
-    } catch (error) {
-      toast.error('Failed to refresh data', error instanceof Error ? error.message : 'Unknown error');
-    } finally {
-      setIsRefreshing(false);
-    }
-  };
+  const router = useRouter();
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) {
-      loadDashboardData();
+    console.log('Dashboard useEffect triggered'); // Debug log
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const email = localStorage.getItem('userEmail');
+    
+    console.log('Dashboard auth check:', { isLoggedIn, email }); // Debug log
+    
+    if (isLoggedIn !== 'true' || !email) {
+      console.log('Not logged in, redirecting to login'); // Debug log
+      router.push('/login');
+      return;
     }
-  }, [user]);
+    
+    console.log('User is logged in, setting email'); // Debug log
+    setUserEmail(email);
+  }, [router]);
 
-  if (isLoading) {
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userEmail');
+    router.push('/login');
+  };
+
+  if (!userEmail) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -64,10 +42,6 @@ export default function DashboardPage() {
     );
   }
 
-  if (!user) {
-    return <div>Please log in</div>;
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white shadow">
@@ -75,22 +49,18 @@ export default function DashboardPage() {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-gray-600 mt-1">Welcome back, {user.name}</p>
+              <p className="text-gray-600 mt-1">Welcome back, {userEmail}</p>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                {user.role}
+                User
               </span>
-              <Button 
-                onClick={refreshData} 
-                variant="outline" 
-                disabled={isRefreshing}
+              <button 
+                onClick={handleLogout} 
+                className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
               >
-                {isRefreshing ? 'Refreshing...' : 'Refresh'}
-              </Button>
-              <Button onClick={logout} variant="outline">
                 Logout
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -102,34 +72,31 @@ export default function DashboardPage() {
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Key Performance Indicators</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {kpis.map((kpi) => (
-                <KPICard key={kpi.id} kpi={kpi} />
-              ))}
-            </div>
-          </div>
-
-          {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">User Activity (7 days)</h3>
-              {lineChartData ? (
-                <LineChart data={lineChartData} />
-              ) : (
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  Loading chart data...
-                </div>
-              )}
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">File Processing (7 days)</h3>
-              {barChartData ? (
-                <BarChart data={barChartData} />
-              ) : (
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  Loading chart data...
-                </div>
-              )}
+              <div className="bg-white rounded-lg shadow p-6">
+                <p className="text-sm font-medium text-gray-600">Total Users</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">1,234</p>
+                <p className="text-sm text-green-600 mt-2">↑ 6.7%</p>
+              </div>
+              <div className="bg-white rounded-lg shadow p-6">
+                <p className="text-sm font-medium text-gray-600">Active Sessions</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">89</p>
+                <p className="text-sm text-red-600 mt-2">↓ 3.3%</p>
+              </div>
+              <div className="bg-white rounded-lg shadow p-6">
+                <p className="text-sm font-medium text-gray-600">Files Processed</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">567</p>
+                <p className="text-sm text-green-600 mt-2">↑ 8.4%</p>
+              </div>
+              <div className="bg-white rounded-lg shadow p-6">
+                <p className="text-sm font-medium text-gray-600">System Health</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">98.5%</p>
+                <p className="text-sm text-green-600 mt-2">↑ 1.3%</p>
+              </div>
+              <div className="bg-white rounded-lg shadow p-6">
+                <p className="text-sm font-medium text-gray-600">Error Rate</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">0.2%</p>
+                <p className="text-sm text-green-600 mt-2">↓ 33.3%</p>
+              </div>
             </div>
           </div>
 
