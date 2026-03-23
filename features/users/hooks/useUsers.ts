@@ -249,6 +249,7 @@ export function useUsers() {
     
     // Computed values
     filteredUsers: getFilteredUsers(),
+    getFilteredUsers, // Export the function for use in components
     hasUsers: users.length > 0,
     hasFilteredUsers: getFilteredUsers().length > 0,
     totalPages: Math.ceil(getFilteredUsers().length / state.pagination.pageSize),

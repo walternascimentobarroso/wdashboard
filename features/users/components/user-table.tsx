@@ -11,9 +11,12 @@ import {
   SortingState,
   ColumnFiltersState,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
 import { User } from '../types';
 import { UserActions } from './user-actions';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 
 interface UserTableProps {
   users: User[];
@@ -22,9 +25,12 @@ interface UserTableProps {
   onDelete: (user: User) => void;
   onSort: (column: keyof User, direction: 'asc' | 'desc') => void;
   onPageChange: (page: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
   pageSize: number;
   currentPage: number;
   totalPages: number;
+  totalItems: number;
+  visibleColumns: string[];
 }
 
 export function UserTable({
@@ -34,10 +40,22 @@ export function UserTable({
   onDelete,
   onSort,
   onPageChange,
+  onPageSizeChange,
   pageSize,
   currentPage,
   totalPages,
+  totalItems,
+  visibleColumns,
 }: UserTableProps) {
+  
+  const allColumns = [
+    { key: 'name', label: 'Name' },
+    { key: 'email', label: 'Email' },
+    { key: 'role', label: 'Role' },
+    { key: 'status', label: 'Status' },
+    { key: 'createdAt', label: 'Created' },
+    { key: 'actions', label: 'Actions' },
+  ];
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: 'name',
@@ -105,8 +123,8 @@ export function UserTable({
             <span
               className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                 role === 'admin'
-                  ? 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100'
-                  : 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100'
+                  ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
+                  : 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
               }`}
             >
               {role}
@@ -189,7 +207,7 @@ export function UserTable({
         );
       },
     },
-  ];
+  ].filter(col => visibleColumns.includes(col.accessorKey || col.id || ''));
 
   const table = useReactTable({
     data: users,
@@ -260,41 +278,114 @@ export function UserTable({
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="text-sm text-muted-foreground">
-          Showing {users.length > 0 ? (currentPage - 1) * pageSize + 1 : 0} to{' '}
-          {Math.min(currentPage * pageSize, currentPage * pageSize)} of {users.length} results
+      <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2 py-4">
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <span>Showing</span>
+          <span className="font-medium">
+            {totalItems > 0 ? (currentPage - 1) * pageSize + 1 : 0}
+          </span>
+          <span>to</span>
+          <span className="font-medium">
+            {Math.min(currentPage * pageSize, totalItems)}
+          </span>
+          <span>of</span>
+          <span className="font-medium">{totalItems}</span>
+          <span>results</span>
         </div>
+        
         <div className="flex items-center space-x-2">
-          <button
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage <= 1}
-          >
-            Previous
-          </button>
-          <div className="flex items-center space-x-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 w-8 p-0 ${
-                  currentPage === page
-                    ? 'bg-primary text-primary-foreground'
-                    : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground'
-                }`}
-                onClick={() => onPageChange(page)}
-              >
-                {page}
-              </button>
-            ))}
+          {/* Page Size Selector */}
+          <div className="flex items-center space-x-2 text-sm">
+            <span className="text-muted-foreground">Show</span>
+            <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
+              <SelectTrigger className="w-16 h-8">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+              </SelectContent>
+            </Select>
+            <span className="text-muted-foreground">per page</span>
           </div>
-          <button
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage >= totalPages}
-          >
-            Next
-          </button>
+          
+          {/* Pagination Buttons */}
+          <div className="flex items-center space-x-1">
+            <button
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage <= 1}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            
+            <div className="flex items-center space-x-1">
+              {/* Show limited page numbers with ellipsis */}
+              {(() => {
+                const pages = [];
+                const maxVisiblePages = 5;
+                
+                if (totalPages <= maxVisiblePages) {
+                  // Show all pages if total is small
+                  for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                  }
+                } else {
+                  // Show first page, current page, and last page with ellipsis
+                  pages.push(1);
+                  
+                  if (currentPage > 3) {
+                    pages.push('...');
+                  }
+                  
+                  const start = Math.max(2, Math.min(currentPage - 1, totalPages - maxVisiblePages + 3));
+                  const end = Math.min(totalPages - 1, Math.max(currentPage + 1, maxVisiblePages - 1));
+                  
+                  for (let i = start; i <= end; i++) {
+                    if (i !== 1 && i !== totalPages) {
+                      pages.push(i);
+                    }
+                  }
+                  
+                  if (currentPage < totalPages - 2) {
+                    pages.push('...');
+                  }
+                  
+                  if (totalPages > 1) {
+                    pages.push(totalPages);
+                  }
+                }
+                
+                return pages.map((page, index) => (
+                  page === '...' ? (
+                    <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">...</span>
+                  ) : (
+                    <button
+                      key={page}
+                      className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 min-w-[2rem] px-2 ${
+                        currentPage === page
+                          ? 'bg-primary text-primary-foreground'
+                          : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground'
+                      }`}
+                      onClick={() => onPageChange(page as number)}
+                    >
+                      {page}
+                    </button>
+                  )
+                ));
+              })()}
+            </div>
+            
+            <button
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
