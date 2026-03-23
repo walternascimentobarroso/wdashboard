@@ -11,6 +11,7 @@ import { Menu } from "lucide-react"
 import { useResponsive } from "@/lib/use-responsive"
 import { navigationConfig } from "@/lib/navigation"
 import { usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -22,6 +23,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { isMobile } = useResponsive()
   const pathname = usePathname()
+  const t = useTranslations()
 
   // Load saved preferences
   useEffect(() => {
@@ -64,14 +66,14 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
         {navigationConfig.categories.map((category) => (
           <SidebarCategory 
             key={category.id} 
-            title={category.label} 
+            title={t(`navigation.${category.id}`)} 
             expanded={sidebarExpanded}
           >
             {category.items.map((item) => (
               <SidebarItem
                 key={item.id}
                 icon={item.icon}
-                label={item.label}
+                label={t(`sidebar.${item.id}`)}
                 href={item.href}
                 expanded={sidebarExpanded}
                 active={pathname === item.href}
@@ -83,14 +85,14 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
         {/* User Items */}
         {navigationConfig.userItems && navigationConfig.userItems.length > 0 && (
           <SidebarCategory 
-            title="" 
+            title={t('navigation.user')} 
             expanded={sidebarExpanded}
           >
             {navigationConfig.userItems.map((item) => (
               <SidebarItem
                 key={item.id}
                 icon={item.icon}
-                label={item.label}
+                label={t(`common.${item.id}`)}
                 href={item.href}
                 expanded={sidebarExpanded}
                 active={pathname === item.href}

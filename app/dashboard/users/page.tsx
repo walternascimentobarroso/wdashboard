@@ -15,8 +15,11 @@ import { LoadingState } from '@/features/users/components/loading-state';
 import { userToasts } from '@/features/users/components/toast-notifications';
 import { User } from '@/features/users/types';
 import { UserRole, UserStatus } from '@/features/users/types';
+import { useTranslations } from 'next-intl';
 
 export default function UsersPage() {
+  const t = useTranslations();
+  
   const {
     displayUsers,
     loading,
@@ -45,12 +48,12 @@ export default function UsersPage() {
   };
 
   const allColumns = [
-    { key: 'name', label: 'Name' },
-    { key: 'email', label: 'Email' },
-    { key: 'role', label: 'Role' },
-    { key: 'status', label: 'Status' },
-    { key: 'createdAt', label: 'Created' },
-    { key: 'actions', label: 'Actions' },
+    { key: 'name', label: t('users.columns.name') },
+    { key: 'email', label: t('users.columns.email') },
+    { key: 'role', label: t('users.columns.role') },
+    { key: 'status', label: t('users.columns.status') },
+    { key: 'createdAt', label: t('users.columns.created') },
+    { key: 'actions', label: t('users.columns.actions') },
   ];
 
   const toggleColumn = (columnKey: string) => {
@@ -158,10 +161,10 @@ export default function UsersPage() {
     return (
       <div className="container mx-auto py-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Users</h1>
+          <h1 className="text-3xl font-bold">{t('users.title')}</h1>
           <Button onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Add User
+            {t('users.addUser')}
           </Button>
         </div>
         <EmptyState onCreateUser={() => setIsCreateModalOpen(true)} />
@@ -173,7 +176,7 @@ export default function UsersPage() {
     <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Users</h1>
+        <h1 className="text-3xl font-bold">{t('users.title')}</h1>
       </div>
 
       {/* Controls - Filters on left, buttons on right */}
@@ -181,29 +184,29 @@ export default function UsersPage() {
         {/* Filters */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Input
-            placeholder="Search users..."
+            placeholder={t('users.searchPlaceholder')}
             value={state.filtering.search}
             onChange={(e) => handleSearchChange(e.target.value)}
             className="min-w-[160px] w-[200px]"
           />
           <Select value={state.filtering.role || 'all'} onValueChange={handleRoleFilterChange}>
             <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Role" />
+              <SelectValue placeholder={t('users.roles.admin')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Roles</SelectItem>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="user">User</SelectItem>
+              <SelectItem value="all">{t('users.allRoles')}</SelectItem>
+              <SelectItem value="admin">{t('users.roles.admin')}</SelectItem>
+              <SelectItem value="user">{t('users.roles.user')}</SelectItem>
             </SelectContent>
           </Select>
           <Select value={state.filtering.status || 'all'} onValueChange={handleStatusFilterChange}>
             <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Status" />
+              <SelectValue placeholder={t('users.statuses.active')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
+              <SelectItem value="all">{t('users.allStatuses')}</SelectItem>
+              <SelectItem value="active">{t('users.statuses.active')}</SelectItem>
+              <SelectItem value="inactive">{t('users.statuses.inactive')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -215,12 +218,12 @@ export default function UsersPage() {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
                 <Settings className="h-4 w-4 mr-2" />
-                Customize Columns
+                {t('users.customizeColumns')}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               <div className="p-2">
-                <p className="text-sm font-medium mb-2">Toggle columns</p>
+                <p className="text-sm font-medium mb-2">{t('users.toggleColumns')}</p>
                 {allColumns.map((column) => (
                   <DropdownMenuItem
                     key={column.key}
@@ -242,7 +245,7 @@ export default function UsersPage() {
           
           <Button onClick={() => setIsCreateModalOpen(true)} size="sm">
             <Plus className="mr-2 h-4 w-4" />
-            Add User
+            {t('users.addUser')}
           </Button>
         </div>
       </div>
@@ -280,8 +283,8 @@ export default function UsersPage() {
         onOpenChange={setIsCreateModalOpen}
         onSubmit={handleCreateUser}
         loading={loading}
-        title="Create New User"
-        description="Add a new user to the system. Fill in the details below."
+        title={t('users.form.createTitle')}
+        description={t('users.form.createDesc')}
       />
 
       {/* Edit User Modal */}
@@ -290,8 +293,8 @@ export default function UsersPage() {
         onOpenChange={setIsEditModalOpen}
         onSubmit={handleEditUser}
         loading={loading}
-        title="Edit User"
-        description="Update the user information below."
+        title={t('users.form.editTitle')}
+        description={t('users.form.editDesc')}
         user={selectedUser}
       />
 

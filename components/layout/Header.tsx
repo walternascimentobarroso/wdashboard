@@ -5,14 +5,17 @@ import { useRouter } from "next/navigation"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme/ThemeToggle"
+import { LanguageSwitcher } from "@/components/LanguageSwitcher"
+import { useTranslations } from "next-intl"
 
 interface HeaderProps {
   onSidebarToggle?: () => void
   title?: string
 }
 
-export function Header({ onSidebarToggle, title = "Dashboard" }: HeaderProps) {
+export function Header({ onSidebarToggle, title }: HeaderProps) {
   const router = useRouter()
+  const t = useTranslations()
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn')
@@ -30,16 +33,17 @@ export function Header({ onSidebarToggle, title = "Dashboard" }: HeaderProps) {
           className="md:hidden"
         >
           <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle sidebar</span>
+          <span className="sr-only">{t('header.toggleSidebar')}</span>
         </Button>
-        <h1 className="text-xl font-semibold">{title}</h1>
+        <h1 className="text-xl font-semibold">{title || t('header.dashboard')}</h1>
       </div>
       <div className="flex items-center space-x-4">
+        <LanguageSwitcher />
         <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded">
-          User
+          {t('common.user')}
         </span>
         <Button variant="outline" onClick={handleLogout}>
-          Logout
+          {t('common.logout')}
         </Button>
         <ThemeToggle />
       </div>

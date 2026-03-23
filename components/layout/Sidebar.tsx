@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/modules/auth/components/AuthProvider"
+import { useTranslations } from "next-intl"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   expanded?: boolean
@@ -23,11 +24,12 @@ export function Sidebar({
   onToggle, 
   className, 
   children,
-  companyName = "Acme Inc.",
+  companyName = "WDashboard",
   ...props 
 }: SidebarProps) {
   const { user, logout } = useAuth()
   const router = useRouter()
+  const t = useTranslations()
 
   const handleLogout = async () => {
     await logout()
@@ -63,7 +65,7 @@ export function Sidebar({
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right">
-              <p>{expanded ? "Collapse sidebar" : "Expand sidebar"}</p>
+              <p>{expanded ? t('sidebar.collapse') : t('sidebar.expand')}</p>
             </TooltipContent>
           </Tooltip>
         </div>
@@ -106,20 +108,20 @@ export function Sidebar({
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
                       <User className="mr-2 h-4 w-4" />
-                      Account
+                      {t('common.account')}
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <CreditCard className="mr-2 h-4 w-4" />
-                      Billing
+                      {t('common.billing')}
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Bell className="mr-2 h-4 w-4" />
-                      Notifications
+                      {t('common.notifications')}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
                       <LogOut className="mr-2 h-4 w-4" />
-                      Log out
+                      {t('common.logout')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -150,20 +152,20 @@ export function Sidebar({
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <User className="mr-2 h-4 w-4" />
-                    Account
+                    {t('common.account')}
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Billing
+                    {t('common.billing')}
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Bell className="mr-2 h-4 w-4" />
-                    Notifications
+                    {t('common.notifications')}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    {t('common.logout')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

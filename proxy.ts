@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // Public routes that don't require authentication
 const publicRoutes = ['/login', '/'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Check if the route is public
@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // For protected routes, check if user is logged in via localStorage (client-side)
-  // Since middleware runs on server, we'll let the client-side handle auth check
+  // Since proxy runs on server, we'll let the client-side handle auth check
   return NextResponse.next();
 }
 

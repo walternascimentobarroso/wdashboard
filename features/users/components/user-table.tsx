@@ -19,6 +19,7 @@ import { UserActions } from './user-actions';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { useTranslations } from 'next-intl';
 
 interface UserTableProps {
   users: User[];
@@ -49,14 +50,15 @@ export function UserTable({
   totalItems,
   visibleColumns,
 }: UserTableProps) {
+  const t = useTranslations();
   
   const allColumns = [
-    { key: 'name', label: 'Name' },
-    { key: 'email', label: 'Email' },
-    { key: 'role', label: 'Role' },
-    { key: 'status', label: 'Status' },
-    { key: 'createdAt', label: 'Created' },
-    { key: 'actions', label: 'Actions' },
+    { key: 'name', label: t('users.columns.name') },
+    { key: 'email', label: t('users.columns.email') },
+    { key: 'role', label: t('users.columns.role') },
+    { key: 'status', label: t('users.columns.status') },
+    { key: 'createdAt', label: t('users.columns.created') },
+    { key: 'actions', label: t('users.columns.actions') },
   ];
   const columns: ColumnDef<User>[] = [
     {
@@ -66,7 +68,7 @@ export function UserTable({
           className="flex items-center hover:text-muted-foreground"
           onClick={() => onSort('name', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
         >
-          Name
+          {t('users.columns.name')}
           {column.getIsSorted() === 'asc' ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === 'desc' ? (
@@ -87,7 +89,7 @@ export function UserTable({
           className="flex items-center hover:text-muted-foreground"
           onClick={() => onSort('email', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
         >
-          Email
+          {t('users.columns.email')}
           {column.getIsSorted() === 'asc' ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === 'desc' ? (
@@ -108,7 +110,7 @@ export function UserTable({
           className="flex items-center hover:text-muted-foreground"
           onClick={() => onSort('role', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
         >
-          Role
+          {t('users.columns.role')}
           {column.getIsSorted() === 'asc' ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === 'desc' ? (
@@ -142,7 +144,7 @@ export function UserTable({
           className="flex items-center hover:text-muted-foreground"
           onClick={() => onSort('status', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
         >
-          Status
+          {t('users.columns.status')}
           {column.getIsSorted() === 'asc' ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === 'desc' ? (
@@ -176,7 +178,7 @@ export function UserTable({
           className="flex items-center hover:text-muted-foreground"
           onClick={() => onSort('createdAt', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
         >
-          Created
+          {t('users.columns.created')}
           {column.getIsSorted() === 'asc' ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === 'desc' ? (
@@ -197,7 +199,7 @@ export function UserTable({
     },
     {
       id: 'actions',
-      header: 'Actions',
+      header: t('users.columns.actions'),
       cell: ({ row }: { row: Row<User> }) => {
         const user = row.original;
         return (
@@ -282,23 +284,23 @@ export function UserTable({
       {/* Pagination */}
       <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2 py-4">
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <span>Showing</span>
+          <span>{t('users.table.showing')}</span>
           <span className="font-medium">
             {totalItems > 0 ? (currentPage - 1) * pageSize + 1 : 0}
           </span>
-          <span>to</span>
+          <span>{t('users.table.to')}</span>
           <span className="font-medium">
             {Math.min(currentPage * pageSize, totalItems)}
           </span>
-          <span>of</span>
+          <span>{t('users.table.of')}</span>
           <span className="font-medium">{totalItems}</span>
-          <span>results</span>
+          <span>{t('users.table.results')}</span>
         </div>
         
         <div className="flex items-center space-x-2">
           {/* Page Size Selector */}
           <div className="flex items-center space-x-2 text-sm">
-            <span className="text-muted-foreground">Show</span>
+            <span className="text-muted-foreground">{t('users.table.show')}</span>
             <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
               <SelectTrigger className="w-16 h-8">
                 <SelectValue />
@@ -310,7 +312,7 @@ export function UserTable({
                 <SelectItem value="50">50</SelectItem>
               </SelectContent>
             </Select>
-            <span className="text-muted-foreground">per page</span>
+            <span className="text-muted-foreground">{t('users.table.perPage')}</span>
           </div>
           
           {/* Pagination Buttons */}

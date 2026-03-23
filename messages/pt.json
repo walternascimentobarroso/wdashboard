@@ -1,0 +1,141 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "toggle": "Alternar",
+    "user": "Usuário",
+    "logout": "Sair",
+    "account": "Conta",
+    "billing": "Faturamento",
+    "notifications": "Notificações",
+    "settings": "Configurações",
+    "help": "Obter Ajuda",
+    "search": "Pesquisar"
+  },
+  "sidebar": {
+    "collapse": "Recolher barra lateral",
+    "expand": "Expandir barra lateral",
+    "dashboard": "Painel",
+    "analytics": "Análises",
+    "users": "Usuários",
+    "documents": "Documentos",
+    "files": "Arquivos",
+    "logs": "Registros"
+  },
+  "header": {
+    "dashboard": "Painel",
+    "toggleSidebar": "Alternar barra lateral"
+  },
+  "auth": {
+    "login": "Entrar",
+    "register": "Cadastrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "forgotPassword": "Esqueceu a senha?",
+    "rememberMe": "Lembrar de mim",
+    "signIn": "Entrar",
+    "signUp": "Cadastrar-se",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "dontHaveAccount": "Não tem uma conta?"
+  },
+  "navigation": {
+    "dashboard": "Painel",
+    "documents": "Documentos",
+    "user": "Usuário"
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo ao seu painel",
+    "kpi": {
+      "title": "Indicadores Chave de Performance",
+      "totalUsers": "Total de Usuários",
+      "activeSessions": "Sessões Ativas",
+      "filesProcessed": "Arquivos Processados",
+      "systemHealth": "Saúde do Sistema",
+      "errorRate": "Taxa de Erro"
+    },
+    "quickActions": {
+      "title": "Ações Rápidas",
+      "manageUsers": "Gerenciar Usuários",
+      "manageUsersDesc": "Adicionar, editar ou remover contas de usuário",
+      "uploadFiles": "Enviar Arquivos",
+      "uploadFilesDesc": "Processar e gerenciar uploads de arquivos",
+      "viewLogs": "Ver Registros",
+      "viewLogsDesc": "Monitorar atividade e erros do sistema"
+    }
+  },
+  "users": {
+    "title": "Usuários",
+    "addUser": "Adicionar Usuário",
+    "searchPlaceholder": "Pesquisar usuários...",
+    "allRoles": "Todos os Cargos",
+    "allStatuses": "Todos os Status",
+    "customizeColumns": "Personalizar Colunas",
+    "toggleColumns": "Alternar colunas",
+    "columns": {
+      "name": "Nome",
+      "email": "E-mail",
+      "role": "Cargo",
+      "status": "Status",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "user": "Usuário"
+    },
+    "statuses": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "form": {
+      "createTitle": "Criar Novo Usuário",
+      "createDesc": "Adicionar um novo usuário ao sistema. Preencha os detalhes abaixo.",
+      "editTitle": "Editar Usuário",
+      "editDesc": "Atualize as informações do usuário abaixo."
+    },
+    "empty": {
+      "title": "Nenhum usuário ainda",
+      "description": "Comece adicionando seu primeiro usuário ao sistema.",
+      "button": "Adicionar Usuário",
+      "filteredTitle": "Nenhum usuário encontrado",
+      "filteredDescription": "Tente ajustar sua pesquisa ou critérios de filtro."
+    },
+    "table": {
+      "noUsers": "Nenhum usuário encontrado",
+      "loading": "Carregando usuários...",
+      "error": "Erro ao carregar usuários",
+      "showing": "Mostrando",
+      "to": "a",
+      "of": "de",
+      "results": "resultados",
+      "show": "Mostrar",
+      "perPage": "por página",
+      "rowsPerPage": "Linhas por página",
+      "next": "Próximo",
+      "previous": "Anterior"
+    },
+    "actions": {
+      "edit": "Editar",
+      "delete": "Excluir",
+      "view": "Visualizar",
+      "activate": "Ativar",
+      "deactivate": "Desativar"
+    },
+    "delete": {
+      "title": "Excluir Usuário",
+      "description": "Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.",
+      "confirm": "Excluir",
+      "cancel": "Cancelar"
+    },
+    "toasts": {
+      "created": "Usuário {name} criado com sucesso",
+      "updated": "Usuário {name} atualizado com sucesso",
+      "deleted": "Usuário {name} excluído com sucesso",
+      "duplicateEmail": "Já existe um usuário com este e-mail",
+      "validationError": "Verifique sua entrada e tente novamente",
+      "createError": "Falha ao criar usuário: {error}",
+      "updateError": "Falha ao atualizar usuário: {error}",
+      "deleteError": "Falha ao excluir usuário: {error}",
+      "lastAdmin": "Não é possível excluir ou rebaixar o último usuário administrador"
+    }
+  }
+}

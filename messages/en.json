@@ -1,0 +1,141 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "toggle": "Toggle",
+    "user": "User",
+    "logout": "Logout",
+    "account": "Account",
+    "billing": "Billing",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "help": "Get Help",
+    "search": "Search"
+  },
+  "sidebar": {
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar",
+    "dashboard": "Dashboard",
+    "analytics": "Analytics",
+    "users": "Users",
+    "documents": "Documents",
+    "files": "Files",
+    "logs": "Logs"
+  },
+  "header": {
+    "dashboard": "Dashboard",
+    "toggleSidebar": "Toggle sidebar"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "rememberMe": "Remember me",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "documents": "Documents",
+    "user": "User"
+  },
+  "dashboard": {
+    "welcome": "Welcome back to your dashboard",
+    "kpi": {
+      "title": "Key Performance Indicators",
+      "totalUsers": "Total Users",
+      "activeSessions": "Active Sessions",
+      "filesProcessed": "Files Processed",
+      "systemHealth": "System Health",
+      "errorRate": "Error Rate"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "manageUsers": "Manage Users",
+      "manageUsersDesc": "Add, edit, or remove user accounts",
+      "uploadFiles": "Upload Files",
+      "uploadFilesDesc": "Process and manage file uploads",
+      "viewLogs": "View Logs",
+      "viewLogsDesc": "Monitor system activity and errors"
+    }
+  },
+  "users": {
+    "title": "Users",
+    "addUser": "Add User",
+    "searchPlaceholder": "Search users...",
+    "allRoles": "All Roles",
+    "allStatuses": "All Statuses",
+    "customizeColumns": "Customize Columns",
+    "toggleColumns": "Toggle columns",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "roles": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "form": {
+      "createTitle": "Create New User",
+      "createDesc": "Add a new user to the system. Fill in the details below.",
+      "editTitle": "Edit User",
+      "editDesc": "Update the user information below."
+    },
+    "empty": {
+      "title": "No users yet",
+      "description": "Get started by adding your first user to the system.",
+      "button": "Add User",
+      "filteredTitle": "No users found",
+      "filteredDescription": "Try adjusting your search or filter criteria."
+    },
+    "table": {
+      "noUsers": "No users found",
+      "loading": "Loading users...",
+      "error": "Error loading users",
+      "showing": "Showing",
+      "to": "to",
+      "of": "of",
+      "results": "results",
+      "show": "Show",
+      "perPage": "per page",
+      "rowsPerPage": "Rows per page",
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
+    },
+    "delete": {
+      "title": "Delete User",
+      "description": "Are you sure you want to delete this user? This action cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "toasts": {
+      "created": "User {name} created successfully",
+      "updated": "User {name} updated successfully",
+      "deleted": "User {name} deleted successfully",
+      "duplicateEmail": "A user with this email already exists",
+      "validationError": "Please check your input and try again",
+      "createError": "Failed to create user: {error}",
+      "updateError": "Failed to update user: {error}",
+      "deleteError": "Failed to delete user: {error}",
+      "lastAdmin": "Cannot delete or demote the last admin user"
+    }
+  }
+}
