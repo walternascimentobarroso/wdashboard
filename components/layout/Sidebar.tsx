@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -69,10 +71,13 @@ export function SidebarItem({
         "w-full justify-start",
         !expanded && "px-2"
       )}
+      asChild
       {...props}
     >
-      {icon}
-      {expanded && <span className="ml-2">{label}</span>}
+      <Link href={href}>
+        {icon}
+        {expanded && <span className="ml-2">{label}</span>}
+      </Link>
     </Button>
   )
 

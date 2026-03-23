@@ -1,52 +1,17 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Upload, Activity } from 'lucide-react';
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    console.log('Dashboard useEffect triggered'); // Debug log
-    // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const email = localStorage.getItem('userEmail');
-    
-    console.log('Dashboard auth check:', { isLoggedIn, email }); // Debug log
-    
-    if (isLoggedIn !== 'true' || !email) {
-      console.log('Not logged in, redirecting to login'); // Debug log
-      router.push('/login');
-      return;
-    }
-    
-    console.log('User is logged in, setting email'); // Debug log
-    setUserEmail(email);
-  }, [router]);
-
-  if (!userEmail) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <DashboardLayout>
+    <>
       <div className="space-y-6">
         {/* Welcome Header */}
         <div>
           <h2 className="text-2xl font-bold">Dashboard</h2>
-          <p className="text-muted-foreground">Welcome back, {userEmail}</p>
+          <p className="text-muted-foreground">Welcome back to your dashboard</p>
         </div>
 
         {/* KPI Cards */}
@@ -123,6 +88,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
+    </>
   );
 }
