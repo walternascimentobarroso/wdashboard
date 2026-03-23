@@ -74,13 +74,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           disabled={isLoading}
           className="rounded border-gray-300"
         />
-        <label htmlFor="remember" className="text-sm text-gray-600">
+        <label htmlFor="remember" className="text-sm text-muted-foreground">
           Remember me
         </label>
       </div>
 
       {error && (
-        <div className="text-red-600 text-sm bg-red-50 p-3 rounded-md">
+        <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md border border-destructive/20">
           {error}
         </div>
       )}
@@ -94,7 +94,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         {isLoading ? 'Signing in...' : 'Sign in'}
       </Button>
 
-      <div className="text-center text-sm text-gray-600">
+      <div className="text-center text-sm text-muted-foreground">
         <p>Demo credentials:</p>
         <p>Admin: admin@dashboard.com / admin123</p>
         <p>User: user@dashboard.com / user123</p>

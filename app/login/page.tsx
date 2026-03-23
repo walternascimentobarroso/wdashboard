@@ -51,21 +51,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
             Sign in to Dashboard
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-muted-foreground">
             Enter your credentials to access the dashboard
           </p>
         </div>
         
-        <div className="bg-white py-8 px-6 shadow-lg rounded-lg">
+        <div className="bg-card py-8 px-6 shadow-lg rounded-lg border">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
+              <label htmlFor="email" className="text-sm font-medium text-foreground">
                 Email
               </label>
               <input
@@ -76,12 +76,12 @@ export default function LoginPage() {
                 placeholder="Enter your email"
                 required
                 disabled={isLoading}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
+              <label htmlFor="password" className="text-sm font-medium text-foreground">
                 Password
               </label>
               <input
@@ -92,19 +92,19 @@ export default function LoginPage() {
                 placeholder="Enter your password"
                 required
                 disabled={isLoading}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
               />
             </div>
 
             {error && (
-              <div className="text-red-600 text-sm bg-red-50 p-3 rounded-md">
+              <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md border border-destructive/20">
                 {error}
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 disabled:opacity-50"
               disabled={isLoading}
               onClick={(e) => {
                 console.log('Button clicked'); // Debug log
@@ -116,7 +116,7 @@ export default function LoginPage() {
             {/* Debug button */}
             <button
               type="button"
-              className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700"
+              className="w-full bg-destructive text-destructive-foreground py-2 px-4 rounded-md hover:bg-destructive/90"
               onClick={() => {
                 console.log('Debug button clicked');
                 console.log('Current email:', email);
@@ -128,7 +128,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="text-center text-sm text-gray-600 mt-6">
+          <div className="text-center text-sm text-muted-foreground mt-6">
             <p>Demo credentials:</p>
             <p>Admin: admin@dashboard.com / admin123</p>
             <p>User: user@dashboard.com / user123</p>
