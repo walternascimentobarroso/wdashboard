@@ -2,21 +2,20 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
+import { ChevronLeft, ChevronRight, MoreVertical, User, CreditCard, Bell, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useAuth } from "@/modules/auth/components/AuthProvider"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   expanded?: boolean
   onToggle?: () => void
   companyName?: string
-  userName?: string
-  userEmail?: string
-  userAvatar?: string
 }
 
 export function Sidebar({ 
@@ -25,11 +24,20 @@ export function Sidebar({
   className, 
   children,
   companyName = "Acme Inc.",
-  userName = "shadcn",
-  userEmail = "m@example.com",
-  userAvatar,
   ...props 
 }: SidebarProps) {
+  const { user, logout } = useAuth()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    await logout()
+    router.push('/login')
+  }
+
+  const userName = user?.name || "shadcn"
+  const userEmail = user?.email || "m@example.com"
+  const userAvatar = user?.avatar || undefined
+
   return (
     <TooltipProvider delayDuration={0}>
       <div
@@ -78,14 +86,87 @@ export function Sidebar({
                   <p className="text-sm font-medium truncate">{userName}</p>
                   <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
                 </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-6 w-6">
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="flex items-center gap-2 p-2">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={userAvatar} />
+                        <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{userName}</p>
+                        <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
+                      </div>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+                      Account
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Billing
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Bell className="mr-2 h-4 w-4" />
+                      Notifications
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Log out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           ) : (
-            <div className="flex justify-center py-2">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={userAvatar} />
-                <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
-              </Avatar>
+            <div className="flex flex-col items-center gap-2 py-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={userAvatar} />
+                      <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="flex items-center gap-2 p-2">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={userAvatar} />
+                      <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{userName}</p>
+                      <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <User className="mr-2 h-4 w-4" />
+                    Account
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Billing
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Bell className="mr-2 h-4 w-4" />
+                    Notifications
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           )}
         </div>

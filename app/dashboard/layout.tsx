@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { AuthProvider } from '@/modules/auth/components/AuthProvider';
 
 export default function DashboardRootLayout({
   children,
@@ -36,5 +37,9 @@ export default function DashboardRootLayout({
     );
   }
 
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return (
+    <AuthProvider>
+      <DashboardLayout>{children}</DashboardLayout>
+    </AuthProvider>
+  );
 }
