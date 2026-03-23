@@ -4,11 +4,13 @@ import * as React from "react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Header } from "./Header"
-import { Sidebar } from "./Sidebar"
+import { Sidebar, SidebarItem } from "./Sidebar"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
 import { useResponsive } from "@/lib/use-responsive"
+import { navigationItems } from "@/lib/navigation"
+import { usePathname } from "next/navigation"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -19,6 +21,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   const [sidebarExpanded, setSidebarExpanded] = useState(true)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { isMobile } = useResponsive()
+  const pathname = usePathname()
 
   // Load saved preferences
   useEffect(() => {
@@ -54,6 +57,19 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
     }
   }
 
+  const renderNavigation = () => {
+    return navigationItems.map((item) => (
+      <SidebarItem
+        key={item.id}
+        icon={item.icon}
+        label={item.label}
+        href={item.href}
+        expanded={sidebarExpanded}
+        active={pathname === item.href}
+      />
+    ))
+  }
+
   if (isMobile) {
     return (
       <div className={cn("min-h-screen bg-background", className)}>
@@ -61,7 +77,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetContent side="left" className="p-0 w-64">
             <Sidebar expanded={true} onToggle={() => setMobileOpen(false)}>
-              {/* Navigation items will go here */}
+              {renderNavigation()}
             </Sidebar>
           </SheetContent>
         </Sheet>
@@ -76,7 +92,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
     <div className={cn("min-h-screen bg-background", className)}>
       <div className="flex h-screen">
         <Sidebar expanded={sidebarExpanded} onToggle={handleSidebarToggle}>
-          {/* Navigation items will go here */}
+          {renderNavigation()}
         </Sidebar>
         <div className="flex-1 flex flex-col">
           <Header onSidebarToggle={handleSidebarToggle} />

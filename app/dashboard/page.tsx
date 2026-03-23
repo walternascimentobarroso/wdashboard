@@ -3,10 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Sidebar, SidebarItem } from '@/components/layout/Sidebar';
-import { Home, BarChart3, FileText, Settings, Users, Upload, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Users, Upload, Activity } from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -30,12 +29,6 @@ export default function DashboardPage() {
     setUserEmail(email);
   }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userEmail');
-    router.push('/login');
-  };
-
   if (!userEmail) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -49,55 +42,11 @@ export default function DashboardPage() {
 
   return (
     <DashboardLayout>
-      <Sidebar>
-        <SidebarItem
-          icon={<Home className="h-4 w-4" />}
-          label="Dashboard"
-          href="/dashboard"
-          active={true}
-        />
-        <SidebarItem
-          icon={<BarChart3 className="h-4 w-4" />}
-          label="Analytics"
-          href="/dashboard/analytics"
-        />
-        <SidebarItem
-          icon={<Users className="h-4 w-4" />}
-          label="Users"
-          href="/dashboard/users"
-        />
-        <SidebarItem
-          icon={<FileText className="h-4 w-4" />}
-          label="Files"
-          href="/dashboard/files"
-        />
-        <SidebarItem
-          icon={<Activity className="h-4 w-4" />}
-          label="Logs"
-          href="/dashboard/logs"
-        />
-        <SidebarItem
-          icon={<Settings className="h-4 w-4" />}
-          label="Settings"
-          href="/dashboard/settings"
-        />
-      </Sidebar>
-      
       <div className="space-y-6">
         {/* Welcome Header */}
-        <div className="flex justify-between items-center">
-          <div>
-            <h2 className="text-2xl font-bold">Dashboard</h2>
-            <p className="text-muted-foreground">Welcome back, {userEmail}</p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded">
-              User
-            </span>
-            <Button variant="outline" onClick={handleLogout}>
-              Logout
-            </Button>
-          </div>
+        <div>
+          <h2 className="text-2xl font-bold">Dashboard</h2>
+          <p className="text-muted-foreground">Welcome back, {userEmail}</p>
         </div>
 
         {/* KPI Cards */}
