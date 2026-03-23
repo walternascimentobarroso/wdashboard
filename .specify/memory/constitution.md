@@ -1,50 +1,47 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# WDashboard Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. UI-First Development
+The system MUST start with fully functional UI using mocked data. All UI MUST simulate real backend behavior including loading, error, and success states. No backend dependency should block UI development.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Clean Architecture
+The system MUST separate UI, services, and data layers. Components MUST NEVER be coupled directly with data sources. All cross-layer communication MUST go through defined interfaces.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Modularity
+The system MUST be divided into independent modules (auth, dashboard, users, files, logs, settings). Each module MUST be independently extendable or removable without breaking other modules.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Reusability
+Components MUST be generic and reusable across projects. Business-specific logic MUST be avoided in the template. All components MUST be designed for multiple use cases.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. API Abstraction
+All data access MUST go through a service layer. Mock implementations MUST follow the same contract as real APIs. No direct data access from UI components.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### VI. Scalability
+The system MUST be ready to integrate with a real backend (FastAPI or similar). Architectural decisions MUST NOT block future backend integration. Mock-to-real transition MUST be seamless.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### VII. Developer Experience
+Code MUST be easy to understand and extend. Consistent patterns MUST be used across modules. Clear documentation and examples MUST be provided.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### VIII. UI/UX Quality
+Modern UI MUST be implemented using shadcn/ui and Tailwind. Loading states, empty states, and error states MUST be supported. Responsive design MUST be prioritized.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### IX. State Management
+A scalable approach (React Query or similar) MUST be used. Prop drilling MUST be avoided. State MUST be loosely coupled and testable.
+
+### X. Security Awareness
+Even in mock mode, structure MUST reflect real auth flows (tokens, protected routes). Security patterns MUST be implemented from the start. No hardcoded credentials or insecure practices.
+
+## Technology Stack
+
+React with TypeScript for frontend development. Tailwind CSS for styling with shadcn/ui components. React Query for state management and API abstraction. Vite for build tooling and development server.
+
+## Development Standards
+
+All modules MUST follow the established directory structure. Components MUST be exported from index files. Services MUST implement consistent interfaces. Error handling MUST be standardized across all modules. Testing MUST be implemented at unit, integration, and contract levels.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices. Amendments require documentation, team approval, and migration plan. All pull requests MUST verify compliance with these principles. Complexity deviations MUST be explicitly justified. Use this constitution as the primary guidance for all development decisions.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-03-23 | **Last Amended**: 2026-03-23
