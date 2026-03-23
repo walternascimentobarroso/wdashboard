@@ -31,7 +31,18 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+### Required Compliance Gates
+
+- **Non-Breaking Changes**: All changes MUST preserve existing functionality
+- **UI-First Enhancement**: Must use shadcn dashboard patterns with backward compatibility  
+- **Progressive Enhancement**: Features must work independently and be incrementally addable
+- **Clean Architecture**: Must maintain UI/services/modules separation
+- **Reusability**: Components must be generic and reusable across projects
+- **Theming System**: Must support light/dark/system modes with design tokens
+- **UX Consistency**: Must follow established design system patterns
+- **Glassmorphism**: Must be minimal and never compromise readability
+- **State Persistence**: Must persist user preferences in localStorage
+- **Scalability**: Must be modular and extensible for future enhancements
 
 ## Project Structure
 

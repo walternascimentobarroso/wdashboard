@@ -89,6 +89,10 @@
 - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
+- **FR-006**: System MUST maintain backward compatibility with existing functionality
+- **FR-007**: System MUST support theme switching (light/dark/system) with persistent state
+- **FR-008**: UI components MUST follow established shadcn dashboard patterns
+- **FR-009**: System MUST be accessible according to WCAG standards
 
 *Example of marking unclear requirements:*
 
