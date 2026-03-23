@@ -171,60 +171,24 @@ export default function UsersPage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      {/* Header and Filters */}
-      <div className="space-y-4">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Users</h1>
-          <div className="flex gap-2">
-            {/* Column Visibility Selector */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Customize Columns
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <div className="p-2">
-                  <p className="text-sm font-medium mb-2">Toggle columns</p>
-                  {allColumns.map((column) => (
-                    <DropdownMenuItem
-                      key={column.key}
-                      className="flex items-center space-x-2 p-2 cursor-pointer"
-                      onClick={() => toggleColumn(column.key)}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={visibleColumns.includes(column.key)}
-                        onChange={() => {}}
-                        className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-                      />
-                      <span className="text-sm">{column.label}</span>
-                    </DropdownMenuItem>
-                  ))}
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
-            <Button onClick={() => setIsCreateModalOpen(true)}>
-              <Plus className="mr-2 h-4 w-4" />
-              Add User
-            </Button>
-          </div>
-        </div>
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Users</h1>
+      </div>
 
+      {/* Controls - Filters on left, buttons on right */}
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Input
             placeholder="Search users..."
             value={state.filtering.search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="max-w-sm"
+            className="min-w-[160px] w-[200px]"
           />
           <Select value={state.filtering.role || 'all'} onValueChange={handleRoleFilterChange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by role" />
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Role" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Roles</SelectItem>
@@ -233,8 +197,8 @@ export default function UsersPage() {
             </SelectContent>
           </Select>
           <Select value={state.filtering.status || 'all'} onValueChange={handleStatusFilterChange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Statuses</SelectItem>
@@ -242,6 +206,44 @@ export default function UsersPage() {
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          {/* Column Visibility Selector */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Settings className="h-4 w-4 mr-2" />
+                Customize Columns
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <div className="p-2">
+                <p className="text-sm font-medium mb-2">Toggle columns</p>
+                {allColumns.map((column) => (
+                  <DropdownMenuItem
+                    key={column.key}
+                    className="flex items-center space-x-2 p-2 cursor-pointer"
+                    onClick={() => toggleColumn(column.key)}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={visibleColumns.includes(column.key)}
+                      onChange={() => {}}
+                      className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                    />
+                    <span className="text-sm">{column.label}</span>
+                  </DropdownMenuItem>
+                ))}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
+          <Button onClick={() => setIsCreateModalOpen(true)} size="sm">
+            <Plus className="mr-2 h-4 w-4" />
+            Add User
+          </Button>
         </div>
       </div>
 
