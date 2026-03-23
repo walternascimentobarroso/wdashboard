@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { User, CreateUserRequest, UpdateUserRequest, UserTableState, UserFilters, UserError } from '../types';
 import { UsersStorage } from '../services/storage';
 
@@ -28,7 +28,7 @@ export function useUsers() {
     },
   });
 
-  const storage = new UsersStorage();
+  const storage = useMemo(() => new UsersStorage(), []);
 
   // Load users from storage
   const loadUsers = useCallback(async () => {
@@ -121,10 +121,10 @@ export function useUsers() {
     const endIndex = startIndex + state.pagination.pageSize;
     
     return sorted.slice(startIndex, endIndex);
-  }, [getFilteredUsers, getSortedUsers, state.pagination]);
+  }, [getFilteredUsers, getSortedUsers, state.pagination.page, state.pagination.pageSize]);
 
-  // Update pagination total
-  const updatePaginationTotal = useCallback(() => {
+  // Update pagination total when users or filters change
+  useEffect(() => {
     const filtered = getFilteredUsers();
     setState(prev => ({
       ...prev,
@@ -133,12 +133,7 @@ export function useUsers() {
         total: filtered.length,
       },
     }));
-  }, [getFilteredUsers]);
-
-  // Update pagination when filters change
-  useEffect(() => {
-    updatePaginationTotal();
-  }, [updatePaginationTotal]);
+  }, [users, state.filtering.search, state.filtering.role, state.filtering.status]);
 
   // Create user
   const createUser = useCallback(async (userData: CreateUserRequest) => {
