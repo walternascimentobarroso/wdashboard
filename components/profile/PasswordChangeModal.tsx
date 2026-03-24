@@ -1,8 +1,13 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useTranslations } from 'next-intl'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,17 +17,16 @@ import { Eye, EyeOff, Shield, AlertCircle, CheckCircle2 } from 'lucide-react'
 interface PasswordChangeModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSubmit: (currentPassword: string, newPassword: string) => Promise<void>
+  onSubmit: () => Promise<void>
   isLoading?: boolean
 }
 
-export function PasswordChangeModal({ 
-  open, 
-  onOpenChange, 
-  onSubmit, 
-  isLoading = false 
+export function PasswordChangeModal({
+  open,
+  onOpenChange,
+  onSubmit,
+  isLoading = false,
 }: PasswordChangeModalProps) {
-  const t = useTranslations()
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -64,11 +68,11 @@ export function PasswordChangeModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!validatePasswords()) return
 
     try {
-      await onSubmit(currentPassword, newPassword)
+      await onSubmit()
       // Reset form on success
       setCurrentPassword('')
       setNewPassword('')
@@ -181,7 +185,7 @@ export function PasswordChangeModal({
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div 
+                    <div
                       className={`h-full transition-all duration-300 ease-out ${passwordStrength.color} ${passwordStrength.width}`}
                     />
                   </div>
@@ -194,32 +198,64 @@ export function PasswordChangeModal({
                 {/* Password Requirements */}
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 text-xs">
-                    <div className={`w-3 h-3 rounded-full ${newPassword.length >= 8 ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={newPassword.length >= 8 ? 'text-green-700' : 'text-muted-foreground'}>
+                    <div
+                      className={`w-3 h-3 rounded-full ${newPassword.length >= 8 ? 'bg-green-500' : 'bg-gray-300'}`}
+                    />
+                    <span
+                      className={
+                        newPassword.length >= 8 ? 'text-green-700' : 'text-muted-foreground'
+                      }
+                    >
                       At least 8 characters
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <div className={`w-3 h-3 rounded-full ${/[a-z]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={/[a-z]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'}>
+                    <div
+                      className={`w-3 h-3 rounded-full ${/[a-z]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
+                    />
+                    <span
+                      className={
+                        /[a-z]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'
+                      }
+                    >
                       Lowercase letter
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <div className={`w-3 h-3 rounded-full ${/[A-Z]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={/[A-Z]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'}>
+                    <div
+                      className={`w-3 h-3 rounded-full ${/[A-Z]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
+                    />
+                    <span
+                      className={
+                        /[A-Z]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'
+                      }
+                    >
                       Uppercase letter
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <div className={`w-3 h-3 rounded-full ${/[0-9]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={/[0-9]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'}>
+                    <div
+                      className={`w-3 h-3 rounded-full ${/[0-9]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
+                    />
+                    <span
+                      className={
+                        /[0-9]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'
+                      }
+                    >
                       Number
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <div className={`w-3 h-3 rounded-full ${/[^a-zA-Z0-9]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={/[^a-zA-Z0-9]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'}>
+                    <div
+                      className={`w-3 h-3 rounded-full ${/[^a-zA-Z0-9]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
+                    />
+                    <span
+                      className={
+                        /[^a-zA-Z0-9]/.test(newPassword)
+                          ? 'text-green-700'
+                          : 'text-muted-foreground'
+                      }
+                    >
                       Special character
                     </span>
                   </div>

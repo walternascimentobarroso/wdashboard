@@ -16,7 +16,7 @@ export function usePasswordStrength(password: string) {
     level: 'weak',
     feedback: [],
     color: 'bg-red-500',
-    width: 'w-0'
+    width: 'w-0',
   })
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function usePasswordStrength(password: string) {
         level: 'weak',
         feedback: [],
         color: 'bg-gray-300',
-        width: 'w-0'
+        width: 'w-0',
       })
       return
     }
@@ -98,7 +98,7 @@ export function usePasswordStrength(password: string) {
       level,
       feedback,
       color,
-      width
+      width,
     })
   }, [password])
 

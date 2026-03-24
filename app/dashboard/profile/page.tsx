@@ -16,7 +16,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   User,
   Mail,
-  Phone,
   Calendar,
   MapPin,
   Globe,
@@ -24,10 +23,8 @@ import {
   Key,
   Bell,
   Palette,
-  CreditCard,
   Download,
   Upload,
-  Activity,
   LogIn,
   Edit,
   Trash2,
@@ -77,29 +74,25 @@ export default function ProfilePage() {
     }
   })
 
-  // Helper function for interpolation
-  const interpolate = (template: string, values: Record<string, number>) => {
-    return Object.keys(values).reduce((result, key) => {
-      return result.replace(new RegExp(`{${key}}`, 'g'), values[key].toString())
-    }, template)
-  }
-
   // Sync theme and language with actual system values
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Get current theme from system
       const currentTheme = localStorage.getItem('theme') || 'system'
       // Get current locale from cookie or system
-      const currentLocale = document.cookie.split('; ').find(row => row.startsWith('locale='))?.split('=')[1] || 'en'
-      
+      const currentLocale =
+        document.cookie
+          .split('; ')
+          .find((row) => row.startsWith('locale='))
+          ?.split('=')[1] || 'en'
+
       setUserData((prev: typeof userData) => ({
         ...prev,
         theme: currentTheme,
-        language: currentLocale === 'pt' ? 'pt-BR' : 'en-US'
+        language: currentLocale === 'pt' ? 'pt-BR' : 'en-US',
       }))
     }
   }, [])
-
 
   const handleSaveProfile = async () => {
     setIsLoading(true)
@@ -107,10 +100,10 @@ export default function ProfilePage() {
       // Save to localStorage
       localStorage.setItem('userProfile', JSON.stringify(userData))
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       toast.success(t('profile.toasts.profileUpdated'))
       setIsEditing(false)
-    } catch (error) {
+    } catch {
       toast.error(t('profile.toasts.updateError'))
     } finally {
       setIsLoading(false)
@@ -120,7 +113,7 @@ export default function ProfilePage() {
   const handleInputChange = (field: string, value: string | boolean) => {
     setUserData((prev: typeof userData) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }))
 
     // Apply theme and language changes immediately when editing
@@ -157,14 +150,14 @@ export default function ProfilePage() {
     }
   }
 
-  const handlePasswordChange = async (currentPassword: string, newPassword: string) => {
+  const handlePasswordChange = async () => {
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       toast.success(t('profile.toasts.passwordChanged'))
-    } catch (error) {
+    } catch {
       toast.error(t('profile.toasts.passwordError'))
-      throw error
+      throw new Error('Password change failed')
     }
   }
 
@@ -172,9 +165,9 @@ export default function ProfilePage() {
     setIsLoading(true)
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       toast.success(t('profile.toasts.dataExported'))
-    } catch (error) {
+    } catch {
       toast.error(t('profile.toasts.exportError'))
     } finally {
       setIsLoading(false)
@@ -191,17 +184,13 @@ export default function ProfilePage() {
         </div>
         <div className="flex gap-2">
           {isEditing && (
-            <Button
-              variant="outline"
-              onClick={handleCancelEdit}
-              disabled={isLoading}
-            >
+            <Button variant="outline" onClick={handleCancelEdit} disabled={isLoading}>
               Cancel
             </Button>
           )}
           <Button
             variant={isEditing ? 'default' : 'outline'}
-            onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
+            onClick={() => (isEditing ? handleSaveProfile() : setIsEditing(true))}
             disabled={isLoading}
           >
             {isEditing ? t('profile.save') : t('profile.edit')}
@@ -262,17 +251,14 @@ export default function ProfilePage() {
             <div className="flex items-center gap-2">
               <Globe className="h-4 w-4 text-muted-foreground" />
               <span className="text-muted-foreground">{t('profile.website')}:</span>
-              {isEditing ? (
-                <Input
-                  value={userData.website}
-                  onChange={(e) => handleInputChange('website', e.target.value)}
-                  className="h-8 w-48"
-                />
-              ) : (
-                <a href={userData.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                  {userData.website}
-                </a>
-              )}
+              <a
+                href={userData.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                {userData.website}
+              </a>
             </div>
           </div>
         </CardContent>
@@ -391,7 +377,9 @@ export default function ProfilePage() {
                   <Key className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">{t('profile.security.password')}</p>
-                    <p className="text-sm text-muted-foreground">{t('profile.security.passwordDesc')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('profile.security.passwordDesc')}
+                    </p>
                   </div>
                 </div>
                 <Button variant="outline" onClick={() => setIsPasswordModalOpen(true)}>
@@ -404,16 +392,20 @@ export default function ProfilePage() {
                   <div>
                     <p className="font-medium">{t('profile.security.twoFactor')}</p>
                     <p className="text-sm text-muted-foreground">
-                      {userData.twoFactorEnabled ? t('profile.security.twoFactorEnabled') : t('profile.security.twoFactorDisabled')}
+                      {userData.twoFactorEnabled
+                        ? t('profile.security.twoFactorEnabled')
+                        : t('profile.security.twoFactorDisabled')}
                     </p>
                   </div>
                 </div>
-                <Button 
+                <Button
                   variant={userData.twoFactorEnabled ? 'destructive' : 'default'}
                   onClick={() => handleInputChange('twoFactorEnabled', !userData.twoFactorEnabled)}
                   disabled={!isEditing}
                 >
-                  {userData.twoFactorEnabled ? t('profile.security.disableTwoFactor') : t('profile.security.enableTwoFactor')}
+                  {userData.twoFactorEnabled
+                    ? t('profile.security.disableTwoFactor')
+                    : t('profile.security.enableTwoFactor')}
                 </Button>
               </div>
             </CardContent>
@@ -437,12 +429,16 @@ export default function ProfilePage() {
                   <Mail className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">{t('profile.notifications.emailNotifications')}</p>
-                    <p className="text-sm text-muted-foreground">{t('profile.notifications.emailNotificationsDesc')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('profile.notifications.emailNotificationsDesc')}
+                    </p>
                   </div>
                 </div>
-                <Button 
+                <Button
                   variant={userData.emailNotifications ? 'default' : 'outline'}
-                  onClick={() => handleInputChange('emailNotifications', !userData.emailNotifications)}
+                  onClick={() =>
+                    handleInputChange('emailNotifications', !userData.emailNotifications)
+                  }
                   disabled={!isEditing}
                 >
                   {userData.emailNotifications ? t('common.enabled') : t('common.disabled')}
@@ -453,12 +449,16 @@ export default function ProfilePage() {
                   <Bell className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">{t('profile.notifications.pushNotifications')}</p>
-                    <p className="text-sm text-muted-foreground">{t('profile.notifications.pushNotificationsDesc')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('profile.notifications.pushNotificationsDesc')}
+                    </p>
                   </div>
                 </div>
-                <Button 
+                <Button
                   variant={userData.pushNotifications ? 'default' : 'outline'}
-                  onClick={() => handleInputChange('pushNotifications', !userData.pushNotifications)}
+                  onClick={() =>
+                    handleInputChange('pushNotifications', !userData.pushNotifications)
+                  }
                   disabled={!isEditing}
                 >
                   {userData.pushNotifications ? t('common.enabled') : t('common.disabled')}
@@ -482,10 +482,12 @@ export default function ProfilePage() {
                   <Globe className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">{t('profile.preferences.language')}</p>
-                    <p className="text-sm text-muted-foreground">{t('profile.preferences.languageDesc')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('profile.preferences.languageDesc')}
+                    </p>
                   </div>
                 </div>
-                <select 
+                <select
                   className="px-3 py-2 border rounded-md bg-background"
                   value={userData.language}
                   onChange={(e) => handleInputChange('language', e.target.value)}
@@ -500,10 +502,12 @@ export default function ProfilePage() {
                   <Palette className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">{t('profile.preferences.theme')}</p>
-                    <p className="text-sm text-muted-foreground">{t('profile.preferences.themeDesc')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('profile.preferences.themeDesc')}
+                    </p>
                   </div>
                 </div>
-                <select 
+                <select
                   className="px-3 py-2 border rounded-md bg-background"
                   value={userData.theme}
                   onChange={(e) => handleInputChange('theme', e.target.value)}
@@ -532,7 +536,9 @@ export default function ProfilePage() {
                   <Download className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">{t('profile.data.exportData')}</p>
-                    <p className="text-sm text-muted-foreground">{t('profile.data.exportDataDesc')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('profile.data.exportDataDesc')}
+                    </p>
                   </div>
                 </div>
                 <Button variant="outline" onClick={handleExportData} disabled={isLoading}>
@@ -561,11 +567,13 @@ export default function ProfilePage() {
           <div className="space-y-6">
             {/* Activity List */}
             <div className="rounded-xl bg-gray-900 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">{t('profile.activity.recentActivity')}</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">
+                {t('profile.activity.recentActivity')}
+              </h3>
               <div className="space-y-4">
                 {[
-                  { 
-                    action: 'login', 
+                  {
+                    action: 'login',
                     title: t('profile.activity.activities.login'),
                     description: t('profile.activity.activities.descriptions.login'),
                     time: t('profile.activity.times.dayAgo', { count: 1 }),
@@ -573,10 +581,10 @@ export default function ProfilePage() {
                     categoryColor: 'blue',
                     iconBg: 'bg-green-500/20',
                     iconColor: 'text-green-500',
-                    icon: LogIn
+                    icon: LogIn,
                   },
-                  { 
-                    action: 'edit', 
+                  {
+                    action: 'edit',
                     title: t('profile.activity.activities.edit'),
                     description: t('profile.activity.activities.descriptions.edit'),
                     time: t('profile.activity.times.hoursAgo', { count: 2 }),
@@ -584,10 +592,10 @@ export default function ProfilePage() {
                     categoryColor: 'gray',
                     iconBg: 'bg-blue-500/20',
                     iconColor: 'text-blue-500',
-                    icon: User
+                    icon: User,
                   },
-                  { 
-                    action: 'delete', 
+                  {
+                    action: 'delete',
                     title: t('profile.activity.activities.delete'),
                     description: t('profile.activity.activities.descriptions.delete'),
                     time: t('profile.activity.times.hoursAgo', { count: 3 }),
@@ -595,10 +603,10 @@ export default function ProfilePage() {
                     categoryColor: 'gray',
                     iconBg: 'bg-red-500/20',
                     iconColor: 'text-red-500',
-                    icon: Trash2
+                    icon: Trash2,
                   },
-                  { 
-                    action: 'create', 
+                  {
+                    action: 'create',
                     title: t('profile.activity.activities.create'),
                     description: t('profile.activity.activities.descriptions.create'),
                     time: t('profile.activity.times.hoursAgo', { count: 5 }),
@@ -606,10 +614,10 @@ export default function ProfilePage() {
                     categoryColor: 'gray',
                     iconBg: 'bg-green-500/20',
                     iconColor: 'text-green-500',
-                    icon: UserPlus
+                    icon: UserPlus,
                   },
-                  { 
-                    action: 'password', 
+                  {
+                    action: 'password',
                     title: t('profile.activity.activities.password'),
                     description: t('profile.activity.activities.descriptions.password'),
                     time: t('profile.activity.times.dayAgo', { count: 1 }),
@@ -617,10 +625,10 @@ export default function ProfilePage() {
                     categoryColor: 'orange',
                     iconBg: 'bg-orange-500/20',
                     iconColor: 'text-orange-500',
-                    icon: Key
+                    icon: Key,
                   },
-                  { 
-                    action: 'export', 
+                  {
+                    action: 'export',
                     title: t('profile.activity.activities.export'),
                     description: t('profile.activity.activities.descriptions.export'),
                     time: t('profile.activity.times.daysAgo', { count: 2 }),
@@ -628,17 +636,21 @@ export default function ProfilePage() {
                     categoryColor: 'purple',
                     iconBg: 'bg-purple-500/20',
                     iconColor: 'text-purple-500',
-                    icon: Download
+                    icon: Download,
                   },
                 ].map((activity, index) => (
                   <div key={index} className="flex items-center gap-4">
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-full ${activity.iconBg} ${activity.iconColor}`}>
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-full ${activity.iconBg} ${activity.iconColor}`}
+                    >
                       <activity.icon className="h-5 w-5" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-white">{activity.title}</span>
-                        <span className={`rounded-full bg-${activity.categoryColor}-500/20 px-2 py-0.5 text-xs font-medium text-${activity.categoryColor}-400`}>
+                        <span
+                          className={`rounded-full bg-${activity.categoryColor}-500/20 px-2 py-0.5 text-xs font-medium text-${activity.categoryColor}-400`}
+                        >
                           {activity.category}
                         </span>
                       </div>
@@ -652,13 +664,17 @@ export default function ProfilePage() {
 
             {/* Summary Section */}
             <div className="rounded-xl bg-gray-900 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">{t('profile.activity.summary')}</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">
+                {t('profile.activity.summary')}
+              </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="rounded-lg bg-gray-800 p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold text-green-500">12</p>
-                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.logins')}</p>
+                      <p className="text-sm text-gray-400">
+                        {t('profile.activity.summaryItems.logins')}
+                      </p>
                     </div>
                     <LogIn className="h-8 w-8 text-green-500/30" />
                   </div>
@@ -667,7 +683,9 @@ export default function ProfilePage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold text-blue-500">8</p>
-                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.updates')}</p>
+                      <p className="text-sm text-gray-400">
+                        {t('profile.activity.summaryItems.updates')}
+                      </p>
                     </div>
                     <Edit className="h-8 w-8 text-blue-500/30" />
                   </div>
@@ -676,7 +694,9 @@ export default function ProfilePage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold text-orange-500">15</p>
-                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.actions')}</p>
+                      <p className="text-sm text-gray-400">
+                        {t('profile.activity.summaryItems.actions')}
+                      </p>
                     </div>
                     <UserPlus className="h-8 w-8 text-orange-500/30" />
                   </div>
@@ -685,7 +705,9 @@ export default function ProfilePage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold text-purple-500">6</p>
-                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.system')}</p>
+                      <p className="text-sm text-gray-400">
+                        {t('profile.activity.summaryItems.system')}
+                      </p>
                     </div>
                     <Settings className="h-8 w-8 text-purple-500/30" />
                   </div>
@@ -695,7 +717,7 @@ export default function ProfilePage() {
           </div>
         </TabsContent>
       </Tabs>
-      
+
       {/* Password Change Modal */}
       <PasswordChangeModal
         open={isPasswordModalOpen}

@@ -200,7 +200,7 @@
       "theme": "Theme",
       "themeDesc": "Select your preferred color theme",
       "themeLight": "Light",
-      "themeDark": "Dark", 
+      "themeDark": "Dark",
       "themeSystem": "System"
     },
     "data": {
@@ -260,7 +260,7 @@
       },
       "summaryItems": {
         "logins": "Logins",
-        "updates": "Updates", 
+        "updates": "Updates",
         "actions": "Actions",
         "system": "System"
       }
