@@ -32,7 +32,7 @@ export function ExportUsersButton({ users, disabled = false }: ExportUsersButton
     toast.info('Starting Excel export...')
 
     try {
-      exportUsersToExcel(users)
+      await exportUsersToExcel(users)
       toast.success('Excel export completed successfully!')
     } catch {
       toast.error('Failed to export to Excel. Please try again.')

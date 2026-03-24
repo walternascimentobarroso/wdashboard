@@ -33,9 +33,9 @@ const sampleUsers: User[] = [
 ]
 
 // Test functions
-export function testExcelExport() {
+export async function testExcelExport() {
   try {
-    exportUsersToExcel(sampleUsers, 'test-users.xlsx')
+    await exportUsersToExcel(sampleUsers, 'test-users.xlsx')
   } catch {
     // Excel export failed
   }
