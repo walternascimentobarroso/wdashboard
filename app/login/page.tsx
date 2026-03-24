@@ -21,11 +21,19 @@ export default function LoginPage() {
 
     if (isValid) {
       // Store simple session
-      localStorage.setItem('isAuthenticated', 'true')
-      localStorage.setItem('userEmail', email)
+      try {
+        localStorage.setItem('isAuthenticated', 'true')
+        localStorage.setItem('userEmail', email)
+      } catch (error) {
+        console.error('Failed to store session:', error)
+      }
 
       // Redirect to dashboard
-      router.push('/dashboard')
+      try {
+        router.push('/dashboard')
+      } catch (error) {
+        console.error('Failed to redirect to dashboard:', error)
+      }
 
       return { success: true }
     } else {

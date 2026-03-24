@@ -36,7 +36,8 @@ const sampleUsers: User[] = [
 export async function testExcelExport() {
   try {
     await exportUsersToExcel(sampleUsers, 'test-users.xlsx')
-  } catch {
+  } catch (error) {
+    console.error('Excel export failed:', error)
     // Excel export failed
   }
 }
@@ -44,7 +45,8 @@ export async function testExcelExport() {
 export function testPDFExport() {
   try {
     exportUsersToPDF(sampleUsers)
-  } catch {
+  } catch (error) {
+    console.error('PDF export failed:', error)
     // PDF export failed
   }
 }

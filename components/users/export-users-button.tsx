@@ -34,7 +34,8 @@ export function ExportUsersButton({ users, disabled = false }: ExportUsersButton
     try {
       await exportUsersToExcel(users)
       toast.success('Excel export completed successfully!')
-    } catch {
+    } catch (error) {
+      console.error('Excel export failed:', error)
       toast.error('Failed to export to Excel. Please try again.')
     } finally {
       setIsExporting(null)
@@ -53,7 +54,8 @@ export function ExportUsersButton({ users, disabled = false }: ExportUsersButton
     try {
       exportUsersToPDF(users)
       toast.success('PDF export completed successfully!')
-    } catch {
+    } catch (error) {
+      console.error('PDF export failed:', error)
       toast.error('Failed to export to PDF. Please try again.')
     } finally {
       setIsExporting(null)

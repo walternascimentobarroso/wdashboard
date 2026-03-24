@@ -10,12 +10,25 @@ export default function HomePage() {
 
   useEffect(() => {
     // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn')
+    let isLoggedIn = null
+    try {
+      isLoggedIn = localStorage.getItem('isLoggedIn')
+    } catch (error) {
+      console.error('Failed to get login status:', error)
+    }
 
     if (isLoggedIn === 'true') {
-      router.push('/dashboard')
+      try {
+        router.push('/dashboard')
+      } catch (error) {
+        console.error('Failed to redirect to dashboard:', error)
+      }
     } else {
-      router.push('/login')
+      try {
+        router.push('/login')
+      } catch (error) {
+        console.error('Failed to redirect to login:', error)
+      }
     }
   }, [router])
 

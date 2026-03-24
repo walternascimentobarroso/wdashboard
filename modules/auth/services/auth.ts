@@ -78,8 +78,12 @@ export class MockAuthService extends BaseMockService {
 
     // Store token and user
     if (typeof window !== 'undefined') {
-      localStorage.setItem(this.TOKEN_KEY, token)
-      localStorage.setItem(this.USER_KEY, JSON.stringify(user))
+      try {
+        localStorage.setItem(this.TOKEN_KEY, token)
+        localStorage.setItem(this.USER_KEY, JSON.stringify(user))
+      } catch (error) {
+        console.error('Failed to store auth data:', error)
+      }
     }
 
     this.store.set('current_token', token)
@@ -179,8 +183,23 @@ export class MockAuthService extends BaseMockService {
     }
 
     const token = localStorage.getItem(this.TOKEN_KEY)
-    const userStr = localStorage.getItem(this.USER_KEY)
-    const user = userStr ? JSON.parse(userStr) : null
+    let userStr = null
+    try {
+      userStr = localStorage.getItem(this.USER_KEY)
+    } catch (error) {
+      console.error('Failed to get user data from localStorage:', error)
+    }
+    let user = null
+
+    if (userStr) {
+      try {
+        user = JSON.parse(userStr)
+      } catch (error) {
+        console.error('Failed to parse stored user data:', error)
+        // Clear corrupted data
+        localStorage.removeItem(this.USER_KEY)
+      }
+    }
 
     return { user, token }
   }

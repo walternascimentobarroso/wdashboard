@@ -4,6 +4,7 @@ export * from './file'
 export * from './log'
 export * from './kpi'
 export * from './feature-flag'
+export * from './profile'
 
 // Common API response types
 export interface ApiResponse<T> {

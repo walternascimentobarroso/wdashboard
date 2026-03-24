@@ -88,7 +88,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       } else {
         dispatch({ type: 'AUTH_FAILURE' })
       }
-    } catch {
+    } catch (error) {
+      console.error('Authentication verification failed:', error)
       dispatch({ type: 'AUTH_FAILURE' })
     }
   }
@@ -113,7 +114,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (state.token) {
         await mockAuthService.logout()
       }
-    } catch {
+    } catch (error) {
+      console.error('Logout failed:', error)
       // Logout failed
     } finally {
       dispatch({ type: 'LOGOUT' })

@@ -18,9 +18,19 @@ export function Header({ onSidebarToggle, title }: HeaderProps) {
   const t = useTranslations()
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn')
-    localStorage.removeItem('userEmail')
-    router.push('/login')
+    try {
+      localStorage.removeItem('isLoggedIn')
+      localStorage.removeItem('userEmail')
+      router.push('/login')
+    } catch (error) {
+      console.error('Logout failed:', error)
+      // Try to redirect anyway
+      try {
+        router.push('/login')
+      } catch (redirectError) {
+        console.error('Failed to redirect to login:', redirectError)
+      }
+    }
   }
 
   return (

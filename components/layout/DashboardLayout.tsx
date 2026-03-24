@@ -25,12 +25,18 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
 
   // Load saved preferences
   useEffect(() => {
-    const saved = localStorage.getItem('dashboard-preferences')
+    let saved = null
+    try {
+      saved = localStorage.getItem('dashboard-preferences')
+    } catch (error) {
+      console.error('Failed to get dashboard preferences:', error)
+    }
     if (saved) {
       try {
         const prefs = JSON.parse(saved)
         setSidebarExpanded(prefs.sidebarExpanded ?? true)
-      } catch {
+      } catch (error) {
+        console.error('Failed to load dashboard preferences:', error)
         // Failed to load preferences
       }
     }
@@ -38,8 +44,12 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
 
   // Save preferences
   useEffect(() => {
-    const prefs = { sidebarExpanded }
-    localStorage.setItem('dashboard-preferences', JSON.stringify(prefs))
+    try {
+      const prefs = { sidebarExpanded }
+      localStorage.setItem('dashboard-preferences', JSON.stringify(prefs))
+    } catch (error) {
+      console.error('Failed to save dashboard preferences:', error)
+    }
   }, [sidebarExpanded])
 
   // Handle responsive behavior

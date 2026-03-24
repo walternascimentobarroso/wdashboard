@@ -89,8 +89,14 @@ export function Sidebar({
   const t = useTranslations()
 
   const handleLogout = async () => {
-    await logout()
-    router.push('/login')
+    try {
+      await logout()
+      router.push('/login')
+    } catch (error) {
+      console.error('Logout failed:', error)
+      // Still redirect to login even if logout fails
+      router.push('/login')
+    }
   }
 
   const userName = user?.name || 'shadcn'

@@ -21,10 +21,17 @@ export function transformUserForExport(users: User[]): ExportData[] {
     email: user.email,
     role: user.role.charAt(0).toUpperCase() + user.role.slice(1),
     status: user.status.charAt(0).toUpperCase() + user.status.slice(1),
-    createdAt: new Date(user.createdAt).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }),
+    createdAt: (() => {
+      try {
+        return new Date(user.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+      } catch (error) {
+        console.error('Invalid date format for user:', user.createdAt, error)
+        return 'Invalid Date'
+      }
+    })(),
   }))
 }

@@ -9,7 +9,8 @@
     "notifications": "Notifications",
     "settings": "Settings",
     "help": "Get Help",
-    "search": "Search"
+    "search": "Search",
+    "profile": "Profile"
   },
   "sidebar": {
     "collapse": "Collapse sidebar",

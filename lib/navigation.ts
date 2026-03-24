@@ -8,6 +8,7 @@ import {
   Activity,
   HelpCircle,
   Search,
+  User,
 } from 'lucide-react'
 
 export interface NavigationItem {
@@ -76,6 +77,12 @@ export const navigationConfig: NavigationSection = {
     },
   ],
   userItems: [
+    {
+      id: 'profile',
+      label: 'Profile',
+      icon: React.createElement(User, { className: 'h-4 w-4' }),
+      href: '/profile',
+    },
     {
       id: 'settings',
       label: 'Settings',

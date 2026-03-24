@@ -11,11 +11,21 @@ export default function DashboardRootLayout({ children }: { children: React.Reac
 
   useEffect(() => {
     // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn')
-    const email = localStorage.getItem('userEmail')
+    let isLoggedIn = null
+    let email = null
+    try {
+      isLoggedIn = localStorage.getItem('isLoggedIn')
+      email = localStorage.getItem('userEmail')
+    } catch (error) {
+      console.error('Failed to get auth data:', error)
+    }
 
     if (isLoggedIn !== 'true' || !email) {
-      router.push('/login')
+      try {
+        router.push('/login')
+      } catch (error) {
+        console.error('Failed to redirect to login:', error)
+      }
       return
     }
 

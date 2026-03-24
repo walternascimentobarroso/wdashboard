@@ -54,7 +54,12 @@ export class UsersStorage {
     if (this.initialized) return
 
     try {
-      const existing = localStorage.getItem(STORAGE_KEY)
+      let existing = null
+      try {
+        existing = localStorage.getItem(STORAGE_KEY)
+      } catch (error) {
+        console.error('Failed to get user storage data:', error)
+      }
       if (!existing) {
         // Initialize with mock data
         const initialData: UsersStorageData = {
@@ -62,7 +67,12 @@ export class UsersStorage {
           lastModified: new Date().toISOString(),
           version: STORAGE_VERSION,
         }
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
+        } catch (error) {
+          console.error('Failed to initialize user storage:', error)
+          throw this.createStorageError('Failed to initialize storage', error)
+        }
       }
       this.initialized = true
     } catch (error) {
@@ -72,7 +82,13 @@ export class UsersStorage {
 
   private getStorageData(): UsersStorageData {
     try {
-      const data = localStorage.getItem(STORAGE_KEY)
+      let data = null
+      try {
+        data = localStorage.getItem(STORAGE_KEY)
+      } catch (error) {
+        console.error('Failed to get user storage data:', error)
+        throw this.createError('STORAGE_ERROR', 'Failed to access storage')
+      }
       if (!data) {
         throw new Error('No data found in storage')
       }
@@ -94,6 +110,7 @@ export class UsersStorage {
       const serialized = JSON.stringify(data)
       localStorage.setItem(STORAGE_KEY, serialized)
     } catch (error) {
+      console.error('Failed to save user storage data:', error)
       if (error instanceof Error && error.name === 'QuotaExceededError') {
         throw this.createError('STORAGE_ERROR', 'Storage quota exceeded. Please clear some data.')
       }
