@@ -13,6 +13,7 @@ import { DeleteDialog } from '@/features/users/components/delete-dialog';
 import { EmptyState } from '@/features/users/components/empty-state';
 import { LoadingState } from '@/features/users/components/loading-state';
 import { userToasts } from '@/features/users/components/toast-notifications';
+import { ExportUsersButton } from '@/components/users/export-users-button';
 import { User } from '@/features/users/types';
 import { UserRole, UserStatus } from '@/features/users/types';
 import { useTranslations } from 'next-intl';
@@ -213,6 +214,9 @@ export default function UsersPage() {
         
         {/* Action Buttons */}
         <div className="flex gap-2">
+          {/* Export Button */}
+          <ExportUsersButton users={getFilteredUsers()} disabled={loading} />
+          
           {/* Column Visibility Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
