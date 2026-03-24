@@ -1,15 +1,5 @@
 import React from 'react'
-import {
-  Home,
-  BarChart3,
-  FileText,
-  Settings,
-  Users,
-  Activity,
-  HelpCircle,
-  Search,
-  User,
-} from 'lucide-react'
+import { Home, FileText, Users, Activity } from 'lucide-react'
 
 export interface NavigationItem {
   id: string
@@ -44,12 +34,6 @@ export const navigationConfig: NavigationSection = {
           href: '/dashboard',
         },
         {
-          id: 'analytics',
-          label: 'Analytics',
-          icon: React.createElement(BarChart3, { className: 'h-4 w-4' }),
-          href: '/dashboard/analytics',
-        },
-        {
           id: 'users',
           label: 'Users',
           icon: React.createElement(Users, { className: 'h-4 w-4' }),
@@ -74,32 +58,6 @@ export const navigationConfig: NavigationSection = {
           href: '/dashboard/logs',
         },
       ],
-    },
-  ],
-  userItems: [
-    {
-      id: 'profile',
-      label: 'Profile',
-      icon: React.createElement(User, { className: 'h-4 w-4' }),
-      href: '/dashboard/profile',
-    },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: React.createElement(Settings, { className: 'h-4 w-4' }),
-      href: '/dashboard/settings',
-    },
-    {
-      id: 'help',
-      label: 'Get Help',
-      icon: React.createElement(HelpCircle, { className: 'h-4 w-4' }),
-      href: '/dashboard/help',
-    },
-    {
-      id: 'search',
-      label: 'Search',
-      icon: React.createElement(Search, { className: 'h-4 w-4' }),
-      href: '/dashboard/search',
     },
   ],
 }

@@ -3,15 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import {
-  ChevronLeft,
-  ChevronRight,
-  MoreVertical,
-  User,
-  CreditCard,
-  Bell,
-  LogOut,
-} from 'lucide-react'
+import { ChevronLeft, ChevronRight, MoreVertical, User, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
@@ -49,17 +41,11 @@ function UserDropdownMenu({ userName, userEmail, userAvatar, onLogout }: UserDro
         </div>
       </div>
       <DropdownMenuSeparator />
-      <DropdownMenuItem>
-        <User className="mr-2 h-4 w-4" />
-        {t('common.account')}
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <CreditCard className="mr-2 h-4 w-4" />
-        {t('common.billing')}
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <Bell className="mr-2 h-4 w-4" />
-        {t('common.notifications')}
+      <DropdownMenuItem asChild>
+        <Link href="/dashboard/profile" className="flex items-center">
+          <User className="mr-2 h-4 w-4" />
+          {t('common.account')}
+        </Link>
       </DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuItem onClick={onLogout}>
