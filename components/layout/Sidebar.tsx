@@ -2,59 +2,11 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, MoreVertical, User, LogOut } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { useAuth } from '@/modules/auth/components/AuthProvider'
 import { useTranslations } from 'next-intl'
-
-interface UserDropdownMenuProps {
-  userName: string
-  userEmail: string
-  userAvatar: string | undefined
-  onLogout: () => void
-}
-
-function UserDropdownMenu({ userName, userEmail, userAvatar, onLogout }: UserDropdownMenuProps) {
-  const t = useTranslations()
-
-  return (
-    <DropdownMenuContent align="end" className="w-56">
-      <div className="flex items-center gap-2 p-2">
-        <Avatar className="h-8 w-8">
-          <AvatarImage src={userAvatar} />
-          <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium truncate">{userName}</p>
-          <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
-        </div>
-      </div>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem asChild>
-        <Link href="/dashboard/profile" className="flex items-center">
-          <User className="mr-2 h-4 w-4" />
-          {t('common.account')}
-        </Link>
-      </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem onClick={onLogout}>
-        <LogOut className="mr-2 h-4 w-4" />
-        {t('common.logout')}
-      </DropdownMenuItem>
-    </DropdownMenuContent>
-  )
-}
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   expanded?: boolean
@@ -70,24 +22,7 @@ export function Sidebar({
   companyName = 'WDashboard',
   ...props
 }: SidebarProps) {
-  const { user, logout } = useAuth()
-  const router = useRouter()
   const t = useTranslations()
-
-  const handleLogout = async () => {
-    try {
-      await logout()
-      router.push('/login')
-    } catch (error) {
-      console.error('Logout failed:', error)
-      // Still redirect to login even if logout fails
-      router.push('/login')
-    }
-  }
-
-  const userName = user?.name || 'shadcn'
-  const userEmail = user?.email || 'm@example.com'
-  const userAvatar = user?.avatar || undefined
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -120,56 +55,6 @@ export function Sidebar({
 
         {/* Main Navigation */}
         <nav className="flex-1 px-2 py-4 space-y-6">{children}</nav>
-
-        {/* User Section */}
-        <div className="p-2 border-t">
-          {expanded ? (
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 p-2">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={userAvatar} />
-                  <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{userName}</p>
-                  <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-6 w-6">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <UserDropdownMenu
-                    userName={userName}
-                    userEmail={userEmail}
-                    userAvatar={userAvatar}
-                    onLogout={handleLogout}
-                  />
-                </DropdownMenu>
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-2 py-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={userAvatar} />
-                      <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <UserDropdownMenu
-                  userName={userName}
-                  userEmail={userEmail}
-                  userAvatar={userAvatar}
-                  onLogout={handleLogout}
-                />
-              </DropdownMenu>
-            </div>
-          )}
-        </div>
       </div>
     </TooltipProvider>
   )

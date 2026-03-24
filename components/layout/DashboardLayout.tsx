@@ -3,13 +3,14 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
-import { Header } from './Header'
+import { Topbar } from './Topbar'
 import { Sidebar, SidebarItem, SidebarCategory } from './Sidebar'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { useResponsive } from '@/lib/use-responsive'
 import { navigationConfig } from '@/lib/navigation'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { CommandPalette } from '@/components/ui/command-palette'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -19,6 +20,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   const [sidebarExpanded, setSidebarExpanded] = useState(true)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const { isMobile } = useResponsive()
   const pathname = usePathname()
   const t = useTranslations()
@@ -112,7 +114,10 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   if (isMobile) {
     return (
       <div className={cn('min-h-screen bg-background', className)}>
-        <Header onSidebarToggle={handleSidebarToggle} />
+        <Topbar
+          onSidebarToggle={handleSidebarToggle}
+          onSearchOpen={() => setCommandPaletteOpen(true)}
+        />
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetContent side="left" className="p-0 w-64">
             <Sidebar expanded={true} onToggle={() => setMobileOpen(false)}>
@@ -121,6 +126,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
           </SheetContent>
         </Sheet>
         <main className="p-4">{children}</main>
+        <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>
     )
   }
@@ -132,10 +138,14 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
           {renderNavigation()}
         </Sidebar>
         <div className="flex-1 flex flex-col">
-          <Header onSidebarToggle={handleSidebarToggle} />
+          <Topbar
+            onSidebarToggle={handleSidebarToggle}
+            onSearchOpen={() => setCommandPaletteOpen(true)}
+          />
           <main className="flex-1 overflow-auto p-4">{children}</main>
         </div>
       </div>
+      <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
     </div>
   )
 }

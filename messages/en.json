@@ -14,6 +14,47 @@
     "enabled": "Enabled",
     "disabled": "Disabled"
   },
+  "search": {
+    "placeholder": "Search users, files, logs...",
+    "empty": "Start typing to search...",
+    "noResults": "No results found.",
+    "navigate": "to navigate",
+    "select": "to select",
+    "close": "to close",
+    "categories": {
+      "user": "Users",
+      "file": "Files",
+      "log": "Logs"
+    }
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "viewAll": "View all notifications"
+  },
+  "breadcrumb": {
+    "home": "Home"
+  },
+  "emptyState": {
+    "users": {
+      "title": "No users yet",
+      "description": "Get started by adding your first user to the system.",
+      "action": "Add User"
+    },
+    "files": {
+      "title": "No files uploaded",
+      "description": "Upload your first file to get started with file management.",
+      "action": "Upload File"
+    },
+    "logs": {
+      "title": "No logs available",
+      "description": "System logs will appear here once there's activity to track.",
+      "action": "Refresh"
+    }
+  },
   "sidebar": {
     "collapse": "Collapse sidebar",
     "expand": "Expand sidebar",

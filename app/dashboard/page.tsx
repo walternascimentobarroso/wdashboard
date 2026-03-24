@@ -3,6 +3,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Users, Upload, Activity } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
+import { KPICard } from '@/components/dashboard/kpi-card'
+import { QuickActionCard, QuickActionGrid } from '@/components/dashboard/quick-action-card'
 
 export default function DashboardPage() {
   const t = useTranslations()
@@ -10,99 +13,91 @@ export default function DashboardPage() {
   return (
     <>
       <div className="space-y-6">
+        {/* Breadcrumb */}
+        <Breadcrumb items={[]} />
+
         {/* Welcome Header */}
         <div>
           <h2 className="text-2xl font-bold">{t('header.dashboard')}</h2>
           <p className="text-muted-foreground">{t('dashboard.welcome')}</p>
         </div>
 
-        {/* KPI Cards */}
+        {/* Enhanced KPI Cards */}
         <div>
           <h3 className="text-xl font-semibold mb-4">{t('dashboard.kpi.title')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            <Card glass>
-              <CardContent className="p-6">
-                <p className="text-sm font-medium text-muted-foreground">
-                  {t('dashboard.kpi.totalUsers')}
-                </p>
-                <p className="text-2xl font-bold mt-2">1,234</p>
-                <p className="text-sm text-green-600 mt-2">↑ 6.7%</p>
-              </CardContent>
-            </Card>
-            <Card glass>
-              <CardContent className="p-6">
-                <p className="text-sm font-medium text-muted-foreground">
-                  {t('dashboard.kpi.activeSessions')}
-                </p>
-                <p className="text-2xl font-bold mt-2">89</p>
-                <p className="text-sm text-red-600 mt-2">↓ 3.3%</p>
-              </CardContent>
-            </Card>
-            <Card glass>
-              <CardContent className="p-6">
-                <p className="text-sm font-medium text-muted-foreground">
-                  {t('dashboard.kpi.filesProcessed')}
-                </p>
-                <p className="text-2xl font-bold mt-2">567</p>
-                <p className="text-sm text-green-600 mt-2">↑ 8.4%</p>
-              </CardContent>
-            </Card>
-            <Card glass>
-              <CardContent className="p-6">
-                <p className="text-sm font-medium text-muted-foreground">
-                  {t('dashboard.kpi.systemHealth')}
-                </p>
-                <p className="text-2xl font-bold mt-2">98.5%</p>
-                <p className="text-sm text-green-600 mt-2">↑ 1.3%</p>
-              </CardContent>
-            </Card>
-            <Card glass>
-              <CardContent className="p-6">
-                <p className="text-sm font-medium text-muted-foreground">
-                  {t('dashboard.kpi.errorRate')}
-                </p>
-                <p className="text-2xl font-bold mt-2">0.2%</p>
-                <p className="text-sm text-green-600 mt-2">↓ 33.3%</p>
-              </CardContent>
-            </Card>
+            <KPICard
+              title={t('dashboard.kpi.totalUsers')}
+              value="1,234"
+              change={{ value: 6.7, trend: 'up' }}
+              timeRange="Last 7 days"
+              sparklineData={[1000, 1100, 1050, 1200, 1150, 1234]}
+              tooltip="Total registered users in the system"
+            />
+            <KPICard
+              title={t('dashboard.kpi.activeSessions')}
+              value="89"
+              change={{ value: 3.3, trend: 'down' }}
+              timeRange="Last 7 days"
+              sparklineData={[95, 92, 88, 91, 87, 89]}
+              tooltip="Currently active user sessions"
+            />
+            <KPICard
+              title={t('dashboard.kpi.filesProcessed')}
+              value="567"
+              change={{ value: 8.4, trend: 'up' }}
+              timeRange="Last 7 days"
+              sparklineData={[450, 480, 520, 490, 540, 567]}
+              tooltip="Total files processed this week"
+            />
+            <KPICard
+              title={t('dashboard.kpi.systemHealth')}
+              value="98.5%"
+              change={{ value: 1.3, trend: 'up' }}
+              timeRange="Last 7 days"
+              sparklineData={[97.2, 97.5, 97.8, 98.0, 98.2, 98.5]}
+              tooltip="Overall system health score"
+            />
+            <KPICard
+              title={t('dashboard.kpi.errorRate')}
+              value="0.2%"
+              change={{ value: 33.3, trend: 'down' }}
+              timeRange="Last 7 days"
+              sparklineData={[0.3, 0.28, 0.25, 0.23, 0.21, 0.2]}
+              tooltip="System error rate percentage"
+            />
           </div>
         </div>
 
-        {/* Quick Actions */}
+        {/* Enhanced Quick Actions */}
         <Card glass>
           <CardHeader>
             <CardTitle>{t('dashboard.quickActions.title')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 border border-border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Users className="h-5 w-5" />
-                  <h4 className="font-medium">{t('dashboard.quickActions.manageUsers')}</h4>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard.quickActions.manageUsersDesc')}
-                </p>
-              </div>
-              <div className="p-4 border border-border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Upload className="h-5 w-5" />
-                  <h4 className="font-medium">{t('dashboard.quickActions.uploadFiles')}</h4>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard.quickActions.uploadFilesDesc')}
-                </p>
-              </div>
-              <div className="p-4 border border-border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Activity className="h-5 w-5" />
-                  <h4 className="font-medium">{t('dashboard.quickActions.viewLogs')}</h4>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard.quickActions.viewLogsDesc')}
-                </p>
-              </div>
-            </div>
+            <QuickActionGrid>
+              <QuickActionCard
+                title={t('dashboard.quickActions.manageUsers')}
+                description={t('dashboard.quickActions.manageUsersDesc')}
+                icon={<Users className="h-5 w-5" />}
+                href="/dashboard/users"
+                buttonText="Manage Users"
+              />
+              <QuickActionCard
+                title={t('dashboard.quickActions.uploadFiles')}
+                description={t('dashboard.quickActions.uploadFilesDesc')}
+                icon={<Upload className="h-5 w-5" />}
+                href="/dashboard/files"
+                buttonText="Upload Files"
+              />
+              <QuickActionCard
+                title={t('dashboard.quickActions.viewLogs')}
+                description={t('dashboard.quickActions.viewLogsDesc')}
+                icon={<Activity className="h-5 w-5" />}
+                href="/dashboard/logs"
+                buttonText="View Logs"
+              />
+            </QuickActionGrid>
           </CardContent>
         </Card>
       </div>

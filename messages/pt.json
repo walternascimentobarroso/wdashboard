@@ -14,6 +14,47 @@
     "enabled": "Ativado",
     "disabled": "Desativado"
   },
+  "search": {
+    "placeholder": "Pesquisar usuários, arquivos, registros...",
+    "empty": "Comece a digitar para pesquisar...",
+    "noResults": "Nenhum resultado encontrado.",
+    "navigate": "para navegar",
+    "select": "para selecionar",
+    "close": "para fechar",
+    "categories": {
+      "user": "Usuários",
+      "file": "Arquivos",
+      "log": "Registros"
+    }
+  },
+  "theme": {
+    "toggle": "Alternar tema"
+  },
+  "notifications": {
+    "title": "Notificações",
+    "markAllRead": "Marcar todas como lidas",
+    "viewAll": "Ver todas as notificações"
+  },
+  "breadcrumb": {
+    "home": "Início"
+  },
+  "emptyState": {
+    "users": {
+      "title": "Nenhum usuário ainda",
+      "description": "Comece adicionando seu primeiro usuário ao sistema.",
+      "action": "Adicionar Usuário"
+    },
+    "files": {
+      "title": "Nenhum arquivo enviado",
+      "description": "Envie seu primeiro arquivo para começar com o gerenciamento de arquivos.",
+      "action": "Enviar Arquivo"
+    },
+    "logs": {
+      "title": "Nenhum registro disponível",
+      "description": "Os registros do sistema aparecerão aqui quando houver atividade para rastrear.",
+      "action": "Atualizar"
+    }
+  },
   "sidebar": {
     "collapse": "Recolher barra lateral",
     "expand": "Expandir barra lateral",

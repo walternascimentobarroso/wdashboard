@@ -1,11 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { useRouter } from 'next/navigation'
 import { Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/theme/ThemeToggle'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { useTranslations } from 'next-intl'
 
 interface HeaderProps {
@@ -14,24 +11,7 @@ interface HeaderProps {
 }
 
 export function Header({ onSidebarToggle, title }: HeaderProps) {
-  const router = useRouter()
   const t = useTranslations()
-
-  const handleLogout = () => {
-    try {
-      localStorage.removeItem('isLoggedIn')
-      localStorage.removeItem('userEmail')
-      router.push('/login')
-    } catch (error) {
-      console.error('Logout failed:', error)
-      // Try to redirect anyway
-      try {
-        router.push('/login')
-      } catch (redirectError) {
-        console.error('Failed to redirect to login:', redirectError)
-      }
-    }
-  }
 
   return (
     <header className="flex items-center justify-between h-16 px-4 border-b bg-background">
@@ -41,16 +21,6 @@ export function Header({ onSidebarToggle, title }: HeaderProps) {
           <span className="sr-only">{t('header.toggleSidebar')}</span>
         </Button>
         <h1 className="text-xl font-semibold">{title || t('header.dashboard')}</h1>
-      </div>
-      <div className="flex items-center space-x-4">
-        <LanguageSwitcher />
-        <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded">
-          {t('common.user')}
-        </span>
-        <Button variant="outline" onClick={handleLogout}>
-          {t('common.logout')}
-        </Button>
-        <ThemeToggle />
       </div>
     </header>
   )
