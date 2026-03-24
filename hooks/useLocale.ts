@@ -1,13 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { getLocale } from '@/lib/getLocale'
 
 export function useLocale() {
   const [locale, setLocaleState] = useState('en')
   const router = useRouter()
-  const pathname = usePathname()
 
   useEffect(() => {
     // Get locale from cookie or browser detection

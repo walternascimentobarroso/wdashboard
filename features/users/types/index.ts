@@ -59,6 +59,6 @@ export type UserErrorCode =
 export interface UserError {
   code: UserErrorCode;
   message: string;
-  details?: any;
+  details?: unknown;
   operation: 'create' | 'update' | 'delete' | 'read';
 }

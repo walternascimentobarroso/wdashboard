@@ -1,5 +1,5 @@
 import React from "react"
-import { Home, BarChart3, FileText, Settings, Users, Upload, Activity, HelpCircle, Search, User } from "lucide-react"
+import { Home, BarChart3, FileText, Settings, Users, Activity, HelpCircle, Search } from "lucide-react"
 
 export interface NavigationItem {
   id: string

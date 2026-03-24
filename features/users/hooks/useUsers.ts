@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { User, CreateUserRequest, UpdateUserRequest, UserTableState, UserFilters, UserError } from '../types';
+import { User, CreateUserRequest, UpdateUserRequest, UserTableState, UserFilters } from '../types';
 import { UsersStorage } from '../services/storage';
 
 const USERS_PER_PAGE = 10;

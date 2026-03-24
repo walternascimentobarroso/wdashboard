@@ -9,11 +9,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Globe } from 'lucide-react'
 import { useLocale } from '@/hooks/useLocale'
-import { useTranslations } from 'next-intl'
 
 export function LanguageSwitcher() {
   const { locale, changeLocale } = useLocale()
-  const t = useTranslations()
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },

@@ -89,7 +89,7 @@ export abstract class BaseMockService {
 // In-memory storage for mock data
 export class MockDataStore {
   private static instance: MockDataStore;
-  private storage: Map<string, any> = new Map();
+  private storage: Map<string, unknown> = new Map();
 
   static getInstance(): MockDataStore {
     if (!MockDataStore.instance) {
@@ -98,11 +98,11 @@ export class MockDataStore {
     return MockDataStore.instance;
   }
 
-  set(key: string, value: any): void {
+  set(key: string, value: unknown): void {
     this.storage.set(key, value);
   }
 
-  get(key: string): any {
+  get(key: string): unknown {
     return this.storage.get(key);
   }
 
@@ -118,7 +118,7 @@ export class MockDataStore {
     this.storage.clear();
   }
 
-  getAll(): Map<string, any> {
+  getAll(): Map<string, unknown> {
     return new Map(this.storage);
   }
 }

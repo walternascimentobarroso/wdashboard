@@ -5,7 +5,7 @@ export interface Log {
   message: string;
   source: string;
   userId: string | null;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export interface CreateLogRequest {
@@ -13,7 +13,7 @@ export interface CreateLogRequest {
   message: string;
   source: string;
   userId?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface GetLogsParams {

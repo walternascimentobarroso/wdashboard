@@ -12,10 +12,9 @@ import { UserForm } from '@/features/users/components/user-form';
 import { DeleteDialog } from '@/features/users/components/delete-dialog';
 import { EmptyState } from '@/features/users/components/empty-state';
 import { LoadingState } from '@/features/users/components/loading-state';
-import { userToasts } from '@/features/users/components/toast-notifications';
+import { User, CreateUserRequest, UpdateUserRequest, UserRole, UserStatus } from '@/features/users/types';
 import { ExportUsersButton } from '@/components/users/export-users-button';
-import { User } from '@/features/users/types';
-import { UserRole, UserStatus } from '@/features/users/types';
+import { userToasts } from '@/features/users/components/toast-notifications';
 import { useTranslations } from 'next-intl';
 
 export default function UsersPage() {
@@ -43,10 +42,7 @@ export default function UsersPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>(['name', 'email', 'role', 'status', 'createdAt', 'actions']);
-
-  const handleColumnVisibilityChange = (columns: string[]) => {
-    setVisibleColumns(columns);
-  };
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const allColumns = [
     { key: 'name', label: t('users.columns.name') },
@@ -64,25 +60,28 @@ export default function UsersPage() {
     setVisibleColumns(newColumns);
   };
 
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
-  const handleCreateUser = async (userData: any) => {
+  const handleCreateUser = async (userData: CreateUserRequest | UpdateUserRequest) => {
     try {
-      await createUser(userData);
+      await createUser(userData as CreateUserRequest);
       setIsCreateModalOpen(false);
-      userToasts.userCreated(userData.name);
-    } catch (error: any) {
-      if (error.code === 'DUPLICATE_EMAIL') {
-        userToasts.duplicateEmailError();
-      } else if (error.code === 'VALIDATION_ERROR') {
-        userToasts.validationError('input');
+      userToasts.userCreated(userData.name || 'Unknown user');
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'code' in error) {
+        const err = error as { code: string; message?: string };
+        if (err.code === 'DUPLICATE_EMAIL') {
+          userToasts.duplicateEmailError();
+        } else if (err.code === 'VALIDATION_ERROR') {
+          userToasts.validationError('input');
+        } else {
+          userToasts.createError(err.message || 'Unknown error');
+        }
       } else {
-        userToasts.createError(error.message || 'Unknown error');
+        userToasts.createError('Unknown error');
       }
     }
   };
 
-  const handleEditUser = async (userData: any) => {
+  const handleEditUser = async (userData: UpdateUserRequest) => {
     if (!selectedUser) return;
     
     try {
@@ -90,15 +89,20 @@ export default function UsersPage() {
       setIsEditModalOpen(false);
       setSelectedUser(null);
       userToasts.userUpdated(userData.name || selectedUser.name);
-    } catch (error: any) {
-      if (error.code === 'DUPLICATE_EMAIL') {
-        userToasts.duplicateEmailError();
-      } else if (error.code === 'VALIDATION_ERROR') {
-        userToasts.validationError('input');
-      } else if (error.code === 'LAST_ADMIN_DEMOTION') {
-        userToasts.lastAdminError();
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'code' in error) {
+        const err = error as { code: string; message?: string };
+        if (err.code === 'DUPLICATE_EMAIL') {
+          userToasts.duplicateEmailError();
+        } else if (err.code === 'VALIDATION_ERROR') {
+          userToasts.validationError('input');
+        } else if (err.code === 'LAST_ADMIN_DEMOTION') {
+          userToasts.lastAdminError();
+        } else {
+          userToasts.updateError(err.message || 'Unknown error');
+        }
       } else {
-        userToasts.updateError(error.message || 'Unknown error');
+        userToasts.updateError('Unknown error');
       }
     }
   };
@@ -111,11 +115,16 @@ export default function UsersPage() {
       setIsDeleteModalOpen(false);
       setSelectedUser(null);
       userToasts.userDeleted(selectedUser.name);
-    } catch (error: any) {
-      if (error.code === 'LAST_ADMIN_DELETION') {
-        userToasts.lastAdminError();
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'code' in error) {
+        const err = error as { code: string; message?: string };
+        if (err.code === 'LAST_ADMIN_DELETION') {
+          userToasts.lastAdminError();
+        } else {
+          userToasts.deleteError(err.message || 'Unknown error');
+        }
       } else {
-        userToasts.deleteError(error.message || 'Unknown error');
+        userToasts.deleteError('Unknown error');
       }
     }
   };

@@ -93,7 +93,7 @@ export class MockAuthService extends BaseMockService {
     };
   }
 
-  async logout(token: string): Promise<void> {
+  async logout(): Promise<void> {
     await this.delay(MOCK_DELAYS.AUTH);
 
     // Clear storage

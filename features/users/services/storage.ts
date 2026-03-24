@@ -64,7 +64,7 @@ export class UsersStorage {
     }
   }
 
-  private createStorageError(message: string, originalError: any): UserError {
+  private createStorageError(message: string, originalError: unknown): UserError {
     if (originalError instanceof Error && originalError.name === 'QuotaExceededError') {
       return this.createError('STORAGE_ERROR', 'Storage quota exceeded. Please clear some data.');
     }
@@ -74,7 +74,7 @@ export class UsersStorage {
     return this.createError('STORAGE_ERROR', message);
   }
 
-  private createError(code: UserErrorCode, message: string, details?: any): UserError {
+  private createError(code: UserErrorCode, message: string, details?: unknown): UserError {
     return {
       code,
       message,

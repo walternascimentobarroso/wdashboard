@@ -102,7 +102,7 @@ export class MockDashboardService extends BaseMockService {
     await this.delay(MOCK_DELAYS.DATA_FETCH);
     this.randomError();
 
-    const { type, metric, timeRange } = request;
+    const { metric, timeRange } = request;
     
     // Generate mock chart data based on time range
     const labels = this.generateTimeLabels(timeRange);
@@ -156,7 +156,6 @@ export class MockDashboardService extends BaseMockService {
       case '30d':
         // Generate weekly labels for the last 30 days
         for (let i = 4; i >= 0; i--) {
-          const week = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000);
           labels.push(`Week ${5 - i}`);
         }
         break;

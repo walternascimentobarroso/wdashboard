@@ -8,17 +8,13 @@ import {
   getPaginationRowModel,
   ColumnDef,
   flexRender,
-  SortingState,
-  ColumnFiltersState,
   Column,
   Row,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
+import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { User } from '../types';
 import { UserActions } from './user-actions';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { useTranslations } from 'next-intl';
 
 interface UserTableProps {
@@ -52,14 +48,6 @@ export function UserTable({
 }: UserTableProps) {
   const t = useTranslations();
   
-  const allColumns = [
-    { key: 'name', label: t('users.columns.name') },
-    { key: 'email', label: t('users.columns.email') },
-    { key: 'role', label: t('users.columns.role') },
-    { key: 'status', label: t('users.columns.status') },
-    { key: 'createdAt', label: t('users.columns.created') },
-    { key: 'actions', label: t('users.columns.actions') },
-  ];
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: 'name',

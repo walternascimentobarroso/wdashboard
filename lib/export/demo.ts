@@ -35,27 +35,29 @@ const sampleUsers: User[] = [
 // Test functions
 export function testExcelExport() {
   try {
-    console.log('Testing Excel export...');
     exportUsersToExcel(sampleUsers, 'test-users.xlsx');
-    console.log('Excel export successful!');
-  } catch (error) {
-    console.error('Excel export failed:', error);
+  } catch {
+    // Excel export failed
   }
 }
 
 export function testPDFExport() {
   try {
-    console.log('Testing PDF export...');
     exportUsersToPDF(sampleUsers, 'test-users.pdf');
-    console.log('PDF export successful!');
-  } catch (error) {
-    console.error('PDF export failed:', error);
+  } catch {
+    // PDF export failed
   }
 }
 
 // Make available globally for testing
 if (typeof window !== 'undefined') {
-  (window as any).testExports = {
+  interface TestExports {
+    testExcelExport: () => void;
+    testPDFExport: () => void;
+    sampleUsers: User[];
+  }
+  
+  (window as Window & { testExports?: TestExports }).testExports = {
     testExcelExport,
     testPDFExport,
     sampleUsers,

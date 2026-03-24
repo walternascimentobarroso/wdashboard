@@ -5,9 +5,7 @@ import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Header } from "./Header"
 import { Sidebar, SidebarItem, SidebarCategory } from "./Sidebar"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button"
-import { Menu } from "lucide-react"
+import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { useResponsive } from "@/lib/use-responsive"
 import { navigationConfig } from "@/lib/navigation"
 import { usePathname } from "next/navigation"
@@ -32,8 +30,8 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
       try {
         const prefs = JSON.parse(saved)
         setSidebarExpanded(prefs.sidebarExpanded ?? true)
-      } catch (e) {
-        console.error('Failed to load preferences:', e)
+      } catch {
+        // Failed to load preferences
       }
     }
   }, [])

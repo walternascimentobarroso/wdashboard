@@ -10,15 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User } from '../types';
 
 interface UserActionsProps {
-  user: User;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-export function UserActions({ user, onEdit, onDelete }: UserActionsProps) {
+export function UserActions({ onEdit, onDelete }: UserActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

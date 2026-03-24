@@ -88,8 +88,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       } else {
         dispatch({ type: 'AUTH_FAILURE' });
       }
-    } catch (error) {
-      console.error('Auth check failed:', error);
+    } catch {
       dispatch({ type: 'AUTH_FAILURE' });
     }
   };
@@ -104,7 +103,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         payload: { user: response.user, token: response.token },
       });
     } catch (error) {
-      console.error('Login failed:', error);
       dispatch({ type: 'AUTH_FAILURE' });
       throw error;
     }
@@ -113,10 +111,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = async () => {
     try {
       if (state.token) {
-        await mockAuthService.logout(state.token);
+        await mockAuthService.logout();
       }
-    } catch (error) {
-      console.error('Logout failed:', error);
+    } catch {
+      // Logout failed
     } finally {
       dispatch({ type: 'LOGOUT' });
     }

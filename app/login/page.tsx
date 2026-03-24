@@ -12,7 +12,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted'); // Debug log
     setError('');
     setIsLoading(true);
 
@@ -27,27 +26,16 @@ export default function LoginPage() {
       cred => cred.email === email && cred.password === password
     );
 
-    console.log('Credentials valid:', isValid, 'Email:', email, 'Password:', password); // Debug log
-
     if (isValid) {
       // Store simple session
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('userEmail', email);
-      console.log('Data stored in localStorage:', {
-        isLoggedIn: localStorage.getItem('isLoggedIn'),
-        userEmail: localStorage.getItem('userEmail')
-      }); // Debug log
-      console.log('Redirecting to dashboard'); // Debug log
-      
-      // Add small delay to ensure localStorage is set
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 100);
+      setIsLoading(false);
+      router.push('/dashboard');
     } else {
+      setIsLoading(false);
       setError('Invalid credentials');
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -106,8 +94,8 @@ export default function LoginPage() {
               type="submit"
               className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 disabled:opacity-50"
               disabled={isLoading}
-              onClick={(e) => {
-                console.log('Button clicked'); // Debug log
+              onClick={() => {
+                // Button click
               }}
             >
               {isLoading ? 'Signing in...' : 'Sign in'}
@@ -118,9 +106,6 @@ export default function LoginPage() {
               type="button"
               className="w-full bg-destructive text-destructive-foreground py-2 px-4 rounded-md hover:bg-destructive/90"
               onClick={() => {
-                console.log('Debug button clicked');
-                console.log('Current email:', email);
-                console.log('Current password:', password);
                 alert(`Email: ${email}, Password: ${password}`);
               }}
             >
