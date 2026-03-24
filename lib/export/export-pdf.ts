@@ -1,39 +1,21 @@
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { User } from '@/features/users/types'
+import { transformUserForExport } from '@/lib/export-utils'
 
-export interface ExportData {
-  name: string
-  email: string
-  role: string
-  status: string
-  createdAt: string
-}
-
-export function exportUsersToPDF(users: User[], filename?: string): void {
+export function exportToPDF(users: User[]): void {
   if (users.length === 0) {
     throw new Error('No users to export')
   }
 
-  // Initialize PDF
   const doc = new jsPDF()
-
-  // Transform user data for export
-  const exportData: ExportData[] = users.map((user) => ({
-    name: user.name,
-    email: user.email,
-    role: user.role.charAt(0).toUpperCase() + user.role.slice(1),
-    status: user.status.charAt(0).toUpperCase() + user.status.slice(1),
-    createdAt: new Date(user.createdAt).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }),
-  }))
 
   // Add title
   doc.setFontSize(16)
   doc.text('Users Report', 14, 15)
+
+  // Transform user data for export
+  const exportData = transformUserForExport(users)
 
   // Add timestamp
   doc.setFontSize(10)
@@ -66,7 +48,7 @@ export function exportUsersToPDF(users: User[], filename?: string): void {
 
   // Generate filename with timestamp
   const timestamp = new Date().toISOString().split('T')[0]
-  const finalFilename = filename || `users-${timestamp}.pdf`
+  const finalFilename = `users-${timestamp}.pdf`
 
   // Save PDF
   doc.save(finalFilename)

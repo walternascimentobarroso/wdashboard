@@ -26,6 +26,50 @@ import {
 import { useAuth } from '@/modules/auth/components/AuthProvider'
 import { useTranslations } from 'next-intl'
 
+interface UserDropdownMenuProps {
+  userName: string
+  userEmail: string
+  userAvatar: string | undefined
+  onLogout: () => void
+}
+
+function UserDropdownMenu({ userName, userEmail, userAvatar, onLogout }: UserDropdownMenuProps) {
+  const t = useTranslations()
+
+  return (
+    <DropdownMenuContent align="end" className="w-56">
+      <div className="flex items-center gap-2 p-2">
+        <Avatar className="h-8 w-8">
+          <AvatarImage src={userAvatar} />
+          <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium truncate">{userName}</p>
+          <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
+        </div>
+      </div>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>
+        <User className="mr-2 h-4 w-4" />
+        {t('common.account')}
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <CreditCard className="mr-2 h-4 w-4" />
+        {t('common.billing')}
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Bell className="mr-2 h-4 w-4" />
+        {t('common.notifications')}
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem onClick={onLogout}>
+        <LogOut className="mr-2 h-4 w-4" />
+        {t('common.logout')}
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  )
+}
+
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   expanded?: boolean
   onToggle?: () => void
@@ -104,36 +148,12 @@ export function Sidebar({
                       <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <div className="flex items-center gap-2 p-2">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={userAvatar} />
-                        <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{userName}</p>
-                        <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
-                      </div>
-                    </div>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <User className="mr-2 h-4 w-4" />
-                      {t('common.account')}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      {t('common.billing')}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Bell className="mr-2 h-4 w-4" />
-                      {t('common.notifications')}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      {t('common.logout')}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
+                  <UserDropdownMenu
+                    userName={userName}
+                    userEmail={userEmail}
+                    userAvatar={userAvatar}
+                    onLogout={handleLogout}
+                  />
                 </DropdownMenu>
               </div>
             </div>
@@ -148,36 +168,12 @@ export function Sidebar({
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <div className="flex items-center gap-2 p-2">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={userAvatar} />
-                      <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{userName}</p>
-                      <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
-                    </div>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    {t('common.account')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    {t('common.billing')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Bell className="mr-2 h-4 w-4" />
-                    {t('common.notifications')}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    {t('common.logout')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
+                <UserDropdownMenu
+                  userName={userName}
+                  userEmail={userEmail}
+                  userAvatar={userAvatar}
+                  onLogout={handleLogout}
+                />
               </DropdownMenu>
             </div>
           )}

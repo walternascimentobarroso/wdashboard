@@ -1,20 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
+import { LoginForm } from '@/modules/auth/components/LoginForm'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setIsLoading(true)
-
+  const handleLogin = async (email: string, password: string) => {
     // Simple validation
     const validCredentials = [
       { email: 'admin@dashboard.com', password: 'admin123' },
@@ -28,16 +21,17 @@ export default function LoginPage() {
 
     if (isValid) {
       // Store simple session
-      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('isAuthenticated', 'true')
       localStorage.setItem('userEmail', email)
-      setIsLoading(false)
+
+      // Redirect to dashboard
       router.push('/dashboard')
+
+      return { success: true }
     } else {
-      setIsLoading(false)
-      setError('Invalid credentials')
+      return { success: false, error: 'Invalid email or password' }
     }
   }
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -51,67 +45,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-card py-8 px-6 shadow-lg rounded-lg border">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-foreground">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-                disabled={isLoading}
-                className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium text-foreground">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                required
-                disabled={isLoading}
-                className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
-              />
-            </div>
-
-            {error && (
-              <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md border border-destructive/20">
-                {error}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 disabled:opacity-50"
-              disabled={isLoading}
-              onClick={() => {
-                // Button click
-              }}
-            >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </button>
-
-            {/* Debug button */}
-            <button
-              type="button"
-              className="w-full bg-destructive text-destructive-foreground py-2 px-4 rounded-md hover:bg-destructive/90"
-              onClick={() => {
-                alert(`Email: ${email}, Password: ${password}`)
-              }}
-            >
-              Debug: Show current values
-            </button>
-          </form>
+          <LoginForm onLogin={handleLogin} />
 
           <div className="text-center text-sm text-muted-foreground mt-6">
             <p>Demo credentials:</p>

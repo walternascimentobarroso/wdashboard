@@ -43,7 +43,7 @@ export async function testExcelExport() {
 
 export function testPDFExport() {
   try {
-    exportUsersToPDF(sampleUsers, 'test-users.pdf')
+    exportUsersToPDF(sampleUsers)
   } catch {
     // PDF export failed
   }

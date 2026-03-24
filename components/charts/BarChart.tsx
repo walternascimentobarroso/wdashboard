@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import { ChartData } from '@/types/kpi'
+import { ChartData, transformChartData } from '@/lib/chart-utils'
 
 interface BarChartProps {
   data: ChartData
@@ -16,10 +16,7 @@ interface BarChartProps {
 }
 
 export function BarChart({ data, className }: BarChartProps) {
-  const chartData = data.labels.map((label, index) => ({
-    name: label,
-    value: data.datasets[0]?.data[index] || 0,
-  }))
+  const chartData = transformChartData(data)
 
   return (
     <div className={className}>

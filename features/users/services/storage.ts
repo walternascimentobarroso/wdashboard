@@ -13,6 +13,43 @@ interface UsersStorageData {
 export class UsersStorage {
   private initialized = false
 
+  private validateAdminConstraints(
+    data: UsersStorageData,
+    currentUserId: string,
+    newRole?: string,
+    newStatus?: string,
+    operation: 'update' | 'delete' = 'update'
+  ): void {
+    const currentUser = data.users.find((u) => u.id === currentUserId)
+    if (!currentUser || currentUser.role !== 'admin') return
+
+    const otherAdmins = data.users.filter((u) => u.role === 'admin' && u.id !== currentUserId)
+    const activeAdmins = data.users.filter(
+      (u) => u.role === 'admin' && u.status === 'active' && u.id !== currentUserId
+    )
+
+    // Check for role demotion
+    if (operation === 'update' && newRole === 'user') {
+      if (otherAdmins.length === 0) {
+        throw this.createError('LAST_ADMIN_DEMOTION', 'Cannot demote the last administrator')
+      }
+    }
+
+    // Check for deactivation
+    if (operation === 'update' && newStatus === 'inactive' && currentUser.status === 'active') {
+      if (activeAdmins.length === 0) {
+        throw this.createError('LAST_ADMIN_DEMOTION', 'Cannot deactivate the last administrator')
+      }
+    }
+
+    // Check for deletion
+    if (operation === 'delete') {
+      if (otherAdmins.length === 0) {
+        throw this.createError('LAST_ADMIN_DELETION', 'Cannot delete the last administrator')
+      }
+    }
+  }
+
   private async initializeStorage(): Promise<void> {
     if (this.initialized) return
 
@@ -200,23 +237,8 @@ export class UsersStorage {
         }
       }
 
-      // Check if trying to demote last admin
-      if (updates.role === 'user' && user.role === 'admin') {
-        const adminCount = data.users.filter((u) => u.role === 'admin' && u.id !== id).length
-        if (adminCount === 0) {
-          throw this.createError('LAST_ADMIN_DEMOTION', 'Cannot demote the last administrator')
-        }
-      }
-
-      // Check if trying to deactivate last admin
-      if (updates.status === 'inactive' && user.status === 'active' && user.role === 'admin') {
-        const activeAdminCount = data.users.filter(
-          (u) => u.role === 'admin' && u.status === 'active' && u.id !== id
-        ).length
-        if (activeAdminCount === 0) {
-          throw this.createError('LAST_ADMIN_DEMOTION', 'Cannot deactivate the last administrator')
-        }
-      }
+      // Validate admin constraints
+      this.validateAdminConstraints(data, id, updates.role, updates.status, 'update')
 
       // Apply updates
       const updatedUser: User = {
@@ -253,15 +275,8 @@ export class UsersStorage {
         throw this.createError('USER_NOT_FOUND', 'User not found')
       }
 
-      const user = data.users[userIndex]
-
-      // Check if trying to delete last admin
-      if (user.role === 'admin') {
-        const adminCount = data.users.filter((u) => u.role === 'admin' && u.id !== id).length
-        if (adminCount === 0) {
-          throw this.createError('LAST_ADMIN_DELETION', 'Cannot delete the last administrator')
-        }
-      }
+      // Validate admin constraints
+      this.validateAdminConstraints(data, id, undefined, undefined, 'delete')
 
       data.users.splice(userIndex, 1)
       data.lastModified = new Date().toISOString()

@@ -1,13 +1,6 @@
 import ExcelJS from 'exceljs'
 import { User } from '@/features/users/types'
-
-export interface ExportData {
-  name: string
-  email: string
-  role: string
-  status: string
-  createdAt: string
-}
+import { transformUserForExport } from '@/lib/export-utils'
 
 export async function exportUsersToExcel(users: User[], filename?: string): Promise<void> {
   if (users.length === 0) {
@@ -28,22 +21,8 @@ export async function exportUsersToExcel(users: User[], filename?: string): Prom
   ]
 
   // Transform user data for export and add rows
-  const exportData: ExportData[] = users.map((user) => ({
-    name: user.name,
-    email: user.email,
-    role: user.role.charAt(0).toUpperCase() + user.role.slice(1),
-    status: user.status.charAt(0).toUpperCase() + user.status.slice(1),
-    createdAt: new Date(user.createdAt).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }),
-  }))
-
-  // Add rows to worksheet
-  exportData.forEach((data) => {
-    worksheet.addRow(data)
-  })
+  const exportData = transformUserForExport(users)
+  worksheet.addRows(exportData)
 
   // Style the header row
   const headerRow = worksheet.getRow(1)
@@ -60,10 +39,10 @@ export async function exportUsersToExcel(users: User[], filename?: string): Prom
 
   // Write to buffer and download
   const buffer = await workbook.xlsx.writeBuffer()
-  
+
   // Create download link
-  const blob = new Blob([buffer], { 
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+  const blob = new Blob([buffer], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   })
   const url = window.URL.createObjectURL(blob)
   const link = document.createElement('a')

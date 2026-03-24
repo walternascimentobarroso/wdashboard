@@ -11,9 +11,10 @@ import {
   Column,
   Row,
 } from '@tanstack/react-table'
-import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { User } from '../types'
 import { UserActions } from './user-actions'
+import { SortableHeader } from '@/components/shared/SortableHeader'
 import {
   Select,
   SelectContent,
@@ -58,19 +59,12 @@ export function UserTable({
     {
       accessorKey: 'name',
       header: ({ column }: { column: Column<User> }) => (
-        <button
-          className="flex items-center hover:text-muted-foreground"
-          onClick={() => onSort('name', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
-        >
-          {t('users.columns.name')}
-          {column.getIsSorted() === 'asc' ? (
-            <ArrowUp className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === 'desc' ? (
-            <ArrowDown className="ml-2 h-4 w-4" />
-          ) : (
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          )}
-        </button>
+        <SortableHeader
+          column={column}
+          title={t('users.columns.name')}
+          onSort={onSort}
+          columnKey="name"
+        />
       ),
       cell: ({ row }: { row: Row<User> }) => (
         <div className="font-medium">{row.getValue('name')}</div>
@@ -79,19 +73,12 @@ export function UserTable({
     {
       accessorKey: 'email',
       header: ({ column }: { column: Column<User> }) => (
-        <button
-          className="flex items-center hover:text-muted-foreground"
-          onClick={() => onSort('email', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
-        >
-          {t('users.columns.email')}
-          {column.getIsSorted() === 'asc' ? (
-            <ArrowUp className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === 'desc' ? (
-            <ArrowDown className="ml-2 h-4 w-4" />
-          ) : (
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          )}
-        </button>
+        <SortableHeader
+          column={column}
+          title={t('users.columns.email')}
+          onSort={onSort}
+          columnKey="email"
+        />
       ),
       cell: ({ row }: { row: Row<User> }) => (
         <div className="text-sm text-muted-foreground">{row.getValue('email')}</div>
@@ -100,19 +87,12 @@ export function UserTable({
     {
       accessorKey: 'role',
       header: ({ column }: { column: Column<User> }) => (
-        <button
-          className="flex items-center hover:text-muted-foreground"
-          onClick={() => onSort('role', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
-        >
-          {t('users.columns.role')}
-          {column.getIsSorted() === 'asc' ? (
-            <ArrowUp className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === 'desc' ? (
-            <ArrowDown className="ml-2 h-4 w-4" />
-          ) : (
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          )}
-        </button>
+        <SortableHeader
+          column={column}
+          title={t('users.columns.role')}
+          onSort={onSort}
+          columnKey="role"
+        />
       ),
       cell: ({ row }: { row: Row<User> }) => {
         const role = row.getValue('role') as string
@@ -134,19 +114,12 @@ export function UserTable({
     {
       accessorKey: 'status',
       header: ({ column }: { column: Column<User> }) => (
-        <button
-          className="flex items-center hover:text-muted-foreground"
-          onClick={() => onSort('status', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
-        >
-          {t('users.columns.status')}
-          {column.getIsSorted() === 'asc' ? (
-            <ArrowUp className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === 'desc' ? (
-            <ArrowDown className="ml-2 h-4 w-4" />
-          ) : (
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          )}
-        </button>
+        <SortableHeader
+          column={column}
+          title={t('users.columns.status')}
+          onSort={onSort}
+          columnKey="status"
+        />
       ),
       cell: ({ row }: { row: Row<User> }) => {
         const status = row.getValue('status') as string
@@ -168,19 +141,12 @@ export function UserTable({
     {
       accessorKey: 'createdAt',
       header: ({ column }: { column: Column<User> }) => (
-        <button
-          className="flex items-center hover:text-muted-foreground"
-          onClick={() => onSort('createdAt', column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
-        >
-          {t('users.columns.created')}
-          {column.getIsSorted() === 'asc' ? (
-            <ArrowUp className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === 'desc' ? (
-            <ArrowDown className="ml-2 h-4 w-4" />
-          ) : (
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          )}
-        </button>
+        <SortableHeader
+          column={column}
+          title={t('users.columns.created')}
+          onSort={onSort}
+          columnKey="createdAt"
+        />
       ),
       cell: ({ row }: { row: Row<User> }) => {
         const date = new Date(row.getValue('createdAt'))
