@@ -158,8 +158,8 @@
     "tabs": {
       "personal": "Personal",
       "security": "Security",
-      "notifications": "Notifications",
-      "data": "Data"
+      "settings": "Settings",
+      "activity": "Activity"
     },
     "personal": {
       "title": "Personal Information",
@@ -190,6 +190,19 @@
       "pushNotifications": "Push Notifications",
       "pushNotificationsDesc": "Receive browser push notifications"
     },
+    "preferences": {
+      "title": "Preferences",
+      "description": "Customize your language and theme settings",
+      "language": "Language",
+      "languageDesc": "Choose your preferred language for the interface",
+      "portuguese": "Portuguese (Brazil)",
+      "english": "English (US)",
+      "theme": "Theme",
+      "themeDesc": "Select your preferred color theme",
+      "themeLight": "Light",
+      "themeDark": "Dark", 
+      "themeSystem": "System"
+    },
     "data": {
       "title": "Data Management",
       "description": "Export or delete your account data",
@@ -206,6 +219,51 @@
       "passwordError": "Failed to change password",
       "dataExported": "Data exported successfully",
       "exportError": "Failed to export data"
+    },
+    "activity": {
+      "title": "Activity Log",
+      "description": "View your recent account activity and actions",
+      "recentActivity": "Recent Activity",
+      "summary": "Summary",
+      "times": {
+        "minutesAgo": "{count} minutes ago",
+        "hourAgo": "{count} hour ago",
+        "hoursAgo": "{count} hours ago",
+        "dayAgo": "{count} day ago",
+        "daysAgo": "{count} days ago",
+        "weekAgo": "{count} week ago"
+      },
+      "activities": {
+        "login": "Logged in",
+        "edit": "Updated profile",
+        "delete": "Deleted user",
+        "create": "Created user",
+        "password": "Changed password",
+        "export": "Exported data",
+        "security": "Enabled 2FA",
+        "settings": "Updated settings",
+        "descriptions": {
+          "login": "Logged in to dashboard",
+          "edit": "Updated profile information",
+          "delete": "Deleted user account",
+          "create": "Created new user account",
+          "password": "Changed account password",
+          "export": "Exported user data"
+        }
+      },
+      "categories": {
+        "login": "login",
+        "profileUpdate": "profile update",
+        "userAction": "user action",
+        "security": "security",
+        "system": "system"
+      },
+      "summaryItems": {
+        "logins": "Logins",
+        "updates": "Updates", 
+        "actions": "Actions",
+        "system": "System"
+      }
     }
   }
 }

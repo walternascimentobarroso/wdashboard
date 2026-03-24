@@ -25,6 +25,12 @@ import {
   CreditCard,
   Download,
   Upload,
+  Activity,
+  LogIn,
+  Edit,
+  Trash2,
+  UserPlus,
+  Settings,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -33,6 +39,13 @@ export default function ProfilePage() {
   const { user } = useAuth()
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+
+  // Helper function for interpolation
+  const interpolate = (template: string, values: Record<string, number>) => {
+    return Object.keys(values).reduce((result, key) => {
+      return result.replace(new RegExp(`{${key}}`, 'g'), values[key].toString())
+    }, template)
+  }
 
   // Mock user data - in real app, this would come from auth context or API
   const userData = {
@@ -94,7 +107,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -111,7 +124,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Profile Overview Card */}
-      <Card>
+      <Card className="w-full">
         <CardHeader>
           <div className="flex items-center gap-4">
             <Avatar className="h-20 w-20">
@@ -154,17 +167,17 @@ export default function ProfilePage() {
       </Card>
 
       {/* Detailed Tabs */}
-      <Tabs defaultValue="personal" className="space-y-4">
+      <Tabs defaultValue="personal" className="space-y-4 w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="personal">{t('profile.tabs.personal')}</TabsTrigger>
           <TabsTrigger value="security">{t('profile.tabs.security')}</TabsTrigger>
-          <TabsTrigger value="notifications">{t('profile.tabs.notifications')}</TabsTrigger>
-          <TabsTrigger value="data">{t('profile.tabs.data')}</TabsTrigger>
+          <TabsTrigger value="settings">{t('profile.tabs.settings')}</TabsTrigger>
+          <TabsTrigger value="activity">{t('profile.tabs.activity')}</TabsTrigger>
         </TabsList>
 
         {/* Personal Information Tab */}
         <TabsContent value="personal" className="space-y-4">
-          <Card>
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
@@ -228,7 +241,7 @@ export default function ProfilePage() {
 
         {/* Security Tab */}
         <TabsContent value="security" className="space-y-4">
-          <Card>
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5" />
@@ -267,9 +280,10 @@ export default function ProfilePage() {
           </Card>
         </TabsContent>
 
-        {/* Notifications Tab */}
-        <TabsContent value="notifications" className="space-y-4">
-          <Card>
+        {/* Settings Tab - Combining Notifications, Data, Language and Theme */}
+        <TabsContent value="settings" className="space-y-6">
+          {/* Notifications Section */}
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-5 w-5" />
@@ -304,11 +318,55 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
 
-        {/* Data Management Tab */}
-        <TabsContent value="data" className="space-y-4">
-          <Card>
+          {/* Language & Theme Section */}
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Palette className="h-5 w-5" />
+                {t('profile.preferences.title')}
+              </CardTitle>
+              <CardDescription>{t('profile.preferences.description')}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Globe className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">{t('profile.preferences.language')}</p>
+                    <p className="text-sm text-muted-foreground">{t('profile.preferences.languageDesc')}</p>
+                  </div>
+                </div>
+                <select 
+                  className="px-3 py-2 border rounded-md bg-background"
+                  defaultValue={userData.language}
+                >
+                  <option value="pt-BR">{t('profile.preferences.portuguese')}</option>
+                  <option value="en-US">{t('profile.preferences.english')}</option>
+                </select>
+              </div>
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Palette className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">{t('profile.preferences.theme')}</p>
+                    <p className="text-sm text-muted-foreground">{t('profile.preferences.themeDesc')}</p>
+                  </div>
+                </div>
+                <select 
+                  className="px-3 py-2 border rounded-md bg-background"
+                  defaultValue="light"
+                >
+                  <option value="light">{t('profile.preferences.themeLight')}</option>
+                  <option value="dark">{t('profile.preferences.themeDark')}</option>
+                  <option value="system">{t('profile.preferences.themeSystem')}</option>
+                </select>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Data Management Section */}
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Download className="h-5 w-5" />
@@ -344,6 +402,145 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Activity Tab */}
+        <TabsContent value="activity" className="space-y-4">
+          <div className="space-y-6">
+            {/* Activity List */}
+            <div className="rounded-xl bg-gray-900 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">{t('profile.activity.recentActivity')}</h3>
+              <div className="space-y-4">
+                {[
+                  { 
+                    action: 'login', 
+                    title: t('profile.activity.activities.login'),
+                    description: t('profile.activity.activities.descriptions.login'),
+                    time: t('profile.activity.times.dayAgo', { count: 1 }),
+                    category: t('profile.activity.categories.login'),
+                    categoryColor: 'blue',
+                    iconBg: 'bg-green-500/20',
+                    iconColor: 'text-green-500',
+                    icon: LogIn
+                  },
+                  { 
+                    action: 'edit', 
+                    title: t('profile.activity.activities.edit'),
+                    description: t('profile.activity.activities.descriptions.edit'),
+                    time: t('profile.activity.times.hoursAgo', { count: 2 }),
+                    category: t('profile.activity.categories.profileUpdate'),
+                    categoryColor: 'gray',
+                    iconBg: 'bg-blue-500/20',
+                    iconColor: 'text-blue-500',
+                    icon: User
+                  },
+                  { 
+                    action: 'delete', 
+                    title: t('profile.activity.activities.delete'),
+                    description: t('profile.activity.activities.descriptions.delete'),
+                    time: t('profile.activity.times.hoursAgo', { count: 3 }),
+                    category: t('profile.activity.categories.userAction'),
+                    categoryColor: 'gray',
+                    iconBg: 'bg-red-500/20',
+                    iconColor: 'text-red-500',
+                    icon: Trash2
+                  },
+                  { 
+                    action: 'create', 
+                    title: t('profile.activity.activities.create'),
+                    description: t('profile.activity.activities.descriptions.create'),
+                    time: t('profile.activity.times.hoursAgo', { count: 5 }),
+                    category: t('profile.activity.categories.userAction'),
+                    categoryColor: 'gray',
+                    iconBg: 'bg-green-500/20',
+                    iconColor: 'text-green-500',
+                    icon: UserPlus
+                  },
+                  { 
+                    action: 'password', 
+                    title: t('profile.activity.activities.password'),
+                    description: t('profile.activity.activities.descriptions.password'),
+                    time: t('profile.activity.times.dayAgo', { count: 1 }),
+                    category: t('profile.activity.categories.security'),
+                    categoryColor: 'orange',
+                    iconBg: 'bg-orange-500/20',
+                    iconColor: 'text-orange-500',
+                    icon: Key
+                  },
+                  { 
+                    action: 'export', 
+                    title: t('profile.activity.activities.export'),
+                    description: t('profile.activity.activities.descriptions.export'),
+                    time: t('profile.activity.times.daysAgo', { count: 2 }),
+                    category: t('profile.activity.categories.system'),
+                    categoryColor: 'purple',
+                    iconBg: 'bg-purple-500/20',
+                    iconColor: 'text-purple-500',
+                    icon: Download
+                  },
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-center gap-4">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-full ${activity.iconBg} ${activity.iconColor}`}>
+                      <activity.icon className="h-5 w-5" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-white">{activity.title}</span>
+                        <span className={`rounded-full bg-${activity.categoryColor}-500/20 px-2 py-0.5 text-xs font-medium text-${activity.categoryColor}-400`}>
+                          {activity.category}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-400">{activity.description}</p>
+                      <p className="text-xs text-gray-500">{activity.time}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Summary Section */}
+            <div className="rounded-xl bg-gray-900 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">{t('profile.activity.summary')}</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="rounded-lg bg-gray-800 p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-bold text-green-500">12</p>
+                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.logins')}</p>
+                    </div>
+                    <LogIn className="h-8 w-8 text-green-500/30" />
+                  </div>
+                </div>
+                <div className="rounded-lg bg-gray-800 p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-bold text-blue-500">8</p>
+                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.updates')}</p>
+                    </div>
+                    <Edit className="h-8 w-8 text-blue-500/30" />
+                  </div>
+                </div>
+                <div className="rounded-lg bg-gray-800 p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-bold text-orange-500">15</p>
+                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.actions')}</p>
+                    </div>
+                    <UserPlus className="h-8 w-8 text-orange-500/30" />
+                  </div>
+                </div>
+                <div className="rounded-lg bg-gray-800 p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-bold text-purple-500">6</p>
+                      <p className="text-sm text-gray-400">{t('profile.activity.summaryItems.system')}</p>
+                    </div>
+                    <Settings className="h-8 w-8 text-purple-500/30" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

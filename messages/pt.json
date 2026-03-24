@@ -158,8 +158,8 @@
     "tabs": {
       "personal": "Pessoal",
       "security": "Segurança",
-      "notifications": "Notificações",
-      "data": "Dados"
+      "settings": "Configurações",
+      "activity": "Atividade"
     },
     "personal": {
       "title": "Informações Pessoais",
@@ -190,6 +190,19 @@
       "pushNotifications": "Notificações Push",
       "pushNotificationsDesc": "Receba notificações push do navegador"
     },
+    "preferences": {
+      "title": "Preferências",
+      "description": "Personalize suas configurações de idioma e tema",
+      "language": "Idioma",
+      "languageDesc": "Escolha seu idioma preferido para a interface",
+      "portuguese": "Português (Brasil)",
+      "english": "Inglês (EUA)",
+      "theme": "Tema",
+      "themeDesc": "Selecione seu tema de cores preferido",
+      "themeLight": "Claro",
+      "themeDark": "Escuro",
+      "themeSystem": "Sistema"
+    },
     "data": {
       "title": "Gerenciamento de Dados",
       "description": "Exporte ou exclua seus dados da conta",
@@ -206,6 +219,51 @@
       "passwordError": "Falha ao alterar senha",
       "dataExported": "Dados exportados com sucesso",
       "exportError": "Falha ao exportar dados"
+    },
+    "activity": {
+      "title": "Registro de Atividade",
+      "description": "Visualize suas atividades e ações recentes na conta",
+      "recentActivity": "Atividade Recente",
+      "summary": "Resumo",
+      "times": {
+        "minutesAgo": "{count} minutos atrás",
+        "hourAgo": "{count} hora atrás",
+        "hoursAgo": "{count} horas atrás",
+        "dayAgo": "{count} dia atrás",
+        "daysAgo": "{count} dias atrás",
+        "weekAgo": "{count} semana atrás"
+      },
+      "activities": {
+        "login": "Iniciou sessão",
+        "edit": "Atualizou perfil",
+        "delete": "Excluiu usuário",
+        "create": "Criou usuário",
+        "password": "Alterou senha",
+        "export": "Exportou dados",
+        "security": "Ativou 2FA",
+        "settings": "Atualizou configurações",
+        "descriptions": {
+          "login": "Iniciou sessão no painel",
+          "edit": "Atualizou informações do perfil",
+          "delete": "Excluiu conta de usuário",
+          "create": "Criou nova conta de usuário",
+          "password": "Alterou senha da conta",
+          "export": "Exportou dados do usuário"
+        }
+      },
+      "categories": {
+        "login": "login",
+        "profileUpdate": "atualização de perfil",
+        "userAction": "ação de usuário",
+        "security": "segurança",
+        "system": "sistema"
+      },
+      "summaryItems": {
+        "logins": "Inícios de Sessão",
+        "updates": "Atualizações", 
+        "actions": "Ações",
+        "system": "Sistema"
+      }
     }
   }
 }
