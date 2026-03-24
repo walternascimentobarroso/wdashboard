@@ -10,7 +10,9 @@
     "settings": "Configurações",
     "help": "Obter Ajuda",
     "search": "Pesquisar",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "enabled": "Ativado",
+    "disabled": "Desativado"
   },
   "sidebar": {
     "collapse": "Recolher barra lateral",
@@ -137,6 +139,73 @@
       "updateError": "Falha ao atualizar usuário: {error}",
       "deleteError": "Falha ao excluir usuário: {error}",
       "lastAdmin": "Não é possível excluir ou rebaixar o último usuário administrador"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "description": "Gerencie suas informações pessoais e configurações da conta",
+    "edit": "Editar Perfil",
+    "save": "Salvar Alterações",
+    "joined": "Entrou em",
+    "location": "Localização",
+    "website": "Website",
+    "bio": {
+      "default": "Apaixonado por tecnologia e inovação. Sempre aprendendo e crescendo."
+    },
+    "department": {
+      "default": "Engenharia"
+    },
+    "tabs": {
+      "personal": "Pessoal",
+      "security": "Segurança",
+      "notifications": "Notificações",
+      "data": "Dados"
+    },
+    "personal": {
+      "title": "Informações Pessoais",
+      "description": "Atualize seus detalhes pessoais e informações de contato",
+      "name": "Nome Completo",
+      "email": "Endereço de E-mail",
+      "phone": "Telefone",
+      "location": "Localização",
+      "bio": "Biografia"
+    },
+    "security": {
+      "title": "Configurações de Segurança",
+      "description": "Gerencie sua senha e preferências de segurança",
+      "password": "Senha",
+      "passwordDesc": "Altere sua senha regularmente para manter sua conta segura",
+      "changePassword": "Alterar Senha",
+      "twoFactor": "Autenticação de Dois Fatores",
+      "twoFactorEnabled": "Autenticação de dois fatores está ativada",
+      "twoFactorDisabled": "Autenticação de dois fatores está desativada",
+      "enableTwoFactor": "Ativar 2FA",
+      "disableTwoFactor": "Desativar 2FA"
+    },
+    "notifications": {
+      "title": "Preferências de Notificação",
+      "description": "Controle como e quando você recebe notificações",
+      "emailNotifications": "Notificações por E-mail",
+      "emailNotificationsDesc": "Receba atualizações importantes por e-mail",
+      "pushNotifications": "Notificações Push",
+      "pushNotificationsDesc": "Receba notificações push do navegador"
+    },
+    "data": {
+      "title": "Gerenciamento de Dados",
+      "description": "Exporte ou exclua seus dados da conta",
+      "exportData": "Exportar Dados",
+      "exportDataDesc": "Baixe todos seus dados em formato JSON",
+      "export": "Exportar",
+      "deleteAccount": "Excluir Conta",
+      "deleteAccountDesc": "Exclua permanentemente sua conta e todos os dados associados"
+    },
+    "toasts": {
+      "profileUpdated": "Perfil atualizado com sucesso",
+      "updateError": "Falha ao atualizar perfil",
+      "passwordChanged": "Senha alterada com sucesso",
+      "passwordError": "Falha ao alterar senha",
+      "dataExported": "Dados exportados com sucesso",
+      "exportError": "Falha ao exportar dados"
     }
   }
 }

@@ -81,7 +81,7 @@ export const navigationConfig: NavigationSection = {
       id: 'profile',
       label: 'Profile',
       icon: React.createElement(User, { className: 'h-4 w-4' }),
-      href: '/profile',
+      href: '/dashboard/profile',
     },
     {
       id: 'settings',

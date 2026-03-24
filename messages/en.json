@@ -10,7 +10,9 @@
     "settings": "Settings",
     "help": "Get Help",
     "search": "Search",
-    "profile": "Profile"
+    "profile": "Profile",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
   "sidebar": {
     "collapse": "Collapse sidebar",
@@ -137,6 +139,73 @@
       "updateError": "Failed to update user: {error}",
       "deleteError": "Failed to delete user: {error}",
       "lastAdmin": "Cannot delete or demote the last admin user"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "Manage your personal information and account settings",
+    "edit": "Edit Profile",
+    "save": "Save Changes",
+    "joined": "Joined",
+    "location": "Location",
+    "website": "Website",
+    "bio": {
+      "default": "Passionate about technology and innovation. Always learning and growing."
+    },
+    "department": {
+      "default": "Engineering"
+    },
+    "tabs": {
+      "personal": "Personal",
+      "security": "Security",
+      "notifications": "Notifications",
+      "data": "Data"
+    },
+    "personal": {
+      "title": "Personal Information",
+      "description": "Update your personal details and contact information",
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "location": "Location",
+      "bio": "Bio"
+    },
+    "security": {
+      "title": "Security Settings",
+      "description": "Manage your password and security preferences",
+      "password": "Password",
+      "passwordDesc": "Change your password regularly to keep your account secure",
+      "changePassword": "Change Password",
+      "twoFactor": "Two-Factor Authentication",
+      "twoFactorEnabled": "Two-factor authentication is enabled",
+      "twoFactorDisabled": "Two-factor authentication is disabled",
+      "enableTwoFactor": "Enable 2FA",
+      "disableTwoFactor": "Disable 2FA"
+    },
+    "notifications": {
+      "title": "Notification Preferences",
+      "description": "Control how and when you receive notifications",
+      "emailNotifications": "Email Notifications",
+      "emailNotificationsDesc": "Receive important updates via email",
+      "pushNotifications": "Push Notifications",
+      "pushNotificationsDesc": "Receive browser push notifications"
+    },
+    "data": {
+      "title": "Data Management",
+      "description": "Export or delete your account data",
+      "exportData": "Export Data",
+      "exportDataDesc": "Download all your data in JSON format",
+      "export": "Export",
+      "deleteAccount": "Delete Account",
+      "deleteAccountDesc": "Permanently delete your account and all associated data"
+    },
+    "toasts": {
+      "profileUpdated": "Profile updated successfully",
+      "updateError": "Failed to update profile",
+      "passwordChanged": "Password changed successfully",
+      "passwordError": "Failed to change password",
+      "dataExported": "Data exported successfully",
+      "exportError": "Failed to export data"
     }
   }
 }
