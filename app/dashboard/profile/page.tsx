@@ -33,6 +33,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { PasswordChangeModal } from '@/components/profile/PasswordChangeModal'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 
 export default function ProfilePage() {
   const t = useTranslations()
@@ -176,6 +177,9 @@ export default function ProfilePage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb items={[{ label: t('profile.title') }]} />
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Command } from 'cmdk'
 import { Search, Users, FileText, Activity } from 'lucide-react'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useTranslations } from 'next-intl'
 
@@ -104,6 +104,10 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="p-0 overflow-hidden max-w-2xl">
+        <DialogTitle className="sr-only">{t('search.placeholder')}</DialogTitle>
+        <DialogDescription className="sr-only">
+          Search for users, files, and system logs. Use keyboard navigation to select results.
+        </DialogDescription>
         <Command className="rounded-lg border shadow-md">
           <div className="flex items-center border-b px-3">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />

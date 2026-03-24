@@ -33,6 +33,7 @@ import {
 import { ExportUsersButton } from '@/components/users/export-users-button'
 import { userToasts } from '@/features/users/components/toast-notifications'
 import { useTranslations } from 'next-intl'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 
 export default function UsersPage() {
   const t = useTranslations()
@@ -208,6 +209,9 @@ export default function UsersPage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb items={[{ label: t('users.title') }]} />
+
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">{t('users.title')}</h1>
