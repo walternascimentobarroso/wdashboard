@@ -38,29 +38,29 @@ Create `features/users/types/index.ts`:
 
 ```typescript
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  status: UserStatus;
-  createdAt: string;
+  id: string
+  name: string
+  email: string
+  role: UserRole
+  status: UserStatus
+  createdAt: string
 }
 
-export type UserRole = 'admin' | 'user';
-export type UserStatus = 'active' | 'inactive';
+export type UserRole = 'admin' | 'user'
+export type UserStatus = 'active' | 'inactive'
 
 export interface CreateUserRequest {
-  name: string;
-  email: string;
-  role: UserRole;
-  status?: UserStatus;
+  name: string
+  email: string
+  role: UserRole
+  status?: UserStatus
 }
 
 export interface UpdateUserRequest {
-  name?: string;
-  email?: string;
-  role?: UserRole;
-  status?: UserStatus;
+  name?: string
+  email?: string
+  role?: UserRole
+  status?: UserStatus
 }
 ```
 
@@ -69,10 +69,10 @@ export interface UpdateUserRequest {
 Create `features/users/services/storage.ts`:
 
 ```typescript
-import { User, CreateUserRequest, UpdateUserRequest } from '../types';
+import { User, CreateUserRequest, UpdateUserRequest } from '../types'
 
 export class UsersStorage {
-  private readonly STORAGE_KEY = 'wdashboard-users';
+  private readonly STORAGE_KEY = 'wdashboard-users'
 
   async getUsers(): Promise<User[]> {
     // Implementation details
@@ -97,14 +97,14 @@ export class UsersStorage {
 Create `features/users/hooks/useUsers.ts`:
 
 ```typescript
-import { useState, useEffect } from 'react';
-import { User, CreateUserRequest, UpdateUserRequest } from '../types';
-import { UsersStorage } from '../services/storage';
+import { useState, useEffect } from 'react'
+import { User, CreateUserRequest, UpdateUserRequest } from '../types'
+import { UsersStorage } from '../services/storage'
 
 export function useUsers() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   // Implementation details
 }
@@ -113,17 +113,18 @@ export function useUsers() {
 ### 6. Build Components
 
 #### User Table Component
+
 Create `features/users/components/user-table.tsx`:
 
 ```typescript
-'use client';
+'use client'
 
-import { User } from '../types';
+import { User } from '../types'
 
 interface UserTableProps {
-  users: User[];
-  onEdit: (user: User) => void;
-  onDelete: (user: User) => void;
+  users: User[]
+  onEdit: (user: User) => void
+  onDelete: (user: User) => void
 }
 
 export function UserTable({ users, onEdit, onDelete }: UserTableProps) {
@@ -132,19 +133,20 @@ export function UserTable({ users, onEdit, onDelete }: UserTableProps) {
 ```
 
 #### User Form Component
+
 Create `features/users/components/user-form.tsx`:
 
 ```typescript
-'use client';
+'use client'
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { User, CreateUserRequest, UpdateUserRequest } from '../types';
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { User, CreateUserRequest, UpdateUserRequest } from '../types'
 
 interface UserFormProps {
-  user?: User;
-  onSubmit: (data: CreateUserRequest | UpdateUserRequest) => void;
-  onCancel: () => void;
+  user?: User
+  onSubmit: (data: CreateUserRequest | UpdateUserRequest) => void
+  onCancel: () => void
 }
 
 export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
@@ -153,17 +155,18 @@ export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
 ```
 
 #### Delete Dialog Component
+
 Create `features/users/components/delete-dialog.tsx`:
 
 ```typescript
-'use client';
+'use client'
 
-import { User } from '../types';
+import { User } from '../types'
 
 interface DeleteDialogProps {
-  user: User;
-  onConfirm: () => void;
-  onCancel: () => void;
+  user: User
+  onConfirm: () => void
+  onCancel: () => void
 }
 
 export function DeleteDialog({ user, onConfirm, onCancel }: DeleteDialogProps) {
@@ -176,16 +179,16 @@ export function DeleteDialog({ user, onConfirm, onCancel }: DeleteDialogProps) {
 Create `app/users/page.tsx`:
 
 ```typescript
-'use client';
+'use client'
 
-import { useUsers } from '../../features/users/hooks/useUsers';
-import { UserTable } from '../../features/users/components/user-table';
-import { UserForm } from '../../features/users/components/user-form';
-import { DeleteDialog } from '../../features/users/components/delete-dialog';
+import { useUsers } from '../../features/users/hooks/useUsers'
+import { UserTable } from '../../features/users/components/user-table'
+import { UserForm } from '../../features/users/components/user-form'
+import { DeleteDialog } from '../../features/users/components/delete-dialog'
 
 export default function UsersPage() {
-  const hook = useUsers();
-  
+  const hook = useUsers()
+
   // Implementation combining all components
 }
 ```
@@ -203,7 +206,7 @@ export const navigation = [
     href: '/users',
     icon: Users,
   },
-];
+]
 ```
 
 ## Usage Examples
@@ -211,45 +214,45 @@ export const navigation = [
 ### Creating a New User
 
 ```typescript
-const { createUser } = useUsers();
+const { createUser } = useUsers()
 
 await createUser({
   name: 'John Doe',
   email: 'john@example.com',
   role: 'user',
-  status: 'active'
-});
+  status: 'active',
+})
 ```
 
 ### Updating an Existing User
 
 ```typescript
-const { updateUser } = useUsers();
+const { updateUser } = useUsers()
 
 await updateUser('user-id', {
   name: 'John Smith',
-  role: 'admin'
-});
+  role: 'admin',
+})
 ```
 
 ### Deleting a User
 
 ```typescript
-const { deleteUser } = useUsers();
+const { deleteUser } = useUsers()
 
-await deleteUser('user-id');
+await deleteUser('user-id')
 ```
 
 ### Filtering and Sorting
 
 ```typescript
-const { setFiltering, setSorting } = useUsers();
+const { setFiltering, setSorting } = useUsers()
 
 // Filter by role
-setFiltering({ role: 'admin' });
+setFiltering({ role: 'admin' })
 
 // Sort by name
-setSorting('name', 'asc');
+setSorting('name', 'asc')
 ```
 
 ## Testing

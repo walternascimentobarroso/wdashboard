@@ -5,13 +5,13 @@
 **Status**: Draft  
 **Input**: User description: "We want to implement a complete Users CRUD feature in the dashboard application. The Users page should be based on the shadcn UI tasks example, including: Data table with sorting, filtering, and pagination; Actions per row (edit and delete); Create new user; Edit existing user; Delete user with confirmation dialog. For now, the data will be stored locally using localStorage (no backend). Requirements: Users should persist between page reloads; Use a service layer to abstract storage (simulate API behavior); UI must follow existing dashboard design (glass effect, dark mode, collapsible sidebar). User fields: id (string), name (string), email (string), role (admin | user), status (active | inactive), createdAt (string). UX requirements: Toast notifications for create, update, delete; Loading and empty states; Reusable form component for create/edit; Confirmation modal before delete. The implementation should be modular and scalable, allowing easy migration to a real API in the future."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
   you should still have a viable MVP (Minimum Viable Product) that delivers value.
-  
+
   Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
   Think of each story as a standalone slice of functionality that can be:
   - Developed independently
@@ -113,7 +113,7 @@ As a dashboard administrator, I want user data to persist between page reloads s
 - What happens when user tries to create a user with extremely long names or emails?
 - How does system handle special characters in user names and emails?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 <!--
   ACTION REQUIRED: The content in this section represents placeholders.
@@ -141,13 +141,13 @@ As a dashboard administrator, I want user data to persist between page reloads s
 - **FR-017**: UI components MUST follow established shadcn dashboard patterns with glass effect and dark mode
 - **FR-018**: System MUST be accessible according to WCAG standards
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **User**: Represents a system user with access permissions. Key attributes include unique identifier, full name, email address, role (admin or user), account status (active or inactive), and creation timestamp
 - **UserRole**: Defines permission levels for users. Two roles exist: admin (full system access) and user (limited access)
 - **UserStatus**: Represents account state. Two statuses exist: active (can access system) and inactive (access disabled)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 <!--
   ACTION REQUIRED: Define measurable success criteria.

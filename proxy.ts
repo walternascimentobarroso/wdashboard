@@ -1,19 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server'
 
 // Public routes that don't require authentication
-const publicRoutes = ['/login', '/'];
+const publicRoutes = ['/login', '/']
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname } = request.nextUrl
 
   // Check if the route is public
   if (publicRoutes.includes(pathname)) {
-    return NextResponse.next();
+    return NextResponse.next()
   }
 
   // For protected routes, check if user is logged in via localStorage (client-side)
   // Since proxy runs on server, we'll let the client-side handle auth check
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
 export const config = {
@@ -27,4 +27,4 @@ export const config = {
      */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
-};
+}

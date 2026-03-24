@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { Users, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Users, Plus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface EmptyStateProps {
-  onCreateUser?: () => void;
-  filtered?: boolean;
+  onCreateUser?: () => void
+  filtered?: boolean
 }
 
 export function EmptyState({ onCreateUser, filtered = false }: EmptyStateProps) {
@@ -31,7 +31,7 @@ export function EmptyState({ onCreateUser, filtered = false }: EmptyStateProps) 
           )}
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -41,9 +41,7 @@ export function EmptyState({ onCreateUser, filtered = false }: EmptyStateProps) 
           <Users className="h-6 w-6" />
         </div>
         <h3 className="text-lg font-semibold">No users yet</h3>
-        <p className="text-muted-foreground">
-          Get started by creating your first user account.
-        </p>
+        <p className="text-muted-foreground">Get started by creating your first user account.</p>
         <p className="text-sm text-muted-foreground">
           Users can be administrators with full access or regular users with limited permissions.
         </p>
@@ -55,5 +53,5 @@ export function EmptyState({ onCreateUser, filtered = false }: EmptyStateProps) 
         )}
       </div>
     </div>
-  );
+  )
 }

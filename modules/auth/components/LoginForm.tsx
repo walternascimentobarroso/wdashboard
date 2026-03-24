@@ -1,37 +1,37 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useAuth } from './AuthProvider';
+import React, { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { useAuth } from './AuthProvider'
 
 interface LoginFormProps {
-  onSuccess?: () => void;
+  onSuccess?: () => void
 }
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const { login } = useAuth();
+  const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+    e.preventDefault()
+    setError('')
+    setIsLoading(true)
 
     try {
-      await login(email, password, rememberMe);
-      onSuccess?.();
+      await login(email, password, rememberMe)
+      onSuccess?.()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      setError(err instanceof Error ? err.message : 'Login failed')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -85,12 +85,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         </div>
       )}
 
-      <Button
-        type="submit"
-        className="w-full"
-        disabled={isLoading}
-        variant="default"
-      >
+      <Button type="submit" className="w-full" disabled={isLoading} variant="default">
         {isLoading ? 'Signing in...' : 'Sign in'}
       </Button>
 
@@ -101,5 +96,5 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <p>Viewer: viewer@dashboard.com / viewer123</p>
       </div>
     </form>
-  );
+  )
 }

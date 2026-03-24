@@ -7,6 +7,7 @@
 ## Prerequisites
 
 ### Required Dependencies
+
 ```bash
 # Ensure these are installed
 npm install tailwindcss@latest
@@ -15,6 +16,7 @@ npm install class-variance-authority clsx tailwind-merge
 ```
 
 ### shadcn/ui Setup
+
 ```bash
 # Initialize shadcn/ui
 npx shadcn-ui@latest init
@@ -28,91 +30,93 @@ npx shadcn-ui@latest add skeleton badge tooltip
 ## Phase 1: Setup UI Base
 
 ### 1.1 Update Tailwind Configuration
+
 ```typescript
 // tailwind.config.ts
-import type { Config } from "tailwindcss"
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: ['class'],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
-  prefix: "",
+  prefix: '',
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: '2rem',
       screens: {
-        "2xl": "1400px",
+        '2xl': '1400px',
       },
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require('tailwindcss-animate')],
 }
 
 export default config
 ```
 
 ### 1.2 Update Global CSS
+
 ```css
 /* app/globals.css */
 @tailwind base;
@@ -182,13 +186,13 @@ export default config
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   .glass-dark {
     background: rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   .glass {
     @apply glass-light dark:glass-dark;
   }
@@ -198,6 +202,7 @@ export default config
 ## Phase 2: Create Layout Components
 
 ### 2.1 Theme Provider
+
 ```typescript
 // components/theme/ThemeProvider.tsx
 "use client"
@@ -212,6 +217,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 ```
 
 ### 2.2 Theme Toggle
+
 ```typescript
 // components/theme/ThemeToggle.tsx
 "use client"
@@ -257,6 +263,7 @@ export function ThemeToggle() {
 ```
 
 ### 2.3 Sidebar Component
+
 ```typescript
 // components/layout/Sidebar.tsx
 "use client"
@@ -309,13 +316,13 @@ export function Sidebar({ expanded = true, onToggle, className, children, ...pro
   )
 }
 
-export function SidebarItem({ 
-  icon, 
-  label, 
-  href, 
-  expanded = true, 
+export function SidebarItem({
+  icon,
+  label,
+  href,
+  expanded = true,
   active = false,
-  ...props 
+  ...props
 }: {
   icon: React.ReactNode
   label: string
@@ -355,6 +362,7 @@ export function SidebarItem({
 ```
 
 ### 2.4 Header Component
+
 ```typescript
 // components/layout/Header.tsx
 import * as React from "react"
@@ -391,6 +399,7 @@ export function Header({ onSidebarToggle, title = "Dashboard" }: HeaderProps) {
 ```
 
 ### 2.5 Dashboard Layout
+
 ```typescript
 // components/layout/DashboardLayout.tsx
 "use client"
@@ -494,6 +503,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
 ## Phase 3: Update Root Layout
 
 ### 3.1 Update App Layout
+
 ```typescript
 // app/layout.tsx
 import type { Metadata } from "next"
@@ -531,6 +541,7 @@ export default function RootLayout({
 ```
 
 ### 3.2 Update Dashboard Page
+
 ```typescript
 // app/dashboard/page.tsx
 import { DashboardLayout } from "@/components/layout/DashboardLayout"
@@ -563,11 +574,11 @@ export default function DashboardPage() {
           href="/dashboard/settings"
         />
       </Sidebar>
-      
+
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Dashboard</h2>
         <p>Welcome to your upgraded dashboard!</p>
-        
+
         {/* Example card with glass effect */}
         <div className="glass rounded-lg p-6">
           <h3 className="text-lg font-semibold">Glass Effect Card</h3>
@@ -582,6 +593,7 @@ export default function DashboardPage() {
 ## Phase 4: Add Glass Effects
 
 ### 4.1 Glass Card Variant
+
 ```typescript
 // components/ui/card.tsx (extend existing)
 import * as React from "react"
@@ -611,11 +623,13 @@ export { Card }
 ## Testing the Implementation
 
 ### 5.1 Development Server
+
 ```bash
 npm run dev
 ```
 
 ### 5.2 Test Features
+
 1. **Theme Toggle**: Click the theme toggle in the header
 2. **Sidebar Toggle**: Click the sidebar toggle button
 3. **Responsive**: Resize browser to see mobile behavior
@@ -632,12 +646,14 @@ npm run dev
 ## Troubleshooting
 
 ### Common Issues
+
 - **Theme not persisting**: Check localStorage availability
 - **Sidebar state not saving**: Verify localStorage writes
 - **Glass effects not visible**: Ensure backdrop-filter is supported
 - **Mobile drawer not working**: Check responsive breakpoints
 
 ### Debug Tips
+
 - Use browser dev tools to inspect localStorage
 - Test with different screen sizes
 - Verify CSS variables are applied correctly
@@ -646,12 +662,14 @@ npm run dev
 ## Performance Optimization
 
 ### Tips
+
 - Use React.memo for expensive components
 - Debounce resize events
 - Lazy load heavy components
 - Optimize glass effect rendering
 
 ### Monitoring
+
 - Monitor sidebar toggle performance
 - Track theme switching speed
 - Measure page load impact

@@ -1,23 +1,23 @@
-'use client';
+'use client'
 
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 export default function HomePage() {
-  const router = useRouter();
-  const t = useTranslations();
+  const router = useRouter()
+  const t = useTranslations()
 
   useEffect(() => {
     // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    
+    const isLoggedIn = localStorage.getItem('isLoggedIn')
+
     if (isLoggedIn === 'true') {
-      router.push('/dashboard');
+      router.push('/dashboard')
     } else {
-      router.push('/login');
+      router.push('/login')
     }
-  }, [router]);
+  }, [router])
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -26,5 +26,5 @@ export default function HomePage() {
         <p className="mt-4 text-gray-600">{t('common.loading')}</p>
       </div>
     </div>
-  );
+  )
 }

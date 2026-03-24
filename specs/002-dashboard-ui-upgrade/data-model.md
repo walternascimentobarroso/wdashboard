@@ -7,9 +7,11 @@
 ## User Preferences Entity
 
 ### Description
+
 Stores user interface preferences that persist across sessions
 
 ### Schema
+
 ```typescript
 interface UserPreferences {
   sidebar: {
@@ -22,18 +24,21 @@ interface UserPreferences {
 ```
 
 ### Fields
+
 - **sidebar.expanded**: Boolean indicating if sidebar is in expanded state
 - **sidebar.mobileOpen**: Boolean indicating if mobile drawer is open
 - **theme**: User's preferred theme mode
 - **glassEffects**: Boolean indicating if glass effects are enabled
 
 ### Validation Rules
+
 - sidebar.expanded: must be boolean, defaults to true
 - sidebar.mobileOpen: must be boolean, defaults to false
 - theme: must be one of 'light', 'dark', 'system', defaults to 'system'
 - glassEffects: must be boolean, defaults to true
 
 ### State Transitions
+
 - Initial load: Read from localStorage or use defaults
 - Theme change: Update theme value and persist
 - Sidebar toggle: Update expanded state and persist
@@ -42,9 +47,11 @@ interface UserPreferences {
 ## Sidebar State Entity
 
 ### Description
+
 Current sidebar configuration and UI state
 
 ### Schema
+
 ```typescript
 interface SidebarState {
   isExpanded: boolean
@@ -55,18 +62,21 @@ interface SidebarState {
 ```
 
 ### Fields
+
 - **isExpanded**: Current expanded/collapsed state
 - **isMobile**: Whether sidebar is in mobile mode
 - **isMobileOpen**: Whether mobile drawer is open
 - **activeItem**: Currently selected navigation item
 
 ### Validation Rules
+
 - isExpanded: boolean, derived from user preferences
 - isMobile: boolean, derived from screen width
 - isMobileOpen: boolean, UI state only
 - activeItem: string or null, defaults to null
 
 ### State Transitions
+
 - Screen resize: Update isMobile based on breakpoint
 - Toggle click: Update isExpanded and persist
 - Mobile interaction: Update isMobileOpen
@@ -75,9 +85,11 @@ interface SidebarState {
 ## Theme Configuration Entity
 
 ### Description
+
 Active theme settings and design tokens
 
 ### Schema
+
 ```typescript
 interface ThemeConfig {
   mode: 'light' | 'dark'
@@ -101,25 +113,30 @@ interface ThemeConfig {
 ```
 
 ### Fields
+
 - **mode**: Active theme mode (resolved from user preference)
 - **colors**: Theme color palette
 - **glass**: Glass effect styling values
 
 ### Validation Rules
+
 - mode: must be 'light' or 'dark'
 - colors: all values must be valid CSS colors
 - glass: values must support transparency
 
 ### State Transitions
+
 - Theme preference change: Update mode and color values
 - System theme change: Update mode if preference is 'system'
 
 ## Glass Effect Configuration Entity
 
 ### Description
+
 Configuration for glassmorphism visual effects
 
 ### Schema
+
 ```typescript
 interface GlassEffectConfig {
   enabled: boolean
@@ -130,27 +147,32 @@ interface GlassEffectConfig {
 ```
 
 ### Fields
+
 - **enabled**: Whether glass effects are active
 - **blur**: Backdrop filter blur amount in pixels
 - **opacity**: Background opacity value (0-1)
 - **borderOpacity**: Border opacity value (0-1)
 
 ### Validation Rules
+
 - enabled: boolean, defaults to true
 - blur: number between 0-20, defaults to 10
 - opacity: number between 0-0.3, defaults to 0.1
 - borderOpacity: number between 0-0.5, defaults to 0.2
 
 ### State Transitions
+
 - Toggle glass effects: Update enabled state and persist
 - Theme change: Update opacity values for readability
 
 ## Navigation Item Entity
 
 ### Description
+
 Sidebar navigation item configuration
 
 ### Schema
+
 ```typescript
 interface NavigationItem {
   id: string
@@ -163,6 +185,7 @@ interface NavigationItem {
 ```
 
 ### Fields
+
 - **id**: Unique identifier for the item
 - **label**: Display text for the item
 - **icon**: Icon name or component
@@ -171,6 +194,7 @@ interface NavigationItem {
 - **disabled**: Whether the item is disabled
 
 ### Validation Rules
+
 - id: required, unique string
 - label: required, non-empty string
 - icon: required, valid icon identifier
@@ -181,6 +205,7 @@ interface NavigationItem {
 ## State Management Architecture
 
 ### Global State
+
 ```typescript
 interface AppState {
   userPreferences: UserPreferences
@@ -191,18 +216,20 @@ interface AppState {
 ```
 
 ### Context Providers
+
 1. **PreferencesContext**: Manages user preferences with localStorage persistence
 2. **ThemeContext**: Provides theme configuration and resolved values
 3. **SidebarContext**: Manages sidebar state and interactions
 
 ### Persistence Strategy
+
 - **localStorage**: User preferences (sidebar state, theme, glass effects)
 - **Session State**: Mobile drawer state, active navigation item
 - **Derived State**: Theme configuration, responsive breakpoints
 
 ## Data Flow
 
-1. **Initial Load**: 
+1. **Initial Load**:
    - Read preferences from localStorage
    - Initialize theme configuration
    - Set sidebar state based on preferences and screen size
@@ -220,12 +247,14 @@ interface AppState {
 ## Integration Points
 
 ### Existing Modules
+
 - **Auth Module**: No changes required
 - **Dashboard Module**: UI updates only
 - **Files Module**: UI updates only
 - **Logs Module**: UI updates only
 
 ### Services Layer
+
 - **API Services**: No changes required
 - **State Management**: New UI-only state added
 - **Utilities**: New theme and layout utilities added
@@ -233,11 +262,13 @@ interface AppState {
 ## Performance Considerations
 
 ### State Updates
+
 - Minimize re-renders with proper memoization
 - Debounce resize events for responsive updates
 - Use localStorage efficiently with batched writes
 
 ### Memory Management
+
 - Clean up event listeners on unmount
 - Avoid memory leaks in context providers
 - Optimize component re-renders
@@ -245,18 +276,21 @@ interface AppState {
 ## Testing Considerations
 
 ### Unit Tests
+
 - State management logic
 - Preference persistence
 - Theme resolution
 - Responsive behavior
 
 ### Integration Tests
+
 - Sidebar interactions
 - Theme switching
 - Mobile responsiveness
 - Glass effect rendering
 
 ### E2E Tests
+
 - Complete user flows
 - Cross-browser compatibility
 - Accessibility compliance

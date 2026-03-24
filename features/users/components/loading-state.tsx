@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react'
 
 export function LoadingState() {
   return (
@@ -10,10 +10,8 @@ export function LoadingState() {
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
         <h3 className="text-lg font-semibold">Loading users...</h3>
-        <p className="text-muted-foreground">
-          Please wait while we fetch the user data.
-        </p>
+        <p className="text-muted-foreground">Please wait while we fetch the user data.</p>
       </div>
     </div>
-  );
+  )
 }

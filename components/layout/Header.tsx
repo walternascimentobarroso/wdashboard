@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme/ThemeToggle"
-import { LanguageSwitcher } from "@/components/LanguageSwitcher"
-import { useTranslations } from "next-intl"
+import * as React from 'react'
+import { useRouter } from 'next/navigation'
+import { Menu } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { useTranslations } from 'next-intl'
 
 interface HeaderProps {
   onSidebarToggle?: () => void
@@ -26,12 +26,7 @@ export function Header({ onSidebarToggle, title }: HeaderProps) {
   return (
     <header className="flex items-center justify-between h-16 px-4 border-b bg-background">
       <div className="flex items-center space-x-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onSidebarToggle}
-          className="md:hidden"
-        >
+        <Button variant="ghost" size="icon" onClick={onSidebarToggle} className="md:hidden">
           <Menu className="h-5 w-5" />
           <span className="sr-only">{t('header.toggleSidebar')}</span>
         </Button>

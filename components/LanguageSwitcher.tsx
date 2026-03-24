@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -15,10 +15,10 @@ export function LanguageSwitcher() {
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'pt', name: 'Português', flag: '🇧🇷' }
+    { code: 'pt', name: 'Português', flag: '🇧🇷' },
   ]
 
-  const currentLanguage = languages.find(lang => lang.code === locale)
+  const currentLanguage = languages.find((lang) => lang.code === locale)
 
   return (
     <DropdownMenu>
@@ -28,9 +28,7 @@ export function LanguageSwitcher() {
           <span className="hidden sm:inline">
             {currentLanguage?.flag} {currentLanguage?.name}
           </span>
-          <span className="sm:hidden">
-            {currentLanguage?.flag}
-          </span>
+          <span className="sm:hidden">{currentLanguage?.flag}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

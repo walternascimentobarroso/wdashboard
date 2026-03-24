@@ -3,6 +3,7 @@
 Auto-generated from all feature plans. Last updated: 2026-03-23
 
 ## Active Technologies
+
 - TypeScript with React 18+ (Next.js) + shadcn/ui, Tailwind CSS, React Query, Next.js (002-dashboard-ui-upgrade)
 - localStorage for user preferences (sidebar state, theme) (002-dashboard-ui-upgrade)
 - TypeScript 5.x with React 18 + Next.js, shadcn/ui, Tailwind CSS, React Query (003-users-crud)
@@ -27,6 +28,7 @@ npm test && npm run lint
 TypeScript with Next.js 14 (App Router): Follow standard conventions
 
 ## Recent Changes
+
 - 003-users-crud: Added TypeScript 5.x with React 18 + Next.js, shadcn/ui, Tailwind CSS, React Query
 - 002-dashboard-ui-upgrade: Added TypeScript with React 18+ (Next.js) + shadcn/ui, Tailwind CSS, React Query, Next.js
 

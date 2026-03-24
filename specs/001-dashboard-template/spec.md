@@ -5,13 +5,13 @@
 **Status**: Draft  
 **Input**: User description: "We are building a Dashboard Template using Next.js and shadcn/ui. Goals: - Provide a reusable dashboard foundation - Start with UI-only using mocked APIs - Prepare for future backend integration Core Features: 1. Authentication (Mocked) - Login page - Simulated authentication - Store mock token - Protected routes 2. Dashboard Overview - KPI cards - Charts (line/bar) - Mocked metrics data 3. Generic CRUD (Users module) - Table with pagination, filters, search - Create / Edit / Delete actions - Modal forms - Fully powered by mocked API layer 4. File Upload Module - Upload UI - File status (pending, processing, done, error) - Simulated processing 5. Logs Module - Display system logs - Filter and search logs - Mocked data 6. Notifications - Toast feedback for actions 7. Settings - Feature flags (enable/disable modules) Technical Requirements: - Next.js (App Router) - shadcn/ui for UI components - TailwindCSS - React Query for data fetching - Mock API layer (no direct hardcoded data in components) Non-Goals: - No real backend integration yet - No real authentication logic - No database persistence"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
   you should still have a viable MVP (Minimum Viable Product) that delivers value.
-  
+
   Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
   Think of each story as a standalone slice of functionality that can be:
   - Developed independently
@@ -122,7 +122,7 @@ As an admin, I want to configure feature flags so that I can enable or disable m
 - How does system handle network errors during file uploads?
 - What happens when user token expires in mocked authentication?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 <!--
   ACTION REQUIRED: The content in this section represents placeholders.
@@ -132,7 +132,7 @@ As an admin, I want to configure feature flags so that I can enable or disable m
 ### Functional Requirements
 
 - **FR-001**: System MUST provide a login page with mock authentication
-- **FR-002**: System MUST store mock authentication tokens for session management  
+- **FR-002**: System MUST store mock authentication tokens for session management
 - **FR-003**: System MUST protect dashboard routes from unauthenticated access
 - **FR-004**: Users MUST be able to view KPI cards with metrics data
 - **FR-005**: System MUST display line and bar charts with mocked data
@@ -146,7 +146,7 @@ As an admin, I want to configure feature flags so that I can enable or disable m
 - **FR-013**: All data access MUST go through a mock API service layer
 - **FR-014**: Components MUST NOT contain hardcoded data
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **User**: Represents user accounts with attributes like name, email, role, status
 - **File**: Represents uploaded files with attributes like name, size, status, upload date
@@ -154,7 +154,7 @@ As an admin, I want to configure feature flags so that I can enable or disable m
 - **KPI**: Represents key performance indicators with attributes like title, value, trend
 - **FeatureFlag**: Represents toggleable features with attributes like name, enabled, description
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 <!--
   ACTION REQUIRED: Define measurable success criteria.

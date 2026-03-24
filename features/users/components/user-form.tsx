@@ -1,13 +1,19 @@
-'use client';
+'use client'
 
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import {
   Dialog,
   DialogContent,
@@ -15,26 +21,26 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { User, CreateUserRequest, UpdateUserRequest, UserRole, UserStatus } from '../types';
+} from '@/components/ui/dialog'
+import { User, CreateUserRequest, UpdateUserRequest, UserRole, UserStatus } from '../types'
 
 const userFormSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name must be less than 100 characters'),
   email: z.string().email('Invalid email address'),
   role: z.enum(['admin', 'user'], { message: 'Please select a role' }),
   status: z.enum(['active', 'inactive']).optional(),
-});
+})
 
-type UserFormData = z.infer<typeof userFormSchema>;
+type UserFormData = z.infer<typeof userFormSchema>
 
 interface UserFormProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSubmit: (data: CreateUserRequest | UpdateUserRequest) => void;
-  loading: boolean;
-  title: string;
-  description: string;
-  user?: User | null;
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onSubmit: (data: CreateUserRequest | UpdateUserRequest) => void
+  loading: boolean
+  title: string
+  description: string
+  user?: User | null
 }
 
 export function UserForm({
@@ -54,7 +60,7 @@ export function UserForm({
       role: user?.role || 'user',
       status: user?.status || 'active',
     },
-  });
+  })
 
   useEffect(() => {
     if (user) {
@@ -63,16 +69,16 @@ export function UserForm({
         email: user.email,
         role: user.role,
         status: user.status,
-      });
+      })
     } else {
       form.reset({
         name: '',
         email: '',
         role: 'user',
         status: 'active',
-      });
+      })
     }
-  }, [user, form]);
+  }, [user, form])
 
   const handleSubmit = (data: UserFormData) => {
     const submitData = user
@@ -83,10 +89,10 @@ export function UserForm({
       : {
           ...data,
           status: data.status || 'active',
-        };
+        }
 
-    onSubmit(submitData);
-  };
+    onSubmit(submitData)
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -179,13 +185,15 @@ export function UserForm({
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                   {user ? 'Updating...' : 'Creating...'}
                 </>
+              ) : user ? (
+                'Update User'
               ) : (
-                user ? 'Update User' : 'Create User'
+                'Create User'
               )}
             </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

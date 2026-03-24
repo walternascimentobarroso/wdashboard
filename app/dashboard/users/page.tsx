@@ -1,25 +1,42 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Plus, Settings } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useUsers } from '@/features/users/hooks/useUsers';
-import { UserTable } from '@/features/users/components/user-table';
-import { UserForm } from '@/features/users/components/user-form';
-import { DeleteDialog } from '@/features/users/components/delete-dialog';
-import { EmptyState } from '@/features/users/components/empty-state';
-import { LoadingState } from '@/features/users/components/loading-state';
-import { User, CreateUserRequest, UpdateUserRequest, UserRole, UserStatus } from '@/features/users/types';
-import { ExportUsersButton } from '@/components/users/export-users-button';
-import { userToasts } from '@/features/users/components/toast-notifications';
-import { useTranslations } from 'next-intl';
+import { useState } from 'react'
+import { Plus, Settings } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { useUsers } from '@/features/users/hooks/useUsers'
+import { UserTable } from '@/features/users/components/user-table'
+import { UserForm } from '@/features/users/components/user-form'
+import { DeleteDialog } from '@/features/users/components/delete-dialog'
+import { EmptyState } from '@/features/users/components/empty-state'
+import { LoadingState } from '@/features/users/components/loading-state'
+import {
+  User,
+  CreateUserRequest,
+  UpdateUserRequest,
+  UserRole,
+  UserStatus,
+} from '@/features/users/types'
+import { ExportUsersButton } from '@/components/users/export-users-button'
+import { userToasts } from '@/features/users/components/toast-notifications'
+import { useTranslations } from 'next-intl'
 
 export default function UsersPage() {
-  const t = useTranslations();
-  
+  const t = useTranslations()
+
   const {
     displayUsers,
     loading,
@@ -36,13 +53,20 @@ export default function UsersPage() {
     totalPages,
     currentPage,
     getFilteredUsers,
-  } = useUsers();
+  } = useUsers()
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [visibleColumns, setVisibleColumns] = useState<string[]>(['name', 'email', 'role', 'status', 'createdAt', 'actions']);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([
+    'name',
+    'email',
+    'role',
+    'status',
+    'createdAt',
+    'actions',
+  ])
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
   const allColumns = [
     { key: 'name', label: t('users.columns.name') },
@@ -51,120 +75,120 @@ export default function UsersPage() {
     { key: 'status', label: t('users.columns.status') },
     { key: 'createdAt', label: t('users.columns.created') },
     { key: 'actions', label: t('users.columns.actions') },
-  ];
+  ]
 
   const toggleColumn = (columnKey: string) => {
     const newColumns = visibleColumns.includes(columnKey)
-      ? visibleColumns.filter(col => col !== columnKey)
-      : [...visibleColumns, columnKey];
-    setVisibleColumns(newColumns);
-  };
+      ? visibleColumns.filter((col) => col !== columnKey)
+      : [...visibleColumns, columnKey]
+    setVisibleColumns(newColumns)
+  }
 
   const handleCreateUser = async (userData: CreateUserRequest | UpdateUserRequest) => {
     try {
-      await createUser(userData as CreateUserRequest);
-      setIsCreateModalOpen(false);
-      userToasts.userCreated(userData.name || 'Unknown user');
+      await createUser(userData as CreateUserRequest)
+      setIsCreateModalOpen(false)
+      userToasts.userCreated(userData.name || 'Unknown user')
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'code' in error) {
-        const err = error as { code: string; message?: string };
+        const err = error as { code: string; message?: string }
         if (err.code === 'DUPLICATE_EMAIL') {
-          userToasts.duplicateEmailError();
+          userToasts.duplicateEmailError()
         } else if (err.code === 'VALIDATION_ERROR') {
-          userToasts.validationError('input');
+          userToasts.validationError('input')
         } else {
-          userToasts.createError(err.message || 'Unknown error');
+          userToasts.createError(err.message || 'Unknown error')
         }
       } else {
-        userToasts.createError('Unknown error');
+        userToasts.createError('Unknown error')
       }
     }
-  };
+  }
 
   const handleEditUser = async (userData: UpdateUserRequest) => {
-    if (!selectedUser) return;
-    
+    if (!selectedUser) return
+
     try {
-      await updateUser(selectedUser.id, userData);
-      setIsEditModalOpen(false);
-      setSelectedUser(null);
-      userToasts.userUpdated(userData.name || selectedUser.name);
+      await updateUser(selectedUser.id, userData)
+      setIsEditModalOpen(false)
+      setSelectedUser(null)
+      userToasts.userUpdated(userData.name || selectedUser.name)
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'code' in error) {
-        const err = error as { code: string; message?: string };
+        const err = error as { code: string; message?: string }
         if (err.code === 'DUPLICATE_EMAIL') {
-          userToasts.duplicateEmailError();
+          userToasts.duplicateEmailError()
         } else if (err.code === 'VALIDATION_ERROR') {
-          userToasts.validationError('input');
+          userToasts.validationError('input')
         } else if (err.code === 'LAST_ADMIN_DEMOTION') {
-          userToasts.lastAdminError();
+          userToasts.lastAdminError()
         } else {
-          userToasts.updateError(err.message || 'Unknown error');
+          userToasts.updateError(err.message || 'Unknown error')
         }
       } else {
-        userToasts.updateError('Unknown error');
+        userToasts.updateError('Unknown error')
       }
     }
-  };
+  }
 
   const handleDeleteUser = async () => {
-    if (!selectedUser) return;
-    
+    if (!selectedUser) return
+
     try {
-      await deleteUser(selectedUser.id);
-      setIsDeleteModalOpen(false);
-      setSelectedUser(null);
-      userToasts.userDeleted(selectedUser.name);
+      await deleteUser(selectedUser.id)
+      setIsDeleteModalOpen(false)
+      setSelectedUser(null)
+      userToasts.userDeleted(selectedUser.name)
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'code' in error) {
-        const err = error as { code: string; message?: string };
+        const err = error as { code: string; message?: string }
         if (err.code === 'LAST_ADMIN_DELETION') {
-          userToasts.lastAdminError();
+          userToasts.lastAdminError()
         } else {
-          userToasts.deleteError(err.message || 'Unknown error');
+          userToasts.deleteError(err.message || 'Unknown error')
         }
       } else {
-        userToasts.deleteError('Unknown error');
+        userToasts.deleteError('Unknown error')
       }
     }
-  };
+  }
 
   const handleEditClick = (user: User) => {
-    setSelectedUser(user);
-    setIsEditModalOpen(true);
-  };
+    setSelectedUser(user)
+    setIsEditModalOpen(true)
+  }
 
   const handleDeleteClick = (user: User) => {
-    setSelectedUser(user);
-    setIsDeleteModalOpen(true);
-  };
+    setSelectedUser(user)
+    setIsDeleteModalOpen(true)
+  }
 
   const handleSort = (column: keyof User, direction: 'asc' | 'desc') => {
-    setSorting(column, direction);
-  };
+    setSorting(column, direction)
+  }
 
   const handlePageChange = (page: number) => {
-    setPagination(page);
-  };
+    setPagination(page)
+  }
 
   const handleSearchChange = (value: string) => {
-    setFiltering({ search: value });
-  };
+    setFiltering({ search: value })
+  }
 
   const handleRoleFilterChange = (value: string) => {
-    setFiltering({ role: value === 'all' ? undefined : value as UserRole });
-  };
+    setFiltering({ role: value === 'all' ? undefined : (value as UserRole) })
+  }
 
   const handleStatusFilterChange = (value: string) => {
-    setFiltering({ status: value === 'all' ? undefined : value as UserStatus });
-  };
+    setFiltering({ status: value === 'all' ? undefined : (value as UserStatus) })
+  }
 
   const handlePageSizeChange = (pageSize: number) => {
-    setPagination(1, pageSize); // Reset to first page when changing page size
-  };
+    setPagination(1, pageSize) // Reset to first page when changing page size
+  }
 
   if (loading && !hasUsers) {
-    return <LoadingState />;
+    return <LoadingState />
   }
 
   if (!hasUsers) {
@@ -179,7 +203,7 @@ export default function UsersPage() {
         </div>
         <EmptyState onCreateUser={() => setIsCreateModalOpen(true)} />
       </div>
-    );
+    )
   }
 
   return (
@@ -220,12 +244,12 @@ export default function UsersPage() {
             </SelectContent>
           </Select>
         </div>
-        
+
         {/* Action Buttons */}
         <div className="flex gap-2">
           {/* Export Button */}
           <ExportUsersButton users={getFilteredUsers()} disabled={loading} />
-          
+
           {/* Column Visibility Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -255,7 +279,7 @@ export default function UsersPage() {
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           <Button onClick={() => setIsCreateModalOpen(true)} size="sm">
             <Plus className="mr-2 h-4 w-4" />
             {t('users.addUser')}
@@ -264,11 +288,7 @@ export default function UsersPage() {
       </div>
 
       {/* Error Display */}
-      {error && (
-        <div className="bg-destructive/15 text-destructive p-3 rounded-md">
-          {error}
-        </div>
-      )}
+      {error && <div className="bg-destructive/15 text-destructive p-3 rounded-md">{error}</div>}
 
       {/* Users Table */}
       {hasFilteredUsers ? (
@@ -320,5 +340,5 @@ export default function UsersPage() {
         user={selectedUser}
       />
     </div>
-  );
+  )
 }

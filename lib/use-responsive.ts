@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 
 interface UseResponsiveReturn {
   isMobile: boolean
@@ -23,7 +23,7 @@ export function useResponsive(): UseResponsiveReturn {
 
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
-    
+
     return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
 

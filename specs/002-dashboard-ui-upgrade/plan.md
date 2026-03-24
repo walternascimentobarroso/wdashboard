@@ -23,12 +23,12 @@ Incremental, non-breaking UI upgrade using shadcn/ui dashboard patterns. The app
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### Required Compliance Gates
 
 - **Non-Breaking Changes**: All changes MUST preserve existing functionality
-- **UI-First Enhancement**: Must use shadcn dashboard patterns with backward compatibility  
+- **UI-First Enhancement**: Must use shadcn dashboard patterns with backward compatibility
 - **Progressive Enhancement**: Features must work independently and be incrementally addable
 - **Clean Architecture**: Must maintain UI/services/modules separation
 - **Reusability**: Components must be generic and reusable across projects
@@ -89,6 +89,7 @@ WDashboard/
 ## Phase 0: Research Complete ✅
 
 **Research Document**: [research.md](./research.md)
+
 - Technical decisions documented
 - Implementation approach validated
 - Risk mitigation strategies defined
@@ -97,23 +98,26 @@ WDashboard/
 ## Phase 1: Design Complete ✅
 
 **Data Model**: [data-model.md](./data-model.md)
+
 - User preferences entity defined
 - State management architecture designed
 - Component contracts specified
 
 **Contracts**: [contracts/ui-contracts.md](./contracts/ui-contracts.md)
+
 - UI component contracts defined
 - Performance requirements specified
 - Testing contracts established
 
 **Quickstart**: [quickstart.md](./quickstart.md)
+
 - Implementation guide created
 - Code examples provided
 - Troubleshooting guide included
 
 ## Constitution Check - Post Design ✅
 
-*Re-evaluated after Phase 1 design - all gates still passed*
+_Re-evaluated after Phase 1 design - all gates still passed_
 
 ### Compliance Verification
 
@@ -132,7 +136,8 @@ WDashboard/
 
 The plan is complete and ready for task generation. All technical unknowns have been resolved, and the design aligns perfectly with the WDashboard Constitution principles.
 
-**Next Steps**: 
+**Next Steps**:
+
 1. Run `/speckit.tasks` to generate actionable implementation tasks
 2. Begin Phase 1: Setup UI Base
 3. Follow the 8-phase implementation approach

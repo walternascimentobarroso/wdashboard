@@ -1,27 +1,25 @@
-'use client';
+'use client'
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import React, { createContext, useContext, useReducer, ReactNode } from 'react'
+import { cn } from '@/lib/utils'
 
 export interface Toast {
-  id: string;
-  title: string;
-  message?: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-  duration?: number;
+  id: string
+  title: string
+  message?: string
+  type: 'success' | 'error' | 'warning' | 'info'
+  duration?: number
 }
 
 interface ToastState {
-  toasts: Toast[];
+  toasts: Toast[]
 }
 
-type ToastAction =
-  | { type: 'ADD_TOAST'; payload: Toast }
-  | { type: 'REMOVE_TOAST'; payload: string };
+type ToastAction = { type: 'ADD_TOAST'; payload: Toast } | { type: 'REMOVE_TOAST'; payload: string }
 
 const initialState: ToastState = {
   toasts: [],
-};
+}
 
 function toastReducer(state: ToastState, action: ToastAction): ToastState {
   switch (action.type) {
@@ -29,75 +27,78 @@ function toastReducer(state: ToastState, action: ToastAction): ToastState {
       return {
         ...state,
         toasts: [...state.toasts, action.payload],
-      };
+      }
     case 'REMOVE_TOAST':
       return {
         ...state,
-        toasts: state.toasts.filter(toast => toast.id !== action.payload),
-      };
+        toasts: state.toasts.filter((toast) => toast.id !== action.payload),
+      }
     default:
-      return state;
+      return state
   }
 }
 
-const ToastContext = createContext<{
-  toasts: Toast[];
-  addToast: (toast: Omit<Toast, 'id'>) => void;
-  removeToast: (id: string) => void;
-} | undefined>(undefined);
+const ToastContext = createContext<
+  | {
+      toasts: Toast[]
+      addToast: (toast: Omit<Toast, 'id'>) => void
+      removeToast: (id: string) => void
+    }
+  | undefined
+>(undefined)
 
 interface ToastProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export function ToastProvider({ children }: ToastProviderProps) {
-  const [state, dispatch] = useReducer(toastReducer, initialState);
+  const [state, dispatch] = useReducer(toastReducer, initialState)
 
   const addToast = (toast: Omit<Toast, 'id'>) => {
-    const id = Math.random().toString(36).substring(2);
+    const id = Math.random().toString(36).substring(2)
     const newToast: Toast = {
       ...toast,
       id,
       duration: toast.duration || 5000,
-    };
+    }
 
-    dispatch({ type: 'ADD_TOAST', payload: newToast });
+    dispatch({ type: 'ADD_TOAST', payload: newToast })
 
     // Auto remove after duration
     setTimeout(() => {
-      dispatch({ type: 'REMOVE_TOAST', payload: id });
-    }, newToast.duration);
-  };
+      dispatch({ type: 'REMOVE_TOAST', payload: id })
+    }, newToast.duration)
+  }
 
   const removeToast = (id: string) => {
-    dispatch({ type: 'REMOVE_TOAST', payload: id });
-  };
+    dispatch({ type: 'REMOVE_TOAST', payload: id })
+  }
 
   return (
     <ToastContext.Provider value={{ toasts: state.toasts, addToast, removeToast }}>
       {children}
       <ToastContainer />
     </ToastContext.Provider>
-  );
+  )
 }
 
 function ToastContainer() {
-  const { toasts, removeToast } = useToast();
+  const { toasts, removeToast } = useToast()
 
   const getToastStyles = (type: Toast['type']) => {
     switch (type) {
       case 'success':
-        return 'bg-green-500 text-white';
+        return 'bg-green-500 text-white'
       case 'error':
-        return 'bg-red-500 text-white';
+        return 'bg-red-500 text-white'
       case 'warning':
-        return 'bg-yellow-500 text-black';
+        return 'bg-yellow-500 text-black'
       case 'info':
-        return 'bg-blue-500 text-white';
+        return 'bg-blue-500 text-white'
       default:
-        return 'bg-gray-500 text-white';
+        return 'bg-gray-500 text-white'
     }
-  };
+  }
 
   return (
     <div className="fixed top-4 right-4 z-50 space-y-2">
@@ -113,9 +114,7 @@ function ToastContainer() {
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <h4 className="font-semibold">{toast.title}</h4>
-              {toast.message && (
-                <p className="text-sm mt-1 opacity-90">{toast.message}</p>
-              )}
+              {toast.message && <p className="text-sm mt-1 opacity-90">{toast.message}</p>}
             </div>
             <button
               onClick={() => removeToast(toast.id)}
@@ -127,33 +126,33 @@ function ToastContainer() {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
 export function useToast() {
-  const context = useContext(ToastContext);
+  const context = useContext(ToastContext)
   if (context === undefined) {
-    throw new Error('useToast must be used within a ToastProvider');
+    throw new Error('useToast must be used within a ToastProvider')
   }
-  return context;
+  return context
 }
 
 // Helper functions for common toast types
 export const useToastHelpers = () => {
-  const { addToast } = useToast();
+  const { addToast } = useToast()
 
   return {
     success: (title: string, message?: string) => {
-      addToast({ title, message, type: 'success' });
+      addToast({ title, message, type: 'success' })
     },
     error: (title: string, message?: string) => {
-      addToast({ title, message, type: 'error' });
+      addToast({ title, message, type: 'error' })
     },
     warning: (title: string, message?: string) => {
-      addToast({ title, message, type: 'warning' });
+      addToast({ title, message, type: 'warning' })
     },
     info: (title: string, message?: string) => {
-      addToast({ title, message, type: 'info' });
+      addToast({ title, message, type: 'info' })
     },
-  };
-};
+  }
+}

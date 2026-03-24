@@ -12,33 +12,43 @@ Follow-up TODOs: None
 ## Core Principles
 
 ### I. Non-Breaking Changes
+
 All changes MUST preserve existing functionality. Avoid refactoring unrelated parts. The dashboard MUST remain fully operational during evolution. No feature removal without migration path.
 
 ### II. UI-First Enhancement
+
 Improve UI using shadcn dashboard patterns. Maintain compatibility with current structure. All UI enhancements MUST be backward compatible and degrade gracefully.
 
 ### III. Progressive Enhancement
+
 Introduce features incrementally (sidebar, theme, glass). Each feature MUST work independently. Features can be enabled/disabled without breaking core functionality.
 
 ### IV. Clean Architecture Preservation
+
 Keep separation between UI, services, and modules. Do not introduce tight coupling. Module boundaries MUST be respected during all enhancements.
 
 ### V. Reusability
+
 Sidebar, theme system, and layout MUST be reusable across projects. Components MUST be generic and project-agnostic. No hardcoded business logic in reusable components.
 
 ### VI. Theming System
+
 Support light, dark, and system modes. Use design tokens (no hardcoded colors). Theme switching MUST be instant and persistent across sessions.
 
 ### VII. UX Consistency
+
 Maintain consistent spacing, typography, and interaction patterns. All new components MUST follow established design system. No custom styling deviations.
 
 ### VIII. Minimal Glassmorphism
+
 Use glass effect only in specific components (cards, dialogs). Never compromise readability. Glass effects MUST enhance, not obscure, content.
 
 ### IX. State Persistence
+
 Persist sidebar state and theme in localStorage. User preferences MUST survive page refreshes and browser sessions. State management MUST be predictable.
 
 ### X. Scalability
+
 Ensure new features (sidebar, theme) are modular and extensible. Architecture MUST support future enhancements without breaking changes. Plugin-ready design patterns.
 
 ## Technology Stack

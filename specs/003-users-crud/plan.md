@@ -29,12 +29,12 @@ Implement a complete Users CRUD management feature for the dashboard application
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### Required Compliance Gates
 
 - **Non-Breaking Changes**: All changes MUST preserve existing functionality
-- **UI-First Enhancement**: Must use shadcn dashboard patterns with backward compatibility  
+- **UI-First Enhancement**: Must use shadcn dashboard patterns with backward compatibility
 - **Progressive Enhancement**: Features must work independently and be incrementally addable
 - **Clean Architecture**: Must maintain UI/services/modules separation
 - **Reusability**: Components must be generic and reusable across projects
@@ -94,7 +94,7 @@ tests/
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

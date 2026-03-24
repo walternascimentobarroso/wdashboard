@@ -7,35 +7,37 @@
 ## Base API Contract
 
 ### Response Format
+
 ```typescript
 interface ApiResponse<T> {
-  data: T;
-  success: boolean;
-  message?: string;
-  timestamp: Date;
+  data: T
+  success: boolean
+  message?: string
+  timestamp: Date
 }
 
 interface PaginatedResponse<T> extends ApiResponse<T[]> {
   pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
+    page: number
+    limit: number
+    total: number
+    totalPages: number
+  }
 }
 
 interface ErrorResponse {
-  success: false;
+  success: false
   error: {
-    code: string;
-    message: string;
-    details?: any;
-  };
-  timestamp: Date;
+    code: string
+    message: string
+    details?: any
+  }
+  timestamp: Date
 }
 ```
 
 ### Error Codes
+
 - `AUTH_REQUIRED` - Authentication required
 - `INVALID_CREDENTIALS` - Invalid login credentials
 - `PERMISSION_DENIED` - Insufficient permissions
@@ -47,6 +49,7 @@ interface ErrorResponse {
 ## Authentication Service Contract
 
 ### Login
+
 ```typescript
 interface LoginRequest {
   email: string;
@@ -66,6 +69,7 @@ mockAuthService.login(credentials: LoginRequest): Promise<LoginResponse>
 ```
 
 ### Logout
+
 ```typescript
 interface LogoutRequest {
   token: string;
@@ -76,6 +80,7 @@ mockAuthService.logout(token: string): Promise<void>
 ```
 
 ### Verify Token
+
 ```typescript
 interface TokenVerification {
   valid: boolean;
@@ -88,6 +93,7 @@ mockAuthService.verifyToken(token: string): Promise<TokenVerification>
 ```
 
 ### Get Current User
+
 ```typescript
 // Mock Implementation
 mockAuthService.getCurrentUser(token: string): Promise<User>
@@ -96,6 +102,7 @@ mockAuthService.getCurrentUser(token: string): Promise<User>
 ## Users Service Contract
 
 ### Get Users (Paginated)
+
 ```typescript
 interface GetUsersParams {
   page?: number;
@@ -112,12 +119,14 @@ mockUsersService.getUsers(params: GetUsersParams): Promise<PaginatedResponse<Use
 ```
 
 ### Get User by ID
+
 ```typescript
 // Mock Implementation
 mockUsersService.getUserById(id: string): Promise<ApiResponse<User>>
 ```
 
 ### Create User
+
 ```typescript
 interface CreateUserRequest {
   name: string;
@@ -131,6 +140,7 @@ mockUsersService.createUser(user: CreateUserRequest): Promise<ApiResponse<User>>
 ```
 
 ### Update User
+
 ```typescript
 interface UpdateUserRequest {
   name?: string;
@@ -144,6 +154,7 @@ mockUsersService.updateUser(id: string, user: UpdateUserRequest): Promise<ApiRes
 ```
 
 ### Delete User
+
 ```typescript
 // Mock Implementation
 mockUsersService.deleteUser(id: string): Promise<ApiResponse<void>>
@@ -152,6 +163,7 @@ mockUsersService.deleteUser(id: string): Promise<ApiResponse<void>>
 ## Files Service Contract
 
 ### Upload File
+
 ```typescript
 interface UploadFileRequest {
   file: File;
@@ -169,6 +181,7 @@ mockFilesService.uploadFile(request: UploadFileRequest): Promise<UploadResponse>
 ```
 
 ### Get Files (Paginated)
+
 ```typescript
 interface GetFilesParams {
   page?: number;
@@ -183,18 +196,21 @@ mockFilesService.getFiles(params: GetFilesParams): Promise<PaginatedResponse<Fil
 ```
 
 ### Get File by ID
+
 ```typescript
 // Mock Implementation
 mockFilesService.getFileById(id: string): Promise<ApiResponse<File>>
 ```
 
 ### Delete File
+
 ```typescript
 // Mock Implementation
 mockFilesService.deleteFile(id: string): Promise<ApiResponse<void>>
 ```
 
 ### Retry File Processing
+
 ```typescript
 // Mock Implementation
 mockFilesService.retryProcessing(id: string): Promise<ApiResponse<File>>
@@ -203,6 +219,7 @@ mockFilesService.retryProcessing(id: string): Promise<ApiResponse<File>>
 ## Logs Service Contract
 
 ### Get Logs (Paginated)
+
 ```typescript
 interface GetLogsParams {
   page?: number;
@@ -219,12 +236,14 @@ mockLogsService.getLogs(params: GetLogsParams): Promise<PaginatedResponse<Log>>
 ```
 
 ### Get Log by ID
+
 ```typescript
 // Mock Implementation
 mockLogsService.getLogById(id: string): Promise<ApiResponse<Log>>
 ```
 
 ### Create Log Entry
+
 ```typescript
 interface CreateLogRequest {
   level: string;
@@ -241,6 +260,7 @@ mockLogsService.createLog(log: CreateLogRequest): Promise<ApiResponse<Log>>
 ## Dashboard Service Contract
 
 ### Get KPIs
+
 ```typescript
 interface GetKPIsParams {
   category?: string;
@@ -252,6 +272,7 @@ mockDashboardService.getKPIs(params: GetKPIsParams): Promise<ApiResponse<KPI[]>>
 ```
 
 ### Get Chart Data
+
 ```typescript
 interface ChartDataRequest {
   type: 'line' | 'bar';
@@ -273,6 +294,7 @@ mockDashboardService.getChartData(request: ChartDataRequest): Promise<ApiRespons
 ```
 
 ### Get Dashboard Stats
+
 ```typescript
 interface DashboardStats {
   totalUsers: number;
@@ -290,12 +312,14 @@ mockDashboardService.getStats(): Promise<ApiResponse<DashboardStats>>
 ## Settings Service Contract
 
 ### Get Feature Flags
+
 ```typescript
 // Mock Implementation
 mockSettingsService.getFeatureFlags(): Promise<ApiResponse<FeatureFlag[]>>
 ```
 
 ### Update Feature Flag
+
 ```typescript
 interface UpdateFeatureFlagRequest {
   enabled: boolean;
@@ -306,6 +330,7 @@ mockSettingsService.updateFeatureFlag(id: string, request: UpdateFeatureFlagRequ
 ```
 
 ### Get App Settings
+
 ```typescript
 interface AppSettings {
   theme: 'light' | 'dark' | 'system';
@@ -323,6 +348,7 @@ mockSettingsService.getAppSettings(): Promise<ApiResponse<AppSettings>>
 ```
 
 ### Update App Settings
+
 ```typescript
 // Mock Implementation
 mockSettingsService.updateAppSettings(settings: Partial<AppSettings>): Promise<ApiResponse<AppSettings>>
@@ -331,18 +357,21 @@ mockSettingsService.updateAppSettings(settings: Partial<AppSettings>): Promise<A
 ## Mock API Behavior
 
 ### Response Delays
+
 - Authentication operations: 200-500ms
 - Data fetching: 100-300ms
 - File uploads: 500-2000ms (simulated processing)
 - CRUD operations: 200-400ms
 
 ### Error Simulation
+
 - Network errors: 5% probability
 - Server errors: 2% probability
 - Validation errors: when invalid data provided
 - Authentication errors: when token invalid/expired
 
 ### Data Persistence
+
 - In-memory storage during session
 - Reset on page refresh (simulates no real backend)
 - Consistent mock data generation
@@ -351,15 +380,16 @@ mockSettingsService.updateAppSettings(settings: Partial<AppSettings>): Promise<A
 ## Service Layer Implementation Pattern
 
 ### Base Service Class
+
 ```typescript
 abstract class BaseMockService {
   protected delay(ms: number = 200): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
   protected randomError(errorRate: number = 0.05): void {
     if (Math.random() < errorRate) {
-      throw new Error('Simulated network error');
+      throw new Error('Simulated network error')
     }
   }
 
@@ -367,21 +397,22 @@ abstract class BaseMockService {
     return {
       data,
       success: true,
-      timestamp: new Date()
-    };
+      timestamp: new Date(),
+    }
   }
 
   protected createErrorResponse(code: string, message: string): ErrorResponse {
     return {
       success: false,
       error: { code, message },
-      timestamp: new Date()
-    };
+      timestamp: new Date(),
+    }
   }
 }
 ```
 
 ### React Query Integration
+
 ```typescript
 // Example hook for users
 export function useUsers(params: GetUsersParams) {
@@ -390,19 +421,19 @@ export function useUsers(params: GetUsersParams) {
     queryFn: () => mockUsersService.getUsers(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000, // 10 minutes
-  });
+  })
 }
 
 // Example mutation for creating user
 export function useCreateUser() {
-  const queryClient = useQueryClient();
-  
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (user: CreateUserRequest) => mockUsersService.createUser(user),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['users'] })
     },
-  });
+  })
 }
 ```
 
@@ -411,58 +442,58 @@ export function useCreateUser() {
 ```typescript
 // Common types used across services
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'user' | 'viewer';
-  status: 'active' | 'inactive' | 'suspended';
-  createdAt: Date;
-  lastLoginAt: Date | null;
-  avatar: string | null;
+  id: string
+  name: string
+  email: string
+  role: 'admin' | 'user' | 'viewer'
+  status: 'active' | 'inactive' | 'suspended'
+  createdAt: Date
+  lastLoginAt: Date | null
+  avatar: string | null
 }
 
 export interface File {
-  id: string;
-  name: string;
-  size: number;
-  type: string;
-  status: 'pending' | 'processing' | 'done' | 'error';
-  uploadedAt: Date;
-  processedAt: Date | null;
-  errorMessage: string | null;
-  downloadUrl: string | null;
+  id: string
+  name: string
+  size: number
+  type: string
+  status: 'pending' | 'processing' | 'done' | 'error'
+  uploadedAt: Date
+  processedAt: Date | null
+  errorMessage: string | null
+  downloadUrl: string | null
 }
 
 export interface Log {
-  id: string;
-  timestamp: Date;
-  level: 'error' | 'warn' | 'info' | 'debug';
-  message: string;
-  source: string;
-  userId: string | null;
-  metadata: Record<string, any>;
+  id: string
+  timestamp: Date
+  level: 'error' | 'warn' | 'info' | 'debug'
+  message: string
+  source: string
+  userId: string | null
+  metadata: Record<string, any>
 }
 
 export interface KPI {
-  id: string;
-  title: string;
-  value: number | string;
-  previousValue: number | string | null;
-  trend: 'up' | 'down' | 'stable' | null;
-  unit: string | null;
-  format: 'number' | 'currency' | 'percentage' | 'text';
-  category: string;
-  updatedAt: Date;
+  id: string
+  title: string
+  value: number | string
+  previousValue: number | string | null
+  trend: 'up' | 'down' | 'stable' | null
+  unit: string | null
+  format: 'number' | 'currency' | 'percentage' | 'text'
+  category: string
+  updatedAt: Date
 }
 
 export interface FeatureFlag {
-  id: string;
-  name: string;
-  enabled: boolean;
-  description: string;
-  category: string;
-  requiredRole: 'admin' | 'user' | 'viewer' | null;
-  updatedAt: Date;
-  updatedBy: string | null;
+  id: string
+  name: string
+  enabled: boolean
+  description: string
+  category: string
+  requiredRole: 'admin' | 'user' | 'viewer' | null
+  updatedAt: Date
+  updatedBy: string | null
 }
 ```

@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { useState, useEffect } from "react"
-import { cn } from "@/lib/utils"
-import { Header } from "./Header"
-import { Sidebar, SidebarItem, SidebarCategory } from "./Sidebar"
-import { Sheet, SheetContent } from "@/components/ui/sheet"
-import { useResponsive } from "@/lib/use-responsive"
-import { navigationConfig } from "@/lib/navigation"
-import { usePathname } from "next/navigation"
-import { useTranslations } from "next-intl"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { cn } from '@/lib/utils'
+import { Header } from './Header'
+import { Sidebar, SidebarItem, SidebarCategory } from './Sidebar'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { useResponsive } from '@/lib/use-responsive'
+import { navigationConfig } from '@/lib/navigation'
+import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -62,9 +62,9 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
       <>
         {/* Main Categories */}
         {navigationConfig.categories.map((category) => (
-          <SidebarCategory 
-            key={category.id} 
-            title={t(`navigation.${category.id}`)} 
+          <SidebarCategory
+            key={category.id}
+            title={t(`navigation.${category.id}`)}
             expanded={sidebarExpanded}
           >
             {category.items.map((item) => (
@@ -82,10 +82,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
 
         {/* User Items */}
         {navigationConfig.userItems && navigationConfig.userItems.length > 0 && (
-          <SidebarCategory 
-            title={t('navigation.user')} 
-            expanded={sidebarExpanded}
-          >
+          <SidebarCategory title={t('navigation.user')} expanded={sidebarExpanded}>
             {navigationConfig.userItems.map((item) => (
               <SidebarItem
                 key={item.id}
@@ -104,7 +101,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
 
   if (isMobile) {
     return (
-      <div className={cn("min-h-screen bg-background", className)}>
+      <div className={cn('min-h-screen bg-background', className)}>
         <Header onSidebarToggle={handleSidebarToggle} />
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetContent side="left" className="p-0 w-64">
@@ -113,24 +110,20 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
             </Sidebar>
           </SheetContent>
         </Sheet>
-        <main className="p-4">
-          {children}
-        </main>
+        <main className="p-4">{children}</main>
       </div>
     )
   }
 
   return (
-    <div className={cn("min-h-screen bg-background", className)}>
+    <div className={cn('min-h-screen bg-background', className)}>
       <div className="flex h-screen">
         <Sidebar expanded={sidebarExpanded} onToggle={handleSidebarToggle}>
           {renderNavigation()}
         </Sidebar>
         <div className="flex-1 flex flex-col">
           <Header onSidebarToggle={handleSidebarToggle} />
-          <main className="flex-1 overflow-auto p-4">
-            {children}
-          </main>
+          <main className="flex-1 overflow-auto p-4">{children}</main>
         </div>
       </div>
     </div>

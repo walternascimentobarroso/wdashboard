@@ -1,17 +1,25 @@
-import React from 'react';
-import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { ChartData } from '@/types/kpi';
+import React from 'react'
+import {
+  LineChart as RechartsLineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
+import { ChartData } from '@/types/kpi'
 
 interface LineChartProps {
-  data: ChartData;
-  className?: string;
+  data: ChartData
+  className?: string
 }
 
 export function LineChart({ data, className }: LineChartProps) {
   const chartData = data.labels.map((label, index) => ({
     name: label,
     value: data.datasets[0]?.data[index] || 0,
-  }));
+  }))
 
   return (
     <div className={className}>
@@ -31,5 +39,5 @@ export function LineChart({ data, className }: LineChartProps) {
         </RechartsLineChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }

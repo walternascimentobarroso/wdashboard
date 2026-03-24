@@ -1,6 +1,6 @@
-import js from '@eslint/js';
-import typescript from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
+import js from '@eslint/js'
+import typescript from '@typescript-eslint/eslint-plugin'
+import typescriptParser from '@typescript-eslint/parser'
 
 export default [
   js.configs.recommended,
@@ -13,8 +13,8 @@ export default [
       'build/**',
       '.git/**',
       '*.config.js',
-      '*.config.ts'
-    ]
+      '*.config.ts',
+    ],
   },
   {
     files: ['**/*.{ts,tsx}'],
@@ -33,8 +33,8 @@ export default [
         Buffer: 'readonly',
         module: 'readonly',
         require: 'readonly',
-        exports: 'readonly'
-      }
+        exports: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': typescript,
@@ -44,8 +44,8 @@ export default [
       'no-console': 'warn',
       'no-undef': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn'
-    }
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
   },
   {
     files: ['**/*.{js,jsx}'],
@@ -60,13 +60,13 @@ export default [
         __filename: 'readonly',
         module: 'readonly',
         require: 'readonly',
-        exports: 'readonly'
-      }
+        exports: 'readonly',
+      },
     },
     rules: {
       'no-unused-vars': 'warn',
       'no-console': 'warn',
-      'no-undef': 'error'
-    }
-  }
-];
+      'no-undef': 'error',
+    },
+  },
+]

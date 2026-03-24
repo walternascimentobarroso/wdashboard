@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { AlertTriangle, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { AlertTriangle, Loader2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -9,30 +9,24 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { User } from '../types';
+} from '@/components/ui/dialog'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { User } from '../types'
 
 interface DeleteDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirm: () => void;
-  loading: boolean;
-  user: User | null;
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onConfirm: () => void
+  loading: boolean
+  user: User | null
 }
 
-export function DeleteDialog({
-  open,
-  onOpenChange,
-  onConfirm,
-  loading,
-  user,
-}: DeleteDialogProps) {
+export function DeleteDialog({ open, onOpenChange, onConfirm, loading, user }: DeleteDialogProps) {
   const handleConfirm = () => {
     if (!loading) {
-      onConfirm();
+      onConfirm()
     }
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -84,7 +78,8 @@ export function DeleteDialog({
               <Alert variant="destructive">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  This user is an administrator. Make sure there are other administrators before deleting.
+                  This user is an administrator. Make sure there are other administrators before
+                  deleting.
                 </AlertDescription>
               </Alert>
             )}
@@ -92,18 +87,10 @@ export function DeleteDialog({
         )}
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={loading}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
             Cancel
           </Button>
-          <Button
-            variant="destructive"
-            onClick={handleConfirm}
-            disabled={loading}
-          >
+          <Button variant="destructive" onClick={handleConfirm} disabled={loading}>
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -116,5 +103,5 @@ export function DeleteDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

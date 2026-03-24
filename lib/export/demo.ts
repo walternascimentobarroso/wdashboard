@@ -1,8 +1,8 @@
 // Demo script to test export functionality
 // This can be run in the browser console to test exports
 
-import { exportUsersToExcel, exportUsersToPDF } from './index';
-import { User } from '@/features/users/types';
+import { exportUsersToExcel, exportUsersToPDF } from './index'
+import { User } from '@/features/users/types'
 
 // Sample data for testing
 const sampleUsers: User[] = [
@@ -30,12 +30,12 @@ const sampleUsers: User[] = [
     status: 'active',
     createdAt: '2024-02-01T09:15:00Z',
   },
-];
+]
 
 // Test functions
 export function testExcelExport() {
   try {
-    exportUsersToExcel(sampleUsers, 'test-users.xlsx');
+    exportUsersToExcel(sampleUsers, 'test-users.xlsx')
   } catch {
     // Excel export failed
   }
@@ -43,7 +43,7 @@ export function testExcelExport() {
 
 export function testPDFExport() {
   try {
-    exportUsersToPDF(sampleUsers, 'test-users.pdf');
+    exportUsersToPDF(sampleUsers, 'test-users.pdf')
   } catch {
     // PDF export failed
   }
@@ -52,14 +52,14 @@ export function testPDFExport() {
 // Make available globally for testing
 if (typeof window !== 'undefined') {
   interface TestExports {
-    testExcelExport: () => void;
-    testPDFExport: () => void;
-    sampleUsers: User[];
+    testExcelExport: () => void
+    testPDFExport: () => void
+    sampleUsers: User[]
   }
-  
-  (window as Window & { testExports?: TestExports }).testExports = {
+
+  ;(window as Window & { testExports?: TestExports }).testExports = {
     testExcelExport,
     testPDFExport,
     sampleUsers,
-  };
+  }
 }

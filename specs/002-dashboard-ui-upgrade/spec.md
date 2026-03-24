@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "We are upgrading the existing dashboard project using shadcn/ui dashboard example as visual base. Goals: - Improve UI and UX without breaking the app - Introduce collapsible sidebar (mini sidebar) - Add dark mode support - Add subtle glassmorphism effects - Keep architecture clean and modular"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Layout Modernization (Priority: P1)
 
@@ -98,12 +98,12 @@ As a mobile user, I want the sidebar to adapt to small screens so that I can eff
 - How does sidebar behave on extremely small screens (below 320px)?
 - What happens when user has JavaScript disabled?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
 - **FR-001**: System MUST maintain all existing functionality during UI upgrade
-- **FR-002**: System MUST support collapsible sidebar with icon-only mini state  
+- **FR-002**: System MUST support collapsible sidebar with icon-only mini state
 - **FR-003**: Users MUST be able to toggle between expanded and collapsed sidebar states
 - **FR-004**: System MUST persist sidebar state in localStorage across sessions
 - **FR-005**: System MUST support light, dark, and system theme modes
@@ -120,14 +120,14 @@ As a mobile user, I want the sidebar to adapt to small screens so that I can eff
 - **FR-016**: System MUST support smooth transitions for sidebar and theme changes
 - **FR-017**: System MUST be accessible according to WCAG standards
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **UserPreferences**: Stores sidebar state (expanded/collapsed) and theme preference (light/dark/system)
 - **SidebarState**: Current sidebar configuration including collapsed state and mobile drawer status
 - **ThemeConfig**: Active theme settings with color values and design tokens
 - **GlassEffectConfig**: Configuration for blur, transparency, and visual effects parameters
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

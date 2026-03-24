@@ -11,8 +11,8 @@ export function getLocale(): string {
   // Check for cookie first
   if (typeof window !== 'undefined') {
     const cookies = document.cookie.split(';')
-    const localeCookie = cookies.find(cookie => cookie.trim().startsWith('locale='))
-    
+    const localeCookie = cookies.find((cookie) => cookie.trim().startsWith('locale='))
+
     if (localeCookie) {
       const value = localeCookie.split('=')[1]
       if (['en', 'pt'].includes(value)) {

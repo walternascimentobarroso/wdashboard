@@ -1,30 +1,26 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { AuthProvider } from '@/modules/auth/components/AuthProvider';
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { DashboardLayout } from '@/components/layout/DashboardLayout'
+import { AuthProvider } from '@/modules/auth/components/AuthProvider'
 
-export default function DashboardRootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const router = useRouter();
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+export default function DashboardRootLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const [userEmail, setUserEmail] = useState<string | null>(null)
 
   useEffect(() => {
     // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const email = localStorage.getItem('userEmail');
-    
+    const isLoggedIn = localStorage.getItem('isLoggedIn')
+    const email = localStorage.getItem('userEmail')
+
     if (isLoggedIn !== 'true' || !email) {
-      router.push('/login');
-      return;
+      router.push('/login')
+      return
     }
-    
-    setUserEmail(email);
-  }, [router]);
+
+    setUserEmail(email)
+  }, [router])
 
   if (!userEmail) {
     return (
@@ -34,12 +30,12 @@ export default function DashboardRootLayout({
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <AuthProvider>
       <DashboardLayout>{children}</DashboardLayout>
     </AuthProvider>
-  );
+  )
 }

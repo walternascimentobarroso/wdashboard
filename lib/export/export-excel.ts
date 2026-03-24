@@ -1,21 +1,21 @@
-import * as XLSX from 'xlsx';
-import { User } from '@/features/users/types';
+import * as XLSX from 'xlsx'
+import { User } from '@/features/users/types'
 
 export interface ExportData {
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  createdAt: string;
+  name: string
+  email: string
+  role: string
+  status: string
+  createdAt: string
 }
 
 export function exportUsersToExcel(users: User[], filename?: string): void {
   if (users.length === 0) {
-    throw new Error('No users to export');
+    throw new Error('No users to export')
   }
 
   // Transform user data for export
-  const exportData: ExportData[] = users.map(user => ({
+  const exportData: ExportData[] = users.map((user) => ({
     name: user.name,
     email: user.email,
     role: user.role.charAt(0).toUpperCase() + user.role.slice(1),
@@ -23,14 +23,14 @@ export function exportUsersToExcel(users: User[], filename?: string): void {
     createdAt: new Date(user.createdAt).toLocaleDateString('en-US', {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit'
-    })
-  }));
+      day: '2-digit',
+    }),
+  }))
 
   // Create worksheet
   const ws = XLSX.utils.json_to_sheet(exportData, {
-    header: ['name', 'email', 'role', 'status', 'createdAt']
-  });
+    header: ['name', 'email', 'role', 'status', 'createdAt'],
+  })
 
   // Set column widths
   const colWidths = [
@@ -38,18 +38,18 @@ export function exportUsersToExcel(users: User[], filename?: string): void {
     { wch: 30 }, // email
     { wch: 15 }, // role
     { wch: 15 }, // status
-    { wch: 15 }  // createdAt
-  ];
-  ws['!cols'] = colWidths;
+    { wch: 15 }, // createdAt
+  ]
+  ws['!cols'] = colWidths
 
   // Create workbook
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Users');
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Users')
 
   // Generate filename with timestamp
-  const timestamp = new Date().toISOString().split('T')[0];
-  const finalFilename = filename || `users-${timestamp}.xlsx`;
+  const timestamp = new Date().toISOString().split('T')[0]
+  const finalFilename = filename || `users-${timestamp}.xlsx`
 
   // Download file
-  XLSX.writeFile(wb, finalFilename);
+  XLSX.writeFile(wb, finalFilename)
 }

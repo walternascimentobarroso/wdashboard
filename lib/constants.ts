@@ -1,9 +1,9 @@
 // App metadata
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'WDashboard';
-export const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0';
+export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'WDashboard'
+export const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0'
 
 // API configuration
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api'
 
 // Mock delays (in milliseconds)
 export const MOCK_DELAYS = {
@@ -12,14 +12,14 @@ export const MOCK_DELAYS = {
   FILE_UPLOAD: 1000,
   CRUD: 300,
   ERROR_RATE: 0.05, // 5% error rate
-};
+}
 
 // Pagination defaults
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
   DEFAULT_LIMIT: 10,
   LIMIT_OPTIONS: [10, 25, 50],
-};
+}
 
 // File upload limits
 export const FILE_UPLOAD = {
@@ -33,7 +33,7 @@ export const FILE_UPLOAD = {
     'application/json',
     'text/csv',
   ],
-};
+}
 
 // Navigation structure
 export const NAVIGATION = [
@@ -67,7 +67,7 @@ export const NAVIGATION = [
     href: '/settings',
     icon: 'Settings',
   },
-];
+]
 
 // Log levels
 export const LOG_LEVELS = {
@@ -75,21 +75,21 @@ export const LOG_LEVELS = {
   WARN: 'warn',
   INFO: 'info',
   DEBUG: 'debug',
-} as const;
+} as const
 
 // User roles
 export const USER_ROLES = {
   ADMIN: 'admin',
   USER: 'user',
   VIEWER: 'viewer',
-} as const;
+} as const
 
 // User statuses
 export const USER_STATUSES = {
   ACTIVE: 'active',
   INACTIVE: 'inactive',
   SUSPENDED: 'suspended',
-} as const;
+} as const
 
 // File statuses
 export const FILE_STATUSES = {
@@ -97,7 +97,7 @@ export const FILE_STATUSES = {
   PROCESSING: 'processing',
   DONE: 'done',
   ERROR: 'error',
-} as const;
+} as const
 
 // Error codes
 export const ERROR_CODES = {
@@ -108,14 +108,14 @@ export const ERROR_CODES = {
   VALIDATION_ERROR: 'VALIDATION_ERROR',
   SERVER_ERROR: 'SERVER_ERROR',
   NETWORK_ERROR: 'NETWORK_ERROR',
-} as const;
+} as const
 
 // Toast configurations
 export const TOAST_CONFIG = {
   DURATION: 5000, // 5 seconds
   POSITION: 'top-right' as const,
   MAX_TOASTS: 3,
-};
+}
 
 // Chart colors
 export const CHART_COLORS = {
@@ -124,4 +124,4 @@ export const CHART_COLORS = {
   WARNING: '#f59e0b',
   ERROR: '#ef4444',
   INFO: '#06b6d4',
-};
+}

@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   useReactTable,
@@ -10,26 +10,32 @@ import {
   flexRender,
   Column,
   Row,
-} from '@tanstack/react-table';
-import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import { User } from '../types';
-import { UserActions } from './user-actions';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useTranslations } from 'next-intl';
+} from '@tanstack/react-table'
+import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { User } from '../types'
+import { UserActions } from './user-actions'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { useTranslations } from 'next-intl'
 
 interface UserTableProps {
-  users: User[];
-  loading: boolean;
-  onEdit: (user: User) => void;
-  onDelete: (user: User) => void;
-  onSort: (column: keyof User, direction: 'asc' | 'desc') => void;
-  onPageChange: (page: number) => void;
-  onPageSizeChange: (pageSize: number) => void;
-  pageSize: number;
-  currentPage: number;
-  totalPages: number;
-  totalItems: number;
-  visibleColumns: string[];
+  users: User[]
+  loading: boolean
+  onEdit: (user: User) => void
+  onDelete: (user: User) => void
+  onSort: (column: keyof User, direction: 'asc' | 'desc') => void
+  onPageChange: (page: number) => void
+  onPageSizeChange: (pageSize: number) => void
+  pageSize: number
+  currentPage: number
+  totalPages: number
+  totalItems: number
+  visibleColumns: string[]
 }
 
 export function UserTable({
@@ -46,8 +52,8 @@ export function UserTable({
   totalItems,
   visibleColumns,
 }: UserTableProps) {
-  const t = useTranslations();
-  
+  const t = useTranslations()
+
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: 'name',
@@ -109,7 +115,7 @@ export function UserTable({
         </button>
       ),
       cell: ({ row }: { row: Row<User> }) => {
-        const role = row.getValue('role') as string;
+        const role = row.getValue('role') as string
         return (
           <div className="capitalize">
             <span
@@ -122,7 +128,7 @@ export function UserTable({
               {role}
             </span>
           </div>
-        );
+        )
       },
     },
     {
@@ -143,7 +149,7 @@ export function UserTable({
         </button>
       ),
       cell: ({ row }: { row: Row<User> }) => {
-        const status = row.getValue('status') as string;
+        const status = row.getValue('status') as string
         return (
           <div className="capitalize">
             <span
@@ -156,7 +162,7 @@ export function UserTable({
               {status}
             </span>
           </div>
-        );
+        )
       },
     },
     {
@@ -177,29 +183,21 @@ export function UserTable({
         </button>
       ),
       cell: ({ row }: { row: Row<User> }) => {
-        const date = new Date(row.getValue('createdAt'));
-        return (
-          <div className="text-sm text-muted-foreground">
-            {date.toLocaleDateString()}
-          </div>
-        );
+        const date = new Date(row.getValue('createdAt'))
+        return <div className="text-sm text-muted-foreground">{date.toLocaleDateString()}</div>
       },
     },
     {
       id: 'actions',
       header: t('users.columns.actions'),
       cell: ({ row }: { row: Row<User> }) => {
-        const user = row.original;
+        const user = row.original
         return (
-          <UserActions
-            user={user}
-            onEdit={() => onEdit(user)}
-            onDelete={() => onDelete(user)}
-          />
-        );
+          <UserActions user={user} onEdit={() => onEdit(user)} onDelete={() => onDelete(user)} />
+        )
       },
     },
-  ].filter(col => visibleColumns.includes(col.accessorKey || col.id || ''));
+  ].filter((col) => visibleColumns.includes(col.accessorKey || col.id || ''))
 
   const table = useReactTable({
     data: users,
@@ -211,7 +209,7 @@ export function UserTable({
     manualPagination: true,
     manualSorting: true,
     pageCount: totalPages,
-  });
+  })
 
   return (
     <div className="space-y-4">
@@ -222,13 +220,13 @@ export function UserTable({
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                    <th
+                      key={header.id}
+                      className="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                    >
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </th>
                   ))}
                 </tr>
@@ -277,19 +275,20 @@ export function UserTable({
             {totalItems > 0 ? (currentPage - 1) * pageSize + 1 : 0}
           </span>
           <span>{t('users.table.to')}</span>
-          <span className="font-medium">
-            {Math.min(currentPage * pageSize, totalItems)}
-          </span>
+          <span className="font-medium">{Math.min(currentPage * pageSize, totalItems)}</span>
           <span>{t('users.table.of')}</span>
           <span className="font-medium">{totalItems}</span>
           <span>{t('users.table.results')}</span>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           {/* Page Size Selector */}
           <div className="flex items-center space-x-2 text-sm">
             <span className="text-muted-foreground">{t('users.table.show')}</span>
-            <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
+            <Select
+              value={pageSize.toString()}
+              onValueChange={(value) => onPageSizeChange(Number(value))}
+            >
               <SelectTrigger className="w-16 h-8">
                 <SelectValue />
               </SelectTrigger>
@@ -302,7 +301,7 @@ export function UserTable({
             </Select>
             <span className="text-muted-foreground">{t('users.table.perPage')}</span>
           </div>
-          
+
           {/* Pagination Buttons */}
           <div className="flex items-center space-x-1">
             <button
@@ -312,47 +311,55 @@ export function UserTable({
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            
+
             <div className="flex items-center space-x-1">
               {/* Show limited page numbers with ellipsis */}
               {(() => {
-                const pages = [];
-                const maxVisiblePages = 5;
-                
+                const pages = []
+                const maxVisiblePages = 5
+
                 if (totalPages <= maxVisiblePages) {
                   // Show all pages if total is small
                   for (let i = 1; i <= totalPages; i++) {
-                    pages.push(i);
+                    pages.push(i)
                   }
                 } else {
                   // Show first page, current page, and last page with ellipsis
-                  pages.push(1);
-                  
+                  pages.push(1)
+
                   if (currentPage > 3) {
-                    pages.push('...');
+                    pages.push('...')
                   }
-                  
-                  const start = Math.max(2, Math.min(currentPage - 1, totalPages - maxVisiblePages + 3));
-                  const end = Math.min(totalPages - 1, Math.max(currentPage + 1, maxVisiblePages - 1));
-                  
+
+                  const start = Math.max(
+                    2,
+                    Math.min(currentPage - 1, totalPages - maxVisiblePages + 3)
+                  )
+                  const end = Math.min(
+                    totalPages - 1,
+                    Math.max(currentPage + 1, maxVisiblePages - 1)
+                  )
+
                   for (let i = start; i <= end; i++) {
                     if (i !== 1 && i !== totalPages) {
-                      pages.push(i);
+                      pages.push(i)
                     }
                   }
-                  
+
                   if (currentPage < totalPages - 2) {
-                    pages.push('...');
+                    pages.push('...')
                   }
-                  
+
                   if (totalPages > 1) {
-                    pages.push(totalPages);
+                    pages.push(totalPages)
                   }
                 }
-                
-                return pages.map((page, index) => (
+
+                return pages.map((page, index) =>
                   page === '...' ? (
-                    <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">...</span>
+                    <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">
+                      ...
+                    </span>
                   ) : (
                     <button
                       key={page}
@@ -366,10 +373,10 @@ export function UserTable({
                       {page}
                     </button>
                   )
-                ));
+                )
               })()}
             </div>
-            
+
             <button
               className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
               onClick={() => onPageChange(currentPage + 1)}
@@ -381,5 +388,5 @@ export function UserTable({
         </div>
       </div>
     </div>
-  );
+  )
 }

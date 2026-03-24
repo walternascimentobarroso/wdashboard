@@ -1,4 +1,4 @@
-import { User } from '../types';
+import { User } from '../types'
 
 export const mockUsers: User[] = [
   {
@@ -97,4 +97,4 @@ export const mockUsers: User[] = [
     status: 'active',
     createdAt: '2024-03-18T09:30:00.000Z',
   },
-];
+]

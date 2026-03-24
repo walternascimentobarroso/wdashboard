@@ -12,19 +12,19 @@ const inter = Inter({ subsets: ['latin'] })
 async function getLocaleFromServer(): Promise<string> {
   const cookieStore = await cookies()
   const localeCookie = cookieStore.get('locale')
-  
+
   if (localeCookie && ['en', 'pt'].includes(localeCookie.value)) {
     return localeCookie.value
   }
-  
+
   const headersList = await headers()
   const acceptLanguage = headersList.get('accept-language')
-  
+
   if (acceptLanguage) {
     const lang = acceptLanguage.split(',')[0].split('-')[0]
     if (lang === 'pt') return 'pt'
   }
-  
+
   return 'en'
 }
 
@@ -33,11 +33,7 @@ export const metadata: Metadata = {
   description: 'A dashboard template built with Next.js and shadcn/ui',
 }
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocaleFromServer()
   const messages = await getMessages(locale)
 

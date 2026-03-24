@@ -1,6 +1,5 @@
 ---
-
-description: "Task list for Dashboard UI Upgrade implementation"
+description: 'Task list for Dashboard UI Upgrade implementation'
 ---
 
 # Tasks: Dashboard UI Upgrade
@@ -155,6 +154,7 @@ description: "Task list for Dashboard UI Upgrade implementation"
 ### Implementation Strategy
 
 #### MVP First (Core Features Only)
+
 1. Complete Phase 1: UI Setup
 2. Complete Phase 2: Layout
 3. Complete Phase 3: Sidebar
@@ -163,6 +163,7 @@ description: "Task list for Dashboard UI Upgrade implementation"
 6. Deploy/demo if ready
 
 #### Incremental Delivery
+
 1. Phase 1-4 → Foundation ready
 2. Add Phase 3: Sidebar → Test independently → Deploy/Demo
 3. Add Phase 4: Dark Mode → Test independently → Deploy/Demo

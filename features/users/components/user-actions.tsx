@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { MoreHorizontal, Edit, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { MoreHorizontal, Edit, Trash2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,14 +9,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu'
+import { User } from '../types'
 
 interface UserActionsProps {
-  onEdit: () => void;
-  onDelete: () => void;
+  user: User
+  onEdit: () => void
+  onDelete: () => void
 }
 
-export function UserActions({ onEdit, onDelete }: UserActionsProps) {
+export function UserActions({ user, onEdit, onDelete }: UserActionsProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _user = user // User parameter kept for future use (permissions, user-specific actions)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,10 +31,7 @@ export function UserActions({ onEdit, onDelete }: UserActionsProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem
-          onClick={onEdit}
-          className="cursor-pointer"
-        >
+        <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
           <Edit className="mr-2 h-4 w-4" />
           Edit
         </DropdownMenuItem>
@@ -44,5 +45,5 @@ export function UserActions({ onEdit, onDelete }: UserActionsProps) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

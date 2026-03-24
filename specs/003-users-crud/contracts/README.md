@@ -16,17 +16,17 @@ Interface defining the storage abstraction layer for user data operations.
 ```typescript
 interface IUsersStorage {
   // Read operations
-  getUsers(): Promise<User[]>;
-  getUserById(id: string): Promise<User | null>;
-  
+  getUsers(): Promise<User[]>
+  getUserById(id: string): Promise<User | null>
+
   // Write operations
-  createUser(user: CreateUserRequest): Promise<User>;
-  updateUser(id: string, updates: UpdateUserRequest): Promise<User>;
-  deleteUser(id: string): Promise<void>;
-  
+  createUser(user: CreateUserRequest): Promise<User>
+  updateUser(id: string, updates: UpdateUserRequest): Promise<User>
+  deleteUser(id: string): Promise<void>
+
   // Utility operations
-  isEmailAvailable(email: string, excludeId?: string): Promise<boolean>;
-  canDeleteUser(id: string): Promise<boolean>;
+  isEmailAvailable(email: string, excludeId?: string): Promise<boolean>
+  canDeleteUser(id: string): Promise<boolean>
 }
 ```
 
@@ -38,10 +38,10 @@ Request payload for creating a new user.
 
 ```typescript
 interface CreateUserRequest {
-  name: string;
-  email: string;
-  role: UserRole;
-  status?: UserStatus; // Defaults to 'active'
+  name: string
+  email: string
+  role: UserRole
+  status?: UserStatus // Defaults to 'active'
 }
 ```
 
@@ -51,10 +51,10 @@ Request payload for updating an existing user.
 
 ```typescript
 interface UpdateUserRequest {
-  name?: string;
-  email?: string;
-  role?: UserRole;
-  status?: UserStatus;
+  name?: string
+  email?: string
+  role?: UserRole
+  status?: UserStatus
 }
 ```
 
@@ -64,23 +64,23 @@ State interface for the user table component.
 
 ```typescript
 interface UserTableState {
-  users: User[];
-  loading: boolean;
-  error: string | null;
+  users: User[]
+  loading: boolean
+  error: string | null
   pagination: {
-    page: number;
-    pageSize: number;
-    total: number;
-  };
+    page: number
+    pageSize: number
+    total: number
+  }
   sorting: {
-    column: keyof User;
-    direction: 'asc' | 'desc';
-  };
+    column: keyof User
+    direction: 'asc' | 'desc'
+  }
   filtering: {
-    search: string;
-    role?: UserRole;
-    status?: UserStatus;
-  };
+    search: string
+    role?: UserRole
+    status?: UserStatus
+  }
 }
 ```
 
@@ -92,13 +92,13 @@ Props interface for the UserTable component.
 
 ```typescript
 interface UserTableProps {
-  users: User[];
-  loading: boolean;
-  onEdit: (user: User) => void;
-  onDelete: (user: User) => void;
-  onSort: (column: keyof User) => void;
-  onFilter: (filters: UserFilters) => void;
-  onPageChange: (page: number) => void;
+  users: User[]
+  loading: boolean
+  onEdit: (user: User) => void
+  onDelete: (user: User) => void
+  onSort: (column: keyof User) => void
+  onFilter: (filters: UserFilters) => void
+  onPageChange: (page: number) => void
 }
 ```
 
@@ -108,11 +108,11 @@ Props interface for the UserForm component.
 
 ```typescript
 interface UserFormProps {
-  user?: User; // undefined for create mode
-  onSubmit: (data: CreateUserRequest | UpdateUserRequest) => void;
-  onCancel: () => void;
-  loading: boolean;
-  error?: string;
+  user?: User // undefined for create mode
+  onSubmit: (data: CreateUserRequest | UpdateUserRequest) => void
+  onCancel: () => void
+  loading: boolean
+  error?: string
 }
 ```
 
@@ -122,10 +122,10 @@ Props interface for the DeleteDialog component.
 
 ```typescript
 interface DeleteDialogProps {
-  user: User;
-  onConfirm: () => void;
-  onCancel: () => void;
-  loading: boolean;
+  user: User
+  onConfirm: () => void
+  onCancel: () => void
+  loading: boolean
 }
 ```
 
@@ -138,23 +138,23 @@ Return interface for the useUsers hook.
 ```typescript
 interface UseUsersReturn {
   // Data
-  users: User[];
-  loading: boolean;
-  error: string | null;
-  
+  users: User[]
+  loading: boolean
+  error: string | null
+
   // Table state
-  state: UserTableState;
-  
+  state: UserTableState
+
   // Actions
-  createUser: (data: CreateUserRequest) => Promise<void>;
-  updateUser: (id: string, data: UpdateUserRequest) => Promise<void>;
-  deleteUser: (id: string) => Promise<void>;
-  refreshUsers: () => Promise<void>;
-  
+  createUser: (data: CreateUserRequest) => Promise<void>
+  updateUser: (id: string, data: UpdateUserRequest) => Promise<void>
+  deleteUser: (id: string) => Promise<void>
+  refreshUsers: () => Promise<void>
+
   // Table actions
-  setSorting: (column: keyof User, direction: 'asc' | 'desc') => void;
-  setFiltering: (filters: Partial<UserFilters>) => void;
-  setPagination: (page: number, pageSize?: number) => void;
+  setSorting: (column: keyof User, direction: 'asc' | 'desc') => void
+  setFiltering: (filters: Partial<UserFilters>) => void
+  setPagination: (page: number, pageSize?: number) => void
 }
 ```
 
@@ -165,12 +165,12 @@ interface UseUsersReturn {
 Events that can be emitted by user management operations.
 
 ```typescript
-type UserEvent = 
+type UserEvent =
   | { type: 'USER_CREATED'; payload: User }
   | { type: 'USER_UPDATED'; payload: User }
   | { type: 'USER_DELETED'; payload: { id: string } }
   | { type: 'USER_LOADED'; payload: User[] }
-  | { type: 'USER_ERROR'; payload: { error: string; operation: string } };
+  | { type: 'USER_ERROR'; payload: { error: string; operation: string } }
 ```
 
 ## Validation Contracts
@@ -181,15 +181,15 @@ Standardized error format for validation failures.
 
 ```typescript
 interface ValidationError {
-  field: string;
-  code: string;
-  message: string;
-  value?: any;
+  field: string
+  code: string
+  message: string
+  value?: any
 }
 
 interface ValidationResult {
-  isValid: boolean;
-  errors: ValidationError[];
+  isValid: boolean
+  errors: ValidationError[]
 }
 ```
 
@@ -208,7 +208,7 @@ type UserErrorCode =
   | 'LAST_ADMIN_DEMOTION'
   | 'STORAGE_ERROR'
   | 'NETWORK_ERROR'
-  | 'UNKNOWN_ERROR';
+  | 'UNKNOWN_ERROR'
 ```
 
 ### UserError
@@ -217,10 +217,10 @@ Standardized error format.
 
 ```typescript
 interface UserError {
-  code: UserErrorCode;
-  message: string;
-  details?: any;
-  operation: 'create' | 'update' | 'delete' | 'read';
+  code: UserErrorCode
+  message: string
+  details?: any
+  operation: 'create' | 'update' | 'delete' | 'read'
 }
 ```
 
@@ -243,9 +243,9 @@ Standard test data for consistent testing.
 
 ```typescript
 interface TestUserFixtures {
-  adminUser: User;
-  regularUser: User;
-  inactiveUser: User;
-  userCollection: User[];
+  adminUser: User
+  regularUser: User
+  inactiveUser: User
+  userCollection: User[]
 }
 ```

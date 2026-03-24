@@ -1,6 +1,5 @@
 ---
-
-description: "Task list for Users CRUD Management feature implementation"
+description: 'Task list for Users CRUD Management feature implementation'
 ---
 
 # Tasks: Users CRUD Management
