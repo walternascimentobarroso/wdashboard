@@ -1,8 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
+import { useTheme } from 'next-themes'
+import { useLocale } from '@/hooks/useLocale'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -33,12 +35,47 @@ import {
   Settings,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { PasswordChangeModal } from '@/components/profile/PasswordChangeModal'
 
 export default function ProfilePage() {
   const t = useTranslations()
   const { user } = useAuth()
+  const { setTheme } = useTheme()
+  const { changeLocale } = useLocale()
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
+
+  // State for editable user data
+  const [userData, setUserData] = useState(() => {
+    // Load from localStorage on initial render
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('userProfile')
+      if (stored) {
+        return JSON.parse(stored)
+      }
+    }
+    // Default data if nothing in localStorage
+    return {
+      name: user?.name || 'John Doe',
+      email: user?.email || 'john.doe@example.com',
+      phone: '+55 11 99999-9999',
+      location: 'São Paulo, Brazil',
+      website: 'https://johndoe.com',
+      bio: t('profile.bio.default'),
+      role: 'Administrator',
+      department: t('profile.department.default'),
+      avatar: user?.avatar || '',
+      joinDate: '2024-01-15',
+      lastLogin: '2024-03-24 10:30',
+      language: 'en',
+      theme: 'dark',
+      timezone: 'America/Sao_Paulo',
+      emailNotifications: true,
+      pushNotifications: false,
+      twoFactorEnabled: true,
+    }
+  })
 
   // Helper function for interpolation
   const interpolate = (template: string, values: Record<string, number>) => {
@@ -47,28 +84,28 @@ export default function ProfilePage() {
     }, template)
   }
 
-  // Mock user data - in real app, this would come from auth context or API
-  const userData = {
-    name: user?.name || 'John Doe',
-    email: user?.email || 'john.doe@example.com',
-    phone: '+55 11 99999-9999',
-    location: 'São Paulo, Brazil',
-    website: 'https://johndoe.com',
-    bio: t('profile.bio.default'),
-    role: 'Administrator',
-    department: t('profile.department.default'),
-    joinDate: '2024-01-15',
-    lastLogin: '2024-03-24 10:30',
-    language: 'pt-BR',
-    timezone: 'America/Sao_Paulo',
-    emailNotifications: true,
-    pushNotifications: false,
-    twoFactorEnabled: true,
-  }
+  // Sync theme and language with actual system values
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Get current theme from system
+      const currentTheme = localStorage.getItem('theme') || 'system'
+      // Get current locale from cookie or system
+      const currentLocale = document.cookie.split('; ').find(row => row.startsWith('locale='))?.split('=')[1] || 'en'
+      
+      setUserData((prev: typeof userData) => ({
+        ...prev,
+        theme: currentTheme,
+        language: currentLocale === 'pt' ? 'pt-BR' : 'en-US'
+      }))
+    }
+  }, [])
+
 
   const handleSaveProfile = async () => {
     setIsLoading(true)
     try {
+      // Save to localStorage
+      localStorage.setItem('userProfile', JSON.stringify(userData))
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000))
       toast.success(t('profile.toasts.profileUpdated'))
@@ -80,16 +117,54 @@ export default function ProfilePage() {
     }
   }
 
-  const handlePasswordChange = async () => {
-    setIsLoading(true)
+  const handleInputChange = (field: string, value: string | boolean) => {
+    setUserData((prev: typeof userData) => ({
+      ...prev,
+      [field]: value
+    }))
+
+    // Apply theme and language changes immediately when editing
+    if (isEditing) {
+      if (field === 'theme') {
+        setTheme(value as string)
+      } else if (field === 'language') {
+        const locale = value === 'pt-BR' ? 'pt' : 'en'
+        changeLocale(locale)
+      }
+    }
+  }
+
+  const handleCancelEdit = () => {
+    // Reset to stored data
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('userProfile')
+      if (stored) {
+        setUserData(JSON.parse(stored))
+      }
+    }
+    setIsEditing(false)
+  }
+
+  const handleAvatarUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64String = reader.result as string
+        handleInputChange('avatar', base64String)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handlePasswordChange = async (currentPassword: string, newPassword: string) => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000))
       toast.success(t('profile.toasts.passwordChanged'))
     } catch (error) {
       toast.error(t('profile.toasts.passwordError'))
-    } finally {
-      setIsLoading(false)
+      throw error
     }
   }
 
@@ -114,25 +189,54 @@ export default function ProfilePage() {
           <h1 className="text-3xl font-bold tracking-tight">{t('profile.title')}</h1>
           <p className="text-muted-foreground">{t('profile.description')}</p>
         </div>
-        <Button
-          variant={isEditing ? 'default' : 'outline'}
-          onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
-          disabled={isLoading}
-        >
-          {isEditing ? t('profile.save') : t('profile.edit')}
-        </Button>
+        <div className="flex gap-2">
+          {isEditing && (
+            <Button
+              variant="outline"
+              onClick={handleCancelEdit}
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+          )}
+          <Button
+            variant={isEditing ? 'default' : 'outline'}
+            onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
+            disabled={isLoading}
+          >
+            {isEditing ? t('profile.save') : t('profile.edit')}
+          </Button>
+        </div>
       </div>
 
       {/* Profile Overview Card */}
       <Card className="w-full">
         <CardHeader>
           <div className="flex items-center gap-4">
-            <Avatar className="h-20 w-20">
-              <AvatarImage src={user?.avatar || undefined} />
-              <AvatarFallback className="text-lg">
-                {userData.name.slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <div className="relative">
+              <Avatar className="h-20 w-20">
+                <AvatarImage src={userData.avatar || user?.avatar || undefined} />
+                <AvatarFallback className="text-lg">
+                  {userData.name.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              {isEditing && (
+                <div className="absolute -bottom-2 -right-2">
+                  <label htmlFor="avatar-upload" className="cursor-pointer">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      <Upload className="h-4 w-4" />
+                    </div>
+                    <input
+                      id="avatar-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarUpload}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
             <div className="flex-1">
               <CardTitle className="text-2xl">{userData.name}</CardTitle>
               <CardDescription className="text-base">{userData.email}</CardDescription>
@@ -158,9 +262,17 @@ export default function ProfilePage() {
             <div className="flex items-center gap-2">
               <Globe className="h-4 w-4 text-muted-foreground" />
               <span className="text-muted-foreground">{t('profile.website')}:</span>
-              <a href={userData.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                {userData.website}
-              </a>
+              {isEditing ? (
+                <Input
+                  value={userData.website}
+                  onChange={(e) => handleInputChange('website', e.target.value)}
+                  className="h-8 w-48"
+                />
+              ) : (
+                <a href={userData.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                  {userData.website}
+                </a>
+              )}
             </div>
           </div>
         </CardContent>
@@ -193,7 +305,7 @@ export default function ProfilePage() {
                     id="name"
                     value={userData.name}
                     disabled={!isEditing}
-                    onChange={(e) => {/* Handle change */}}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -203,7 +315,7 @@ export default function ProfilePage() {
                     type="email"
                     value={userData.email}
                     disabled={!isEditing}
-                    onChange={(e) => {/* Handle change */}}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -212,7 +324,7 @@ export default function ProfilePage() {
                     id="phone"
                     value={userData.phone}
                     disabled={!isEditing}
-                    onChange={(e) => {/* Handle change */}}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -221,8 +333,32 @@ export default function ProfilePage() {
                     id="location"
                     value={userData.location}
                     disabled={!isEditing}
-                    onChange={(e) => {/* Handle change */}}
+                    onChange={(e) => handleInputChange('location', e.target.value)}
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="website">{t('profile.website')}</Label>
+                  <Input
+                    id="website"
+                    value={userData.website}
+                    disabled={!isEditing}
+                    onChange={(e) => handleInputChange('website', e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="role">Role</Label>
+                  <select
+                    id="role"
+                    className="px-3 py-2 border rounded-md bg-background"
+                    value={userData.role}
+                    onChange={(e) => handleInputChange('role', e.target.value)}
+                    disabled={!isEditing}
+                  >
+                    <option value="Administrator">Administrator</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Developer">Developer</option>
+                    <option value="User">User</option>
+                  </select>
                 </div>
               </div>
               <div className="space-y-2">
@@ -232,7 +368,7 @@ export default function ProfilePage() {
                   className="w-full min-h-[100px] p-3 border rounded-md resize-none"
                   value={userData.bio}
                   disabled={!isEditing}
-                  onChange={(e) => {/* Handle change */}}
+                  onChange={(e) => handleInputChange('bio', e.target.value)}
                 />
               </div>
             </CardContent>
@@ -258,7 +394,7 @@ export default function ProfilePage() {
                     <p className="text-sm text-muted-foreground">{t('profile.security.passwordDesc')}</p>
                   </div>
                 </div>
-                <Button variant="outline" onClick={handlePasswordChange} disabled={isLoading}>
+                <Button variant="outline" onClick={() => setIsPasswordModalOpen(true)}>
                   {t('profile.security.changePassword')}
                 </Button>
               </div>
@@ -272,7 +408,11 @@ export default function ProfilePage() {
                     </p>
                   </div>
                 </div>
-                <Button variant={userData.twoFactorEnabled ? 'destructive' : 'default'}>
+                <Button 
+                  variant={userData.twoFactorEnabled ? 'destructive' : 'default'}
+                  onClick={() => handleInputChange('twoFactorEnabled', !userData.twoFactorEnabled)}
+                  disabled={!isEditing}
+                >
                   {userData.twoFactorEnabled ? t('profile.security.disableTwoFactor') : t('profile.security.enableTwoFactor')}
                 </Button>
               </div>
@@ -300,7 +440,11 @@ export default function ProfilePage() {
                     <p className="text-sm text-muted-foreground">{t('profile.notifications.emailNotificationsDesc')}</p>
                   </div>
                 </div>
-                <Button variant={userData.emailNotifications ? 'default' : 'outline'}>
+                <Button 
+                  variant={userData.emailNotifications ? 'default' : 'outline'}
+                  onClick={() => handleInputChange('emailNotifications', !userData.emailNotifications)}
+                  disabled={!isEditing}
+                >
                   {userData.emailNotifications ? t('common.enabled') : t('common.disabled')}
                 </Button>
               </div>
@@ -312,7 +456,11 @@ export default function ProfilePage() {
                     <p className="text-sm text-muted-foreground">{t('profile.notifications.pushNotificationsDesc')}</p>
                   </div>
                 </div>
-                <Button variant={userData.pushNotifications ? 'default' : 'outline'}>
+                <Button 
+                  variant={userData.pushNotifications ? 'default' : 'outline'}
+                  onClick={() => handleInputChange('pushNotifications', !userData.pushNotifications)}
+                  disabled={!isEditing}
+                >
                   {userData.pushNotifications ? t('common.enabled') : t('common.disabled')}
                 </Button>
               </div>
@@ -339,7 +487,9 @@ export default function ProfilePage() {
                 </div>
                 <select 
                   className="px-3 py-2 border rounded-md bg-background"
-                  defaultValue={userData.language}
+                  value={userData.language}
+                  onChange={(e) => handleInputChange('language', e.target.value)}
+                  disabled={!isEditing}
                 >
                   <option value="pt-BR">{t('profile.preferences.portuguese')}</option>
                   <option value="en-US">{t('profile.preferences.english')}</option>
@@ -355,7 +505,9 @@ export default function ProfilePage() {
                 </div>
                 <select 
                   className="px-3 py-2 border rounded-md bg-background"
-                  defaultValue="light"
+                  value={userData.theme}
+                  onChange={(e) => handleInputChange('theme', e.target.value)}
+                  disabled={!isEditing}
                 >
                   <option value="light">{t('profile.preferences.themeLight')}</option>
                   <option value="dark">{t('profile.preferences.themeDark')}</option>
@@ -543,6 +695,14 @@ export default function ProfilePage() {
           </div>
         </TabsContent>
       </Tabs>
+      
+      {/* Password Change Modal */}
+      <PasswordChangeModal
+        open={isPasswordModalOpen}
+        onOpenChange={setIsPasswordModalOpen}
+        onSubmit={handlePasswordChange}
+        isLoading={isLoading}
+      />
     </div>
   )
 }
