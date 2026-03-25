@@ -4,11 +4,9 @@ import { useState } from 'react'
 import { Upload, Search, Filter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { EmptyStateFiles } from '@/components/ui/empty-state'
-import { SkeletonKPICard } from '@/components/ui/skeleton-card'
-import { useTranslations } from 'next-intl'
 
 interface FileItem {
   id: string
@@ -20,9 +18,8 @@ interface FileItem {
 }
 
 export default function FilesPage() {
-  const t = useTranslations()
   const [searchTerm, setSearchTerm] = useState('')
-  const [files, setFiles] = useState<FileItem[]>([
+  const [files] = useState<FileItem[]>([
     {
       id: '1',
       name: 'Annual Report 2024.pdf',

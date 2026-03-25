@@ -4,12 +4,10 @@ import { useState } from 'react'
 import { Search, Filter, AlertCircle, CheckCircle, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { EmptyStateLogs } from '@/components/ui/empty-state'
-import { SkeletonActivity } from '@/components/ui/skeleton-card'
-import { useTranslations } from 'next-intl'
 
 interface LogItem {
   id: string
@@ -20,10 +18,9 @@ interface LogItem {
 }
 
 export default function LogsPage() {
-  const t = useTranslations()
   const [searchTerm, setSearchTerm] = useState('')
   const [levelFilter, setLevelFilter] = useState<string>('all')
-  const [logs, setLogs] = useState<LogItem[]>([
+  const [logs] = useState<LogItem[]>([
     {
       id: '1',
       level: 'error',

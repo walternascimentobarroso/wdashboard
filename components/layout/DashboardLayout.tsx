@@ -99,7 +99,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
               <SidebarItem
                 key={item.id}
                 icon={item.icon}
-                label={t(`common.${item.id}`)}
+                label={t(`sidebar.${item.id}`)}
                 href={item.href}
                 expanded={sidebarExpanded}
                 active={pathname === item.href}
