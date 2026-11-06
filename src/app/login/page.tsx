@@ -1,13 +1,15 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
+import { APP_NAME } from '@/lib/constants'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
 import { LoginForm } from '@/modules/auth/components/LoginForm'
 
 export default function LoginPage() {
   const router = useRouter()
-
+  const t = useTranslations('auth')
   const { isAuthenticated } = useAuth()
 
   useEffect(() => {
@@ -15,28 +17,31 @@ export default function LoginPage() {
   }, [isAuthenticated, router])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
-            Sign in to Dashboard
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            Enter your credentials to access the dashboard
-          </p>
-        </div>
+    <div className="grid min-h-[100dvh] bg-background lg:grid-cols-[5fr_7fr]">
+      <aside className="relative hidden overflow-hidden bg-primary text-primary-foreground lg:flex lg:flex-col lg:justify-between lg:p-12">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,color-mix(in_oklab,var(--primary-foreground)_18%,transparent),transparent_55%)]"
+        />
+        <span className="relative text-lg font-semibold tracking-tight">{APP_NAME}</span>
+        <p className="relative max-w-sm text-3xl font-semibold leading-tight tracking-tight">
+          {t('tagline')}
+        </p>
+      </aside>
 
-        <div className="bg-card py-8 px-6 shadow-lg rounded-lg border">
-          <LoginForm onSuccess={() => router.push('/dashboard')} />
-
-          <div className="text-center text-sm text-muted-foreground mt-6">
-            <p>Demo credentials:</p>
-            <p>Admin: admin@dashboard.com / admin123</p>
-            <p>User: user@dashboard.com / user123</p>
-            <p>Viewer: viewer@dashboard.com / viewer123</p>
+      <main className="flex items-center px-4 py-12 sm:px-8 lg:px-16">
+        <div className="login-enter w-full max-w-[400px] space-y-8 lg:ml-[8%]">
+          <div className="space-y-2">
+            <span className="text-sm font-semibold tracking-tight text-muted-foreground lg:hidden">
+              {APP_NAME}
+            </span>
+            <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('signIn')}</h1>
+            <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
           </div>
+
+          <LoginForm onSuccess={() => router.push('/dashboard')} />
         </div>
-      </div>
+      </main>
     </div>
   )
 }

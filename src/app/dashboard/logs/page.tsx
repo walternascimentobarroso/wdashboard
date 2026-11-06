@@ -79,16 +79,16 @@ export default function LogsPage() {
     }
   }
 
-  const getLevelColor = (level: string) => {
+  const getLevelBadgeClass = (level: LogItem['level']) => {
     switch (level) {
       case 'error':
-        return 'destructive'
+        return 'bg-destructive/15 text-destructive'
       case 'warning':
-        return 'secondary'
+        return 'bg-warning/15 text-warning'
       case 'success':
-        return 'default'
+        return 'bg-success/15 text-success'
       default:
-        return 'outline'
+        return 'bg-info/15 text-info'
     }
   }
 
@@ -154,7 +154,12 @@ export default function LogsPage() {
                   <div className="shrink-0 mt-1">{getLevelIcon(log.level)}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-2">
-                      <Badge variant={getLevelColor(log.level)}>{log.level.toUpperCase()}</Badge>
+                      <Badge
+                        variant="outline"
+                        className={`border-transparent uppercase ${getLevelBadgeClass(log.level)}`}
+                      >
+                        {log.level}
+                      </Badge>
                       <span className="text-xs text-muted-foreground">{log.timestamp}</span>
                     </div>
                     <p className="text-sm font-medium">{log.message}</p>
