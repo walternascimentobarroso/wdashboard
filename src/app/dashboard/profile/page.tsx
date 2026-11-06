@@ -1,16 +1,13 @@
 'use client'
 
 import {
-  Bell,
   Calendar,
   Download,
   Edit,
   Globe,
   Key,
   LogIn,
-  Mail,
   MapPin,
-  Palette,
   Settings,
   Shield,
   Trash2,
@@ -19,9 +16,8 @@ import {
   UserPlus,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useTheme } from 'next-themes'
 import type React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { PasswordChangeModal } from '@/components/profile/PasswordChangeModal'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -33,14 +29,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useLocale } from '@/hooks/useLocale'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
 
 export default function ProfilePage() {
   const t = useTranslations()
   const { user } = useAuth()
-  const { setTheme } = useTheme()
-  const { changeLocale } = useLocale()
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
@@ -76,26 +69,6 @@ export default function ProfilePage() {
     }
   })
 
-  // Sync theme and language with actual system values
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Get current theme from system
-      const currentTheme = localStorage.getItem('theme') || 'system'
-      // Get current locale from cookie or system
-      const currentLocale =
-        document.cookie
-          .split('; ')
-          .find((row) => row.startsWith('locale='))
-          ?.split('=')[1] || 'en'
-
-      setUserData((prev: typeof userData) => ({
-        ...prev,
-        theme: currentTheme,
-        language: currentLocale === 'pt' ? 'pt-BR' : 'en-US',
-      }))
-    }
-  }, [])
-
   const handleSaveProfile = async () => {
     setIsLoading(true)
     try {
@@ -117,16 +90,6 @@ export default function ProfilePage() {
       ...prev,
       [field]: value,
     }))
-
-    // Apply theme and language changes immediately when editing
-    if (isEditing) {
-      if (field === 'theme') {
-        setTheme(value as string)
-      } else if (field === 'language') {
-        const locale = value === 'pt-BR' ? 'pt' : 'en'
-        changeLocale(locale)
-      }
-    }
   }
 
   const handleCancelEdit = () => {
@@ -271,10 +234,9 @@ export default function ProfilePage() {
 
       {/* Detailed Tabs */}
       <Tabs defaultValue="personal" className="space-y-4 w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="personal">{t('profile.tabs.personal')}</TabsTrigger>
           <TabsTrigger value="security">{t('profile.tabs.security')}</TabsTrigger>
-          <TabsTrigger value="settings">{t('profile.tabs.settings')}</TabsTrigger>
           <TabsTrigger value="activity">{t('profile.tabs.activity')}</TabsTrigger>
         </TabsList>
 
@@ -412,116 +374,6 @@ export default function ProfilePage() {
                     ? t('profile.security.disableTwoFactor')
                     : t('profile.security.enableTwoFactor')}
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Settings Tab - Combining Notifications, Data, Language and Theme */}
-        <TabsContent value="settings" className="space-y-6">
-          {/* Notifications Section */}
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
-                {t('profile.notifications.title')}
-              </CardTitle>
-              <CardDescription>{t('profile.notifications.description')}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t('profile.notifications.emailNotifications')}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('profile.notifications.emailNotificationsDesc')}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant={userData.emailNotifications ? 'default' : 'outline'}
-                  onClick={() =>
-                    handleInputChange('emailNotifications', !userData.emailNotifications)
-                  }
-                  disabled={!isEditing}
-                >
-                  {userData.emailNotifications ? t('common.enabled') : t('common.disabled')}
-                </Button>
-              </div>
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Bell className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t('profile.notifications.pushNotifications')}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('profile.notifications.pushNotificationsDesc')}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant={userData.pushNotifications ? 'default' : 'outline'}
-                  onClick={() =>
-                    handleInputChange('pushNotifications', !userData.pushNotifications)
-                  }
-                  disabled={!isEditing}
-                >
-                  {userData.pushNotifications ? t('common.enabled') : t('common.disabled')}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Language & Theme Section */}
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Palette className="h-5 w-5" />
-                {t('profile.preferences.title')}
-              </CardTitle>
-              <CardDescription>{t('profile.preferences.description')}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Globe className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t('profile.preferences.language')}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('profile.preferences.languageDesc')}
-                    </p>
-                  </div>
-                </div>
-                <select
-                  className="px-3 py-2 border rounded-md bg-background"
-                  value={userData.language}
-                  onChange={(e) => handleInputChange('language', e.target.value)}
-                  disabled={!isEditing}
-                >
-                  <option value="pt-BR">{t('profile.preferences.portuguese')}</option>
-                  <option value="en-US">{t('profile.preferences.english')}</option>
-                </select>
-              </div>
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Palette className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t('profile.preferences.theme')}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('profile.preferences.themeDesc')}
-                    </p>
-                  </div>
-                </div>
-                <select
-                  className="px-3 py-2 border rounded-md bg-background"
-                  value={userData.theme}
-                  onChange={(e) => handleInputChange('theme', e.target.value)}
-                  disabled={!isEditing}
-                >
-                  <option value="light">{t('profile.preferences.themeLight')}</option>
-                  <option value="dark">{t('profile.preferences.themeDark')}</option>
-                  <option value="system">{t('profile.preferences.themeSystem')}</option>
-                </select>
               </div>
             </CardContent>
           </Card>
