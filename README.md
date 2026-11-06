@@ -6,7 +6,7 @@ Não tem backend: os dados e a autenticação são simulados e ficam guardados n
 
 ## Como rodar
 
-Requisitos: Node.js 20+ e npm.
+Requisitos: Node.js 26 (LTS) e npm. Com nvm: `nvm use`.
 
 ```bash
 npm install
