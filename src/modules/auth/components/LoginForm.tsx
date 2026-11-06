@@ -8,10 +8,9 @@ import { useAuth } from './AuthProvider'
 
 interface LoginFormProps {
   onSuccess?: () => void
-  onLogin?: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
 }
 
-export function LoginForm({ onSuccess, onLogin }: LoginFormProps) {
+export function LoginForm({ onSuccess }: LoginFormProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
@@ -26,17 +25,8 @@ export function LoginForm({ onSuccess, onLogin }: LoginFormProps) {
     setIsLoading(true)
 
     try {
-      if (onLogin) {
-        const result = await onLogin(email, password)
-        if (!result.success) {
-          setError(result.error || 'Login failed')
-        } else {
-          onSuccess?.()
-        }
-      } else {
-        await login(email, password, rememberMe)
-        onSuccess?.()
-      }
+      await login(email, password, rememberMe)
+      onSuccess?.()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {

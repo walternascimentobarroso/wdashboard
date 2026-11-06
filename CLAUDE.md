@@ -18,14 +18,13 @@ Dashboard admin em Next.js 16 (App Router) + TypeScript 7 + Tailwind 4 + shadcn/
 
 Todo o código fica em `src/` (alias `@/*` → `./src/*`); a raiz guarda apenas configuração.
 
-- `app/` — rotas (`dashboard/{users,files,logs,profile}`, `login`); `providers.tsx` junta tema, i18n, React Query e auth.
+- `app/` — rotas (`dashboard/{users,files,logs,profile}`, `login`); `providers.tsx` junta tema, i18n e auth.
 - `components/ui/` — primitivas shadcn; reutilizar antes de criar componentes novos.
 - `components/{layout,dashboard,charts,profile,theme,shared}/` — componentes de aplicação.
 - `features/users/` — CRUD de utilizadores (components, hooks, services, data). Modelo a seguir para features novas.
-- `modules/{auth,dashboard}/` — `AuthProvider`/`useAuth` e serviços mock.
+- `modules/auth/` — `AuthProvider`/`useAuth` e serviço mock; a proteção de rotas é feita no cliente.
 - `lib/` — utilitários (`cn`, navegação, export Excel/PDF em `lib/export/`, locale).
 - `messages/` — traduções next-intl; todo o texto visível passa por elas.
-- `proxy.ts` — substitui o `middleware.ts` (Next 16); a proteção de rotas é feita no cliente.
 
 ## Regras do projeto
 

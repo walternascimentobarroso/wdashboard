@@ -1,44 +1,19 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useAuth } from '@/modules/auth/components/AuthProvider'
 import { LoginForm } from '@/modules/auth/components/LoginForm'
 
 export default function LoginPage() {
   const router = useRouter()
 
-  const handleLogin = async (email: string, password: string) => {
-    // Simple validation
-    const validCredentials = [
-      { email: 'admin@dashboard.com', password: 'admin123' },
-      { email: 'user@dashboard.com', password: 'user123' },
-      { email: 'viewer@dashboard.com', password: 'viewer123' },
-    ]
+  const { isAuthenticated } = useAuth()
 
-    const isValid = validCredentials.some(
-      (cred) => cred.email === email && cred.password === password
-    )
+  useEffect(() => {
+    if (isAuthenticated) router.replace('/dashboard')
+  }, [isAuthenticated, router])
 
-    if (isValid) {
-      // Store simple session
-      try {
-        localStorage.setItem('isAuthenticated', 'true')
-        localStorage.setItem('userEmail', email)
-      } catch (error) {
-        console.error('Failed to store session:', error)
-      }
-
-      // Redirect to dashboard
-      try {
-        router.push('/dashboard')
-      } catch (error) {
-        console.error('Failed to redirect to dashboard:', error)
-      }
-
-      return { success: true }
-    } else {
-      return { success: false, error: 'Invalid email or password' }
-    }
-  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -52,7 +27,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-card py-8 px-6 shadow-lg rounded-lg border">
-          <LoginForm onLogin={handleLogin} />
+          <LoginForm onSuccess={() => router.push('/dashboard')} />
 
           <div className="text-center text-sm text-muted-foreground mt-6">
             <p>Demo credentials:</p>

@@ -1,75 +1,58 @@
 import { MOCK_DELAYS, USER_ROLES } from '@/lib/constants'
-import { BaseMockService, MockDataStore } from '@/services/api'
+import { BaseMockService } from '@/services/api'
 import type { User } from '@/types/user'
 import type { LoginRequest, LoginResponse, TokenVerification } from '../types'
 
+// shortcut: login uses its own 3 fixed demo users, separate from the Users page storage; switch to UsersStorage when a real backend exists
+const DEMO_USERS: User[] = [
+  {
+    id: '1',
+    name: 'Admin User',
+    email: 'admin@dashboard.com',
+    role: USER_ROLES.ADMIN,
+    status: 'active',
+    createdAt: new Date('2024-01-15'),
+    lastLoginAt: new Date(),
+    avatar: null,
+  },
+  {
+    id: '2',
+    name: 'Regular User',
+    email: 'user@dashboard.com',
+    role: USER_ROLES.USER,
+    status: 'active',
+    createdAt: new Date('2024-02-20'),
+    lastLoginAt: new Date(),
+    avatar: null,
+  },
+  {
+    id: '3',
+    name: 'Viewer User',
+    email: 'viewer@dashboard.com',
+    role: USER_ROLES.VIEWER,
+    status: 'active',
+    createdAt: new Date('2024-03-10'),
+    lastLoginAt: new Date(),
+    avatar: null,
+  },
+]
+
+const DEMO_PASSWORDS: Record<string, string> = {
+  'admin@dashboard.com': 'admin123',
+  'user@dashboard.com': 'user123',
+  'viewer@dashboard.com': 'viewer123',
+}
+
 export class MockAuthService extends BaseMockService {
-  private store = MockDataStore.getInstance()
   private readonly TOKEN_KEY = 'auth_token'
   private readonly USER_KEY = 'current_user'
 
-  constructor() {
-    super()
-    this.initializeMockUsers()
-  }
-
-  private initializeMockUsers(): void {
-    if (!this.store.has('users')) {
-      const mockUsers: User[] = [
-        {
-          id: '1',
-          name: 'Admin User',
-          email: 'admin@dashboard.com',
-          role: USER_ROLES.ADMIN,
-          status: 'active',
-          createdAt: new Date('2024-01-15'),
-          lastLoginAt: new Date(),
-          avatar: null,
-        },
-        {
-          id: '2',
-          name: 'Regular User',
-          email: 'user@dashboard.com',
-          role: USER_ROLES.USER,
-          status: 'active',
-          createdAt: new Date('2024-02-20'),
-          lastLoginAt: new Date(),
-          avatar: null,
-        },
-        {
-          id: '3',
-          name: 'Viewer User',
-          email: 'viewer@dashboard.com',
-          role: USER_ROLES.VIEWER,
-          status: 'active',
-          createdAt: new Date('2024-03-10'),
-          lastLoginAt: new Date(),
-          avatar: null,
-        },
-      ]
-      this.store.set('users', mockUsers)
-    }
-  }
-
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     await this.delay(MOCK_DELAYS.AUTH)
-    // Disable random errors for authentication to ensure reliable login
 
-    const users = this.store.get('users') as User[]
-    const user = users.find((u) => u.email === credentials.email)
+    const user = DEMO_USERS.find((u) => u.email === credentials.email)
 
-    if (!user) {
-      throw new Error('Invalid credentials')
-    }
-
-    // Simple password check (in real app, use proper hashing)
-    const validPasswords: Record<string, string> = {
-      'admin@dashboard.com': 'admin123',
-      'user@dashboard.com': 'user123',
-      'viewer@dashboard.com': 'viewer123',
-    }
-
-    if (validPasswords[credentials.email] !== credentials.password) {
+    if (!user || DEMO_PASSWORDS[credentials.email] !== credentials.password) {
       throw new Error('Invalid credentials')
     }
 
@@ -85,9 +68,6 @@ export class MockAuthService extends BaseMockService {
         console.error('Failed to store auth data:', error)
       }
     }
-
-    this.store.set('current_token', token)
-    this.store.set('current_user', user)
 
     return {
       user,
@@ -105,9 +85,6 @@ export class MockAuthService extends BaseMockService {
       localStorage.removeItem(this.TOKEN_KEY)
       localStorage.removeItem(this.USER_KEY)
     }
-
-    this.store.delete('current_token')
-    this.store.delete('current_user')
   }
 
   async verifyToken(token: string): Promise<TokenVerification> {
@@ -117,8 +94,7 @@ export class MockAuthService extends BaseMockService {
       return { valid: false }
     }
 
-    const storedToken = this.store.get('current_token')
-    const user = this.store.get('current_user') as User | null
+    const { user, token: storedToken } = this.getStoredAuthState()
 
     if (storedToken !== token || !user) {
       return { valid: false }
