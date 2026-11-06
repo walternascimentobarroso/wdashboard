@@ -9,6 +9,7 @@ import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useLocale } from '@/hooks/useLocale'
+import { readJson } from '@/lib/read-json'
 
 const STORAGE_KEY = 'userProfile'
 
@@ -23,8 +24,7 @@ const defaultSettings = {
 type UserSettings = typeof defaultSettings
 
 function loadSettings(): UserSettings {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  return { ...defaultSettings, ...(stored ? JSON.parse(stored) : {}) }
+  return { ...defaultSettings, ...readJson(STORAGE_KEY, {}) }
 }
 
 export default function SettingsPage() {
@@ -45,11 +45,7 @@ export default function SettingsPage() {
     const next = { ...settings, [field]: value }
     setSettings(next)
     // Merge into the shared profile record so profile fields are kept
-    const stored = localStorage.getItem(STORAGE_KEY)
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ ...(stored ? JSON.parse(stored) : {}), ...next })
-    )
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...readJson(STORAGE_KEY, {}), ...next }))
 
     if (field === 'theme') setTheme(value as string)
     if (field === 'language') changeLocale(value === 'pt-BR' ? 'pt' : 'en')

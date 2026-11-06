@@ -1,15 +1,6 @@
-import { type CrudService, useCrudList } from '@/hooks/useCrudList'
-import { UsersStorage } from '../services/storage'
-import type { CreateUserRequest, UpdateUserRequest, User, UserFilters } from '../types'
-
-const storage = new UsersStorage()
-
-const usersService: CrudService<User, CreateUserRequest, UpdateUserRequest> = {
-  getAll: () => storage.getUsers(),
-  create: (data) => storage.createUser(data),
-  update: (id, data) => storage.updateUser(id, data),
-  remove: (id) => storage.deleteUser(id),
-}
+import { useCrudList } from '@/hooks/useCrudList'
+import { usersService } from '../services/storage'
+import type { User, UserFilters } from '../types'
 
 const initialFilters: UserFilters = { search: '' }
 

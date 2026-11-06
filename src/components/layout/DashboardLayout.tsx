@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { CommandPalette } from '@/components/ui/command-palette'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { navigationConfig } from '@/lib/navigation'
+import { readJson } from '@/lib/read-json'
 import { useResponsive } from '@/lib/use-responsive'
 import { cn } from '@/lib/utils'
 import { Sidebar, SidebarCategory, SidebarItem } from './Sidebar'
@@ -36,23 +37,9 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   const pathname = usePathname()
   const t = useTranslations()
 
-  // Load saved preferences
   useEffect(() => {
-    let saved = null
-    try {
-      saved = localStorage.getItem('dashboard-preferences')
-    } catch (error) {
-      console.error('Failed to get dashboard preferences:', error)
-    }
-    if (saved) {
-      try {
-        const prefs = JSON.parse(saved)
-        setSidebarExpanded(prefs.sidebarExpanded ?? true)
-      } catch (error) {
-        console.error('Failed to load dashboard preferences:', error)
-        // Failed to load preferences
-      }
-    }
+    const prefs = readJson<{ sidebarExpanded?: boolean } | null>('dashboard-preferences', null)
+    if (prefs) setSidebarExpanded(prefs.sidebarExpanded ?? true)
   }, [])
 
   // Save preferences

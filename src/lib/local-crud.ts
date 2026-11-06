@@ -17,14 +17,11 @@ interface LocalCrudOptions<T extends Entity, C, U> {
   apply: (item: T, data: U) => T
   // Throw a CrudError to reject the write; `id` is set on update.
   validate?: (items: T[], candidate: T, id?: string) => void
+  validateRemove?: (items: T[], id: string) => void
 }
 
 export function crudError(code: string, message: string): CrudError {
   return { code, message }
-}
-
-function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2)
 }
 
 export function createLocalCrud<T extends Entity, C, U>({
@@ -33,14 +30,16 @@ export function createLocalCrud<T extends Entity, C, U>({
   build,
   apply,
   validate,
+  validateRemove,
 }: LocalCrudOptions<T, C, U>): CrudService<T, C, U> {
   const read = (): T[] => {
     const stored = localStorage.getItem(key)
     if (!stored) return seed
     const parsed = JSON.parse(stored)
-    if (!Array.isArray(parsed))
-      throw crudError('STORAGE_ERROR', 'Invalid data structure in storage')
-    return parsed
+    // Users were once stored as { users, lastModified, version }.
+    const items = Array.isArray(parsed) ? parsed : parsed?.users
+    if (!Array.isArray(items)) throw crudError('STORAGE_ERROR', 'Invalid data structure in storage')
+    return items
   }
 
   const write = (items: T[]) => {
@@ -61,7 +60,11 @@ export function createLocalCrud<T extends Entity, C, U>({
     getAll: async () => read(),
     create: async (data) => {
       const items = read()
-      const created = { ...build(data), id: generateId(), createdAt: new Date().toISOString() } as T
+      const created = {
+        ...build(data),
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+      } as T
       validate?.(items, created)
       write([...items, created])
       return created
@@ -77,6 +80,7 @@ export function createLocalCrud<T extends Entity, C, U>({
     remove: async (id) => {
       const items = read()
       findIndex(items, id)
+      validateRemove?.(items, id)
       write(items.filter((item) => item.id !== id))
     },
   }

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { beforeEach, test } from 'node:test'
-import { UsersStorage } from './storage'
+import { usersService } from './storage'
 
 const store = new Map<string, string>()
 globalThis.localStorage = {
@@ -12,33 +12,39 @@ globalThis.localStorage = {
   length: 0,
 } as Storage
 
-function seed(users: { id: string; role: 'admin' | 'user' }[]) {
-  const seeded = users.map((u) => ({ ...u, name: u.id, email: `${u.id}@x.io`, status: 'active' }))
-  store.set(
-    'wdashboard-users',
-    JSON.stringify({ users: seeded, lastModified: new Date().toISOString(), version: '1.0.0' })
-  )
-}
+const KEY = 'wdashboard-users'
+const users = [
+  { id: 'admin', role: 'admin' },
+  { id: 'bob', role: 'user' },
+].map((u) => ({ ...u, name: u.id, email: `${u.id}@x.io`, status: 'active', createdAt: '' }))
 
 beforeEach(() => {
   store.clear()
-  seed([
-    { id: 'admin', role: 'admin' },
-    { id: 'bob', role: 'user' },
-  ])
+  store.set(KEY, JSON.stringify(users))
 })
 
 test('deleting the only admin throws LAST_ADMIN_DELETION', async () => {
-  await assert.rejects(new UsersStorage().deleteUser('admin'), { code: 'LAST_ADMIN_DELETION' })
+  await assert.rejects(usersService.remove('admin'), { code: 'LAST_ADMIN_DELETION' })
 })
 
 test('demoting the only admin throws LAST_ADMIN_DEMOTION', async () => {
-  await assert.rejects(new UsersStorage().updateUser('admin', { role: 'user' }), {
+  await assert.rejects(usersService.update('admin', { role: 'user' }), {
     code: 'LAST_ADMIN_DEMOTION',
   })
 })
 
+test('deactivating the only active admin throws LAST_ADMIN_DEACTIVATION', async () => {
+  await assert.rejects(usersService.update('admin', { status: 'inactive' }), {
+    code: 'LAST_ADMIN_DEACTIVATION',
+  })
+})
+
 test('deleting a non-admin works', async () => {
-  await new UsersStorage().deleteUser('bob')
-  assert.equal(JSON.parse(store.get('wdashboard-users') ?? '').users.length, 1)
+  await usersService.remove('bob')
+  assert.equal(JSON.parse(store.get(KEY) ?? '').length, 1)
+})
+
+test('reads the legacy { users, lastModified, version } shape', async () => {
+  store.set(KEY, JSON.stringify({ users, lastModified: '', version: '1.0.0' }))
+  assert.equal((await usersService.getAll()).length, 2)
 })

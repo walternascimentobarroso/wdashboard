@@ -1,350 +1,55 @@
+import { createLocalCrud, crudError } from '@/lib/local-crud'
 import { mockUsers } from '../data/mock'
-import type { CreateUserRequest, UpdateUserRequest, User, UserError, UserErrorCode } from '../types'
+import type { CreateUserRequest, UpdateUserRequest, User, UserErrorCode } from '../types'
 
-const STORAGE_KEY = 'wdashboard-users'
-const STORAGE_VERSION = '1.0.0'
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-interface UsersStorageData {
-  users: User[]
-  lastModified: string
-  version: string
+function fail(code: UserErrorCode, message: string): never {
+  throw crudError(code, message)
 }
 
-export class UsersStorage {
-  private initialized = false
+function validateUser(users: User[], candidate: User, id?: string) {
+  const name = candidate.name.trim()
+  if (name.length < 1 || name.length > 100)
+    fail('VALIDATION_ERROR', 'Name must be between 1 and 100 characters')
+  if (!EMAIL_PATTERN.test(candidate.email)) fail('VALIDATION_ERROR', 'Invalid email format')
+  if (users.some((u) => u.id !== id && u.email.toLowerCase() === candidate.email))
+    fail('DUPLICATE_EMAIL', 'Email address already exists')
 
-  private validateAdminConstraints(
-    data: UsersStorageData,
-    currentUserId: string,
-    newRole?: string,
-    newStatus?: string,
-    operation: 'update' | 'delete' = 'update'
-  ): void {
-    const currentUser = data.users.find((u) => u.id === currentUserId)
-    if (currentUser?.role !== 'admin') return
-
-    const otherAdmins = data.users.filter((u) => u.role === 'admin' && u.id !== currentUserId)
-    const activeAdmins = data.users.filter(
-      (u) => u.role === 'admin' && u.status === 'active' && u.id !== currentUserId
-    )
-
-    // Check for role demotion
-    if (operation === 'update' && newRole === 'user') {
-      if (otherAdmins.length === 0) {
-        throw this.createError('LAST_ADMIN_DEMOTION', 'Cannot demote the last administrator')
-      }
-    }
-
-    // Check for deactivation
-    if (operation === 'update' && newStatus === 'inactive' && currentUser.status === 'active') {
-      if (activeAdmins.length === 0) {
-        throw this.createError('LAST_ADMIN_DEMOTION', 'Cannot deactivate the last administrator')
-      }
-    }
-
-    // Check for deletion
-    if (operation === 'delete') {
-      if (otherAdmins.length === 0) {
-        throw this.createError('LAST_ADMIN_DELETION', 'Cannot delete the last administrator')
-      }
-    }
-  }
-
-  private async initializeStorage(): Promise<void> {
-    if (this.initialized) return
-
-    try {
-      let existing = null
-      try {
-        existing = localStorage.getItem(STORAGE_KEY)
-      } catch (error) {
-        console.error('Failed to get user storage data:', error)
-      }
-      if (!existing) {
-        // Initialize with mock data
-        const initialData: UsersStorageData = {
-          users: mockUsers,
-          lastModified: new Date().toISOString(),
-          version: STORAGE_VERSION,
-        }
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
-        } catch (error) {
-          console.error('Failed to initialize user storage:', error)
-          throw this.createStorageError('Failed to initialize storage', error)
-        }
-      }
-      this.initialized = true
-    } catch (error) {
-      throw this.createStorageError('Failed to initialize storage', error)
-    }
-  }
-
-  private getStorageData(): UsersStorageData {
-    try {
-      let data = null
-      try {
-        data = localStorage.getItem(STORAGE_KEY)
-      } catch (error) {
-        console.error('Failed to get user storage data:', error)
-        throw this.createError('STORAGE_ERROR', 'Failed to access storage')
-      }
-      if (!data) {
-        throw new Error('No data found in storage')
-      }
-      const parsed = JSON.parse(data)
-
-      // Validate data structure
-      if (!parsed.users || !Array.isArray(parsed.users)) {
-        throw new Error('Invalid data structure in storage')
-      }
-
-      return parsed
-    } catch (error) {
-      throw this.createStorageError('Failed to read storage data', error)
-    }
-  }
-
-  private setStorageData(data: UsersStorageData): void {
-    try {
-      const serialized = JSON.stringify(data)
-      localStorage.setItem(STORAGE_KEY, serialized)
-    } catch (error) {
-      console.error('Failed to save user storage data:', error)
-      if (error instanceof Error && error.name === 'QuotaExceededError') {
-        throw this.createError('STORAGE_ERROR', 'Storage quota exceeded. Please clear some data.')
-      }
-      throw this.createStorageError('Failed to write storage data', error)
-    }
-  }
-
-  private createStorageError(message: string, originalError: unknown): UserError {
-    if (originalError instanceof Error && originalError.name === 'QuotaExceededError') {
-      return this.createError('STORAGE_ERROR', 'Storage quota exceeded. Please clear some data.')
-    }
-    if (originalError instanceof Error && originalError.name === 'SecurityError') {
-      return this.createError('STORAGE_ERROR', 'Storage access denied. Check browser settings.')
-    }
-    return this.createError('STORAGE_ERROR', message)
-  }
-
-  private createError(code: UserErrorCode, message: string, details?: unknown): UserError {
-    return {
-      code,
-      message,
-      details,
-      operation: 'read',
-    }
-  }
-
-  private generateId(): string {
-    return crypto.randomUUID()
-  }
-
-  private validateEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-
-  private validateName(name: string): boolean {
-    return name.trim().length >= 1 && name.trim().length <= 100
-  }
-
-  async getUsers(): Promise<User[]> {
-    await this.initializeStorage()
-    try {
-      const data = this.getStorageData()
-      return data.users
-    } catch (error) {
-      if (error && typeof error === 'object' && 'code' in error) {
-        throw error as UserError
-      }
-      throw this.createStorageError('Failed to get users', error)
-    }
-  }
-
-  async getUserById(id: string): Promise<User | null> {
-    await this.initializeStorage()
-    try {
-      const data = this.getStorageData()
-      const user = data.users.find((u) => u.id === id)
-      return user || null
-    } catch (error) {
-      if (error && typeof error === 'object' && 'code' in error) {
-        throw error as UserError
-      }
-      throw this.createStorageError('Failed to get user by ID', error)
-    }
-  }
-
-  async createUser(userData: CreateUserRequest): Promise<User> {
-    await this.initializeStorage()
-
-    // Validate input
-    if (!this.validateName(userData.name)) {
-      throw this.createError('VALIDATION_ERROR', 'Name must be between 1 and 100 characters')
-    }
-    if (!this.validateEmail(userData.email)) {
-      throw this.createError('VALIDATION_ERROR', 'Invalid email format')
-    }
-
-    try {
-      const data = this.getStorageData()
-
-      // Check for duplicate email
-      const emailExists = data.users.some(
-        (u) => u.email.toLowerCase() === userData.email.toLowerCase()
-      )
-      if (emailExists) {
-        throw this.createError('DUPLICATE_EMAIL', 'Email address already exists')
-      }
-
-      const newUser: User = {
-        id: this.generateId(),
-        name: userData.name.trim(),
-        email: userData.email.toLowerCase().trim(),
-        role: userData.role,
-        status: userData.status || 'active',
-        createdAt: new Date().toISOString(),
-      }
-
-      data.users.push(newUser)
-      data.lastModified = new Date().toISOString()
-      this.setStorageData(data)
-
-      return newUser
-    } catch (error) {
-      if (error && typeof error === 'object' && 'code' in error) {
-        const userError = error as UserError
-        userError.operation = 'create'
-        throw userError
-      }
-      throw this.createStorageError('Failed to create user', error)
-    }
-  }
-
-  async updateUser(id: string, updates: UpdateUserRequest): Promise<User> {
-    await this.initializeStorage()
-
-    // Validate input if provided
-    if (updates.name !== undefined && !this.validateName(updates.name)) {
-      throw this.createError('VALIDATION_ERROR', 'Name must be between 1 and 100 characters')
-    }
-    if (updates.email !== undefined && !this.validateEmail(updates.email)) {
-      throw this.createError('VALIDATION_ERROR', 'Invalid email format')
-    }
-
-    try {
-      const data = this.getStorageData()
-      const userIndex = data.users.findIndex((u) => u.id === id)
-
-      if (userIndex === -1) {
-        throw this.createError('USER_NOT_FOUND', 'User not found')
-      }
-
-      const user = data.users[userIndex]
-
-      // Check for duplicate email if email is being updated
-      const newEmail = updates.email?.toLowerCase()
-      if (newEmail && newEmail !== user.email.toLowerCase()) {
-        const emailExists = data.users.some(
-          (u) => u.email.toLowerCase() === newEmail && u.id !== id
-        )
-        if (emailExists) {
-          throw this.createError('DUPLICATE_EMAIL', 'Email address already exists')
-        }
-      }
-
-      // Validate admin constraints
-      this.validateAdminConstraints(data, id, updates.role, updates.status, 'update')
-
-      // Apply updates
-      const updatedUser: User = {
-        ...user,
-        ...(updates.name && { name: updates.name.trim() }),
-        ...(updates.email && { email: updates.email.toLowerCase().trim() }),
-        ...(updates.role && { role: updates.role }),
-        ...(updates.status !== undefined && { status: updates.status }),
-      }
-
-      data.users[userIndex] = updatedUser
-      data.lastModified = new Date().toISOString()
-      this.setStorageData(data)
-
-      return updatedUser
-    } catch (error) {
-      if (error && typeof error === 'object' && 'code' in error) {
-        const userError = error as UserError
-        userError.operation = 'update'
-        throw userError
-      }
-      throw this.createStorageError('Failed to update user', error)
-    }
-  }
-
-  async deleteUser(id: string): Promise<void> {
-    await this.initializeStorage()
-
-    try {
-      const data = this.getStorageData()
-      const userIndex = data.users.findIndex((u) => u.id === id)
-
-      if (userIndex === -1) {
-        throw this.createError('USER_NOT_FOUND', 'User not found')
-      }
-
-      // Validate admin constraints
-      this.validateAdminConstraints(data, id, undefined, undefined, 'delete')
-
-      data.users.splice(userIndex, 1)
-      data.lastModified = new Date().toISOString()
-      this.setStorageData(data)
-    } catch (error) {
-      if (error && typeof error === 'object' && 'code' in error) {
-        const userError = error as UserError
-        userError.operation = 'delete'
-        throw userError
-      }
-      throw this.createStorageError('Failed to delete user', error)
-    }
-  }
-
-  async isEmailAvailable(email: string, excludeId?: string): Promise<boolean> {
-    await this.initializeStorage()
-    try {
-      const data = this.getStorageData()
-      const normalizedEmail = email.toLowerCase().trim()
-      return !data.users.some((u) => u.email === normalizedEmail && u.id !== excludeId)
-    } catch (error) {
-      if (error && typeof error === 'object' && 'code' in error) {
-        throw error as UserError
-      }
-      throw this.createStorageError('Failed to check email availability', error)
-    }
-  }
-
-  async canDeleteUser(id: string): Promise<boolean> {
-    await this.initializeStorage()
-    try {
-      const data = this.getStorageData()
-      const user = data.users.find((u) => u.id === id)
-
-      if (!user) {
-        return false
-      }
-
-      // Can delete if not admin, or if admin but there are other admins
-      if (user.role !== 'admin') {
-        return true
-      }
-
-      const adminCount = data.users.filter((u) => u.role === 'admin' && u.id !== id).length
-      return adminCount > 0
-    } catch (error) {
-      if (error && typeof error === 'object' && 'code' in error) {
-        throw error as UserError
-      }
-      throw this.createStorageError('Failed to check delete permission', error)
-    }
-  }
+  const current = users.find((u) => u.id === id)
+  if (current?.role !== 'admin') return
+  const others = users.filter((u) => u.role === 'admin' && u.id !== id)
+  if (candidate.role !== 'admin' && others.length === 0)
+    fail('LAST_ADMIN_DEMOTION', 'Cannot demote the last administrator')
+  if (
+    current.status === 'active' &&
+    candidate.status === 'inactive' &&
+    !others.some((u) => u.status === 'active')
+  )
+    fail('LAST_ADMIN_DEACTIVATION', 'Cannot deactivate the last administrator')
 }
+
+function validateRemoveUser(users: User[], id: string) {
+  const isAdmin = users.some((u) => u.id === id && u.role === 'admin')
+  if (isAdmin && !users.some((u) => u.role === 'admin' && u.id !== id))
+    fail('LAST_ADMIN_DELETION', 'Cannot delete the last administrator')
+}
+
+export const usersService = createLocalCrud<User, CreateUserRequest, UpdateUserRequest>({
+  key: 'wdashboard-users',
+  seed: mockUsers,
+  build: (data) => ({
+    name: data.name.trim(),
+    email: data.email.toLowerCase().trim(),
+    role: data.role,
+    status: data.status ?? 'active',
+  }),
+  apply: (user, data) => ({
+    ...user,
+    ...data,
+    name: (data.name ?? user.name).trim(),
+    email: (data.email ?? user.email).toLowerCase().trim(),
+  }),
+  validate: validateUser,
+  validateRemove: validateRemoveUser,
+})

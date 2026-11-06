@@ -45,6 +45,8 @@ O MCP do Playwright fica em escopo local (fora do repo); para configurar numa m�
 
 Specs novas usam as skills `spec`, `build` e `review-spec`.
 
+Decisões de arquitetura ficam em `docs/adr/`. Consulta-as com `/adr-manager` antes de mudar algo estrutural. Os ADRs novos criam-se com a skill `adr`.
+
 ## Execução de planos
 
 Ao executar um plano aprovado (incluindo `build` de uma spec), o objetivo é terminar o mais rápido possível: divide-o no máximo de subtarefas pequenas e independentes e corre-as em paralelo com subagents sempre que possível. Este pedido vale como autorização explícita para usar subagents na execução de planos. As subtarefas que dependem umas das outras correm em sequência, e duas subtarefas nunca editam o mesmo ficheiro ao mesmo tempo. No fim, corre `make validate` uma vez sobre o resultado completo.

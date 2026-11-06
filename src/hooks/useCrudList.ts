@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { readJson } from '@/lib/read-json'
 
 export interface CrudService<T, C, U> {
   getAll: () => Promise<T[]>
@@ -57,22 +58,33 @@ export function useCrudList<T, F, C, U>(
   // Read after mount: localStorage is unavailable during server render.
   useEffect(() => {
     if (explicitPageSize) return
-    const stored = localStorage.getItem('userProfile')
-    const savedPageSize = stored ? Number(JSON.parse(stored).pageSize) : 0
+    const savedPageSize = Number(
+      readJson<{ pageSize?: number } | null>('userProfile', null)?.pageSize ?? 0
+    )
     if (savedPageSize > 0) setPageSize(savedPageSize)
   }, [explicitPageSize])
 
+  const inFlight = useRef<Promise<unknown> | null>(null)
+
+  // A repeat call while one is pending (double click, Enter) reuses it instead of firing again.
   const mutate = useCallback(
-    async <R>(action: () => Promise<R>) => {
-      setLoading(true)
-      setError(null)
-      try {
-        const outcome = await action()
-        await load()
-        return outcome
-      } finally {
-        setLoading(false)
+    <R>(action: () => Promise<R>): Promise<R> => {
+      if (inFlight.current) return inFlight.current as Promise<R>
+      const run = async () => {
+        setLoading(true)
+        setError(null)
+        try {
+          const outcome = await action()
+          await load()
+          return outcome
+        } finally {
+          inFlight.current = null
+          setLoading(false)
+        }
       }
+      const pending = run()
+      inFlight.current = pending
+      return pending
     },
     [load]
   )
@@ -86,7 +98,8 @@ export function useCrudList<T, F, C, U>(
   }, [items, filters, sorting, matches])
 
   const totalPages = Math.ceil(filteredItems.length / pageSize)
-  const displayItems = filteredItems.slice((page - 1) * pageSize, page * pageSize)
+  const currentPage = Math.min(page, Math.max(totalPages, 1))
+  const displayItems = filteredItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)
 
   return {
     items,
@@ -97,7 +110,7 @@ export function useCrudList<T, F, C, U>(
     filters,
     sorting,
     pageSize,
-    currentPage: page,
+    currentPage,
     totalPages,
     hasItems: items.length > 0,
     hasFilteredItems: filteredItems.length > 0,

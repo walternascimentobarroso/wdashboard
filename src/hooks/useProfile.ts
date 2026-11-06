@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { readJson } from '@/lib/read-json'
 import type { ActivityLog, UserProfile } from '@/types'
 
 const PROFILE_STORAGE_KEY = 'user_profile'
@@ -48,14 +49,8 @@ export function useUserProfile() {
   // Load profile from localStorage on mount
   useEffect(() => {
     try {
-      let saved = null
-      try {
-        saved = localStorage.getItem(PROFILE_STORAGE_KEY)
-      } catch (error) {
-        console.error('Failed to get profile from localStorage:', error)
-      }
-      if (saved) {
-        const parsedProfile = JSON.parse(saved)
+      const parsedProfile = readJson<UserProfile | null>(PROFILE_STORAGE_KEY, null)
+      if (parsedProfile) {
         // Convert date strings back to Date objects
         parsedProfile.createdAt = new Date(parsedProfile.createdAt)
         parsedProfile.updatedAt = new Date(parsedProfile.updatedAt)
@@ -120,14 +115,8 @@ export function useUserActivity() {
   // Load activities from localStorage on mount
   useEffect(() => {
     try {
-      let saved = null
-      try {
-        saved = localStorage.getItem(ACTIVITY_STORAGE_KEY)
-      } catch (error) {
-        console.error('Failed to get activities from localStorage:', error)
-      }
-      if (saved) {
-        const parsedActivities = JSON.parse(saved)
+      const parsedActivities = readJson<ActivityLog[] | null>(ACTIVITY_STORAGE_KEY, null)
+      if (parsedActivities) {
         // Convert date strings back to Date objects
         const activitiesWithDates = parsedActivities.map((activity: ActivityLog) => ({
           ...activity,

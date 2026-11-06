@@ -36,13 +36,7 @@ export type UserErrorCode =
   | 'USER_NOT_FOUND'
   | 'LAST_ADMIN_DELETION'
   | 'LAST_ADMIN_DEMOTION'
+  | 'LAST_ADMIN_DEACTIVATION'
   | 'STORAGE_ERROR'
   | 'NETWORK_ERROR'
   | 'UNKNOWN_ERROR'
-
-export interface UserError {
-  code: UserErrorCode
-  message: string
-  details?: unknown
-  operation: 'create' | 'update' | 'delete' | 'read'
-}

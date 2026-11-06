@@ -29,6 +29,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { readJson } from '@/lib/read-json'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
 
 export default function ProfilePage() {
@@ -40,14 +41,8 @@ export default function ProfilePage() {
 
   // State for editable user data
   const [userData, setUserData] = useState(() => {
-    // Load from localStorage on initial render
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('userProfile')
-      if (stored) {
-        return JSON.parse(stored)
-      }
-    }
-    // Default data if nothing in localStorage
+    const stored = typeof window !== 'undefined' ? readJson('userProfile', null) : null
+    if (stored) return stored
     return {
       name: user?.name || 'John Doe',
       email: user?.email || 'john.doe@example.com',
@@ -93,13 +88,8 @@ export default function ProfilePage() {
   }
 
   const handleCancelEdit = () => {
-    // Reset to stored data
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('userProfile')
-      if (stored) {
-        setUserData(JSON.parse(stored))
-      }
-    }
+    const stored = readJson('userProfile', null)
+    if (stored) setUserData(stored)
     setIsEditing(false)
   }
 

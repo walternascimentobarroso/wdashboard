@@ -107,7 +107,7 @@ export default function UsersPage() {
           userToasts.duplicateEmailError()
         } else if (err.code === 'VALIDATION_ERROR') {
           userToasts.validationError('input')
-        } else if (err.code === 'LAST_ADMIN_DEMOTION') {
+        } else if (err.code === 'LAST_ADMIN_DEMOTION' || err.code === 'LAST_ADMIN_DEACTIVATION') {
           userToasts.lastAdminError()
         } else {
           userToasts.updateError(err.message || 'Unknown error')
