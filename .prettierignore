@@ -6,11 +6,7 @@ build
 public
 *.log
 .env*
-.codacy
-.specify
-.windsurf
 specs
-.jscpd.json
 .prettierrc
 tailwind.config.ts
 tsconfig.json

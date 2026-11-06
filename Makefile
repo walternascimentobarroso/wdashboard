@@ -2,7 +2,7 @@
 GREEN := \033[0;32m
 NOCOLOR := \033[0m
 
-.PHONY: up dev install build format lint typecheck test clean copy-check clear-branches validate help
+.PHONY: up dev install build format lint typecheck test clean clear-branches validate help
 
 # Default target
 help:
@@ -16,9 +16,9 @@ help:
 	@echo "  typecheck   - Run TypeScript type checking"
 	@echo "  test        - Run tests"
 	@echo "  clean     - Clean build artifacts"
-	@echo "  copy-check    - Check for code duplication"
+	@echo "     - Check for code duplication"
 	@echo "  clear-branches - Remove old merged branches"
-	@echo "  validate      - Run format, lint, typecheck and copy-check"
+	@echo "  validate      - Run format, lint, typecheck and"
 	@echo "  help          - Show this help message"
 
 # Start development server
@@ -58,9 +58,6 @@ clean:
 	rm -rf .next
 	rm -rf node_modules/.cache
 
-# Check for code duplication
-copy-check:
-	npx jscpd . --silent
 
 # Remove old merged branches
 clear-branches:
@@ -75,4 +72,3 @@ validate:
 	$(MAKE) format
 	$(MAKE) lint
 	$(MAKE) typecheck
-	$(MAKE) copy-check

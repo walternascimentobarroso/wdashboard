@@ -100,12 +100,8 @@ temp/
 # Optional stylelint cache
 .stylelintcache
 
-#Ignore windsurf AI rules
-.windsurfrules
 
 
-#Ignore vscode AI rules
-.github/instructions/codacy.instructions.md
 
 # Claude Code
 .claude/

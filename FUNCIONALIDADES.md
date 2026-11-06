@@ -269,8 +269,6 @@ WDashboard é uma aplicação web moderna de dashboard construída com Next.js 1
 - **TypeScript**: Type safety completo
 - **ESLint**: Linting de código
 - **Prettier**: Formatação consistente
-- **Codacy**: Análise de qualidade automatizada
-- **JSCPD**: Detecção de código duplicado
 
 ### Configurações de Desenvolvimento
 - **Hot Reload**: Recarregamento automático

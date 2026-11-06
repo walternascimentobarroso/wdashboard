@@ -5,11 +5,13 @@ Dashboard admin em Next.js 16 (App Router) + TypeScript + Tailwind 3 + shadcn/ui
 ## Comandos
 
 - `make dev` — servidor de desenvolvimento
-- `make validate` — format + lint + typecheck + jscpd (correr antes de dar uma tarefa por concluída)
+- `make validate` — format + lint + typecheck (correr antes de dar uma tarefa por concluída)
 - `npm run build` — build de produção
 - Não há testes configurados: `make test` falha (não existe script `test`).
 
 ## Estrutura
+
+Todo o código fica em `src/` (alias `@/*` → `./src/*`); a raiz guarda apenas configuração.
 
 - `app/` — rotas (`dashboard/{users,files,logs,profile}`, `login`); `providers.tsx` junta tema, i18n, React Query e auth.
 - `components/ui/` — primitivas shadcn; reutilizar antes de criar componentes novos.
@@ -22,14 +24,15 @@ Dashboard admin em Next.js 16 (App Router) + TypeScript + Tailwind 3 + shadcn/ui
 
 ## Regras do projeto
 
-Seguir `.specify/memory/constitution.md`. Em resumo:
+Princípios do projeto:
 
 - Não partir funcionalidade existente nem refatorar fora do âmbito.
 - Cores só via design tokens (sem hex hardcoded); suportar light/dark/system.
 - Preferências (tema, sidebar) persistem em localStorage.
 - Manter separação UI / services / modules.
 - Glassmorphism apenas em cards e dialogs.
+- **Limpeza ao passar:** sempre que editares um ficheiro, remove nele o código morto — imports, variáveis, funções, componentes e exports sem uso, código comentado e logs de debug. Antes de apagar um export, confirma com grep em `src/` que ninguém o importa. A limpeza fica restrita aos ficheiros já tocados pela tarefa.
 
 ## Fluxo de specs
 
-Specs vivem em `specs/NNN-nome/` (Spec Kit: `.specify/`, comandos em `.windsurf/workflows/`). Documentação de decisões e migrações em `docs/`.
+Specs novas usam as skills `spec`, `build` e `review-spec`.
