@@ -135,7 +135,10 @@
       "createTitle": "Criar Novo Usuário",
       "createDesc": "Adicionar um novo usuário ao sistema. Preencha os detalhes abaixo.",
       "editTitle": "Editar Usuário",
-      "editDesc": "Atualize as informações do usuário abaixo."
+      "editDesc": "Atualize as informações do usuário abaixo.",
+      "viewTitle": "Visualizar Usuário",
+      "viewDesc": "Detalhes do usuário.",
+      "close": "Fechar"
     },
     "empty": {
       "title": "Nenhum usuário ainda",

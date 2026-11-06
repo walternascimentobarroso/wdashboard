@@ -135,7 +135,10 @@
       "createTitle": "Create New User",
       "createDesc": "Add a new user to the system. Fill in the details below.",
       "editTitle": "Edit User",
-      "editDesc": "Update the user information below."
+      "editDesc": "Update the user information below.",
+      "viewTitle": "View User",
+      "viewDesc": "User details.",
+      "close": "Close"
     },
     "empty": {
       "title": "No users yet",

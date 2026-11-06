@@ -26,6 +26,7 @@ import { LoadingState } from '@/features/users/components/loading-state'
 import { userToasts } from '@/features/users/components/toast-notifications'
 import { UserForm } from '@/features/users/components/user-form'
 import { UserTable } from '@/features/users/components/user-table'
+import { UserViewDialog } from '@/features/users/components/user-view-dialog'
 import { useUsers } from '@/features/users/hooks/useUsers'
 import type {
   CreateUserRequest,
@@ -57,6 +58,7 @@ export default function UsersPage() {
   } = useUsers()
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [visibleColumns, setVisibleColumns] = useState<string[]>([
@@ -152,6 +154,11 @@ export default function UsersPage() {
         userToasts.deleteError('Unknown error')
       }
     }
+  }
+
+  const handleViewClick = (user: User) => {
+    setSelectedUser(user)
+    setIsViewModalOpen(true)
   }
 
   const handleEditClick = (user: User) => {
@@ -299,6 +306,7 @@ export default function UsersPage() {
         <UserTable
           users={displayUsers}
           loading={loading}
+          onView={handleViewClick}
           onEdit={handleEditClick}
           onDelete={handleDeleteClick}
           onSort={handleSort}
@@ -322,6 +330,12 @@ export default function UsersPage() {
         loading={loading}
         title={t('users.form.createTitle')}
         description={t('users.form.createDesc')}
+      />
+
+      <UserViewDialog
+        open={isViewModalOpen}
+        onOpenChange={setIsViewModalOpen}
+        user={selectedUser}
       />
 
       {/* Edit User Modal */}

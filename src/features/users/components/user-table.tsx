@@ -28,6 +28,7 @@ type Features = typeof features
 interface UserTableProps {
   users: User[]
   loading: boolean
+  onView: (user: User) => void
   onEdit: (user: User) => void
   onDelete: (user: User) => void
   onSort: (column: keyof User, direction: 'asc' | 'desc') => void
@@ -43,6 +44,7 @@ interface UserTableProps {
 export function UserTable({
   users,
   loading,
+  onView,
   onEdit,
   onDelete,
   onSort,
@@ -165,7 +167,11 @@ export function UserTable({
       cell: ({ row }: { row: Row<Features, User> }) => {
         const user = row.original
         return (
-          <UserActions user={user} onEdit={() => onEdit(user)} onDelete={() => onDelete(user)} />
+          <UserActions
+            onView={() => onView(user)}
+            onEdit={() => onEdit(user)}
+            onDelete={() => onDelete(user)}
+          />
         )
       },
     },
