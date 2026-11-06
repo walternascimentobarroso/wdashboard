@@ -49,14 +49,8 @@ coverage/
 # nyc test coverage
 .nyc_output
 
-# ESLint cache
-.eslintcache
-
 # Optional npm cache directory
 .npm
-
-# Optional eslint cache
-.eslintcache
 
 # Optional stylelint cache
 .stylelintcache

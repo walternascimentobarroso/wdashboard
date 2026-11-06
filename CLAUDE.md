@@ -1,13 +1,18 @@
 # CLAUDE.md
 
-Dashboard admin em Next.js 16 (App Router) + TypeScript + Tailwind 3 + shadcn/ui (Radix). Sem backend: dados e autenticação são mock (localStorage).
+Dashboard admin em Next.js 16 (App Router) + TypeScript 7 + Tailwind 4 + shadcn/ui (Radix). Sem backend: dados e autenticação são mock (localStorage).
 
 ## Comandos
 
 - `make dev` — servidor de desenvolvimento
-- `make validate` — format + lint + typecheck (correr antes de dar uma tarefa por concluída)
+- `make validate` — Biome (format + lint + imports) + typecheck (correr antes de dar uma tarefa por concluída)
 - `npm run build` — build de produção
-- Não há testes configurados: `make test` falha (não existe script `test`).
+- Não há testes configurados.
+
+## Ferramentas
+
+- Lint e formatação só com Biome (`biome.json`); não há ESLint nem Prettier.
+- TypeScript 7 (nativo, em Go): o pacote `typescript` não expõe a API JS antiga, por isso ferramentas que fazem `require('typescript')` não funcionam.
 
 ## Estrutura
 

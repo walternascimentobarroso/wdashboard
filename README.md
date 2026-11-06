@@ -26,12 +26,12 @@ Abra http://localhost:3000.
 
 ## Comandos
 
-| Comando         | O que faz                                        |
-| --------------- | ------------------------------------------------ |
-| `make dev`      | Servidor de desenvolvimento                      |
-| `make build`    | Build de produção                                |
-| `make validate` | Formatação (Prettier), lint (ESLint) e typecheck |
-| `make clean`    | Apaga o `.next` e o cache                        |
+| Comando         | O que faz                                      |
+| --------------- | ---------------------------------------------- |
+| `make dev`      | Servidor de desenvolvimento                    |
+| `make build`    | Build de produção                              |
+| `make validate` | Formatação, lint e imports (Biome) e typecheck |
+| `make clean`    | Apaga o `.next` e o cache                      |
 
 Não há testes configurados.
 
@@ -47,7 +47,8 @@ Não há testes configurados.
 
 ## Stack
 
-- Next.js 16, React e TypeScript
+- Next.js 16, React e TypeScript 7
+- Biome (lint e formatação)
 - Tailwind CSS 4, shadcn/ui (Radix UI) e next-themes
 - React Hook Form com Zod
 - TanStack Query
