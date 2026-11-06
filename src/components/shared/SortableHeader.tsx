@@ -1,8 +1,7 @@
-import type { Column } from '@tanstack/react-table'
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
 
 interface SortableHeaderProps<T> {
-  column: Column<T>
+  column: { getIsSorted: () => false | 'asc' | 'desc' }
   title: string
   onSort: (column: keyof T, direction: 'asc' | 'desc') => void
   columnKey: keyof T

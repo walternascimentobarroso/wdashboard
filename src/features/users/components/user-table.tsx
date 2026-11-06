@@ -3,13 +3,10 @@
 import {
   type Column,
   type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   type Row,
-  useReactTable,
+  rowSortingFeature,
+  tableFeatures,
+  useTable,
 } from '@tanstack/react-table'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -23,6 +20,9 @@ import {
 } from '@/components/ui/select'
 import type { User } from '../types'
 import { UserActions } from './user-actions'
+
+const features = tableFeatures({ rowSortingFeature })
+type Features = typeof features
 
 interface UserTableProps {
   users: User[]
@@ -55,10 +55,10 @@ export function UserTable({
 }: UserTableProps) {
   const t = useTranslations()
 
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<Features, User>[] = [
     {
       accessorKey: 'name',
-      header: ({ column }: { column: Column<User> }) => (
+      header: ({ column }: { column: Column<Features, User> }) => (
         <SortableHeader
           column={column}
           title={t('users.columns.name')}
@@ -66,13 +66,13 @@ export function UserTable({
           columnKey="name"
         />
       ),
-      cell: ({ row }: { row: Row<User> }) => (
+      cell: ({ row }: { row: Row<Features, User> }) => (
         <div className="font-medium">{row.getValue('name')}</div>
       ),
     },
     {
       accessorKey: 'email',
-      header: ({ column }: { column: Column<User> }) => (
+      header: ({ column }: { column: Column<Features, User> }) => (
         <SortableHeader
           column={column}
           title={t('users.columns.email')}
@@ -80,13 +80,13 @@ export function UserTable({
           columnKey="email"
         />
       ),
-      cell: ({ row }: { row: Row<User> }) => (
+      cell: ({ row }: { row: Row<Features, User> }) => (
         <div className="text-sm text-muted-foreground">{row.getValue('email')}</div>
       ),
     },
     {
       accessorKey: 'role',
-      header: ({ column }: { column: Column<User> }) => (
+      header: ({ column }: { column: Column<Features, User> }) => (
         <SortableHeader
           column={column}
           title={t('users.columns.role')}
@@ -94,7 +94,7 @@ export function UserTable({
           columnKey="role"
         />
       ),
-      cell: ({ row }: { row: Row<User> }) => {
+      cell: ({ row }: { row: Row<Features, User> }) => {
         const role = row.getValue('role') as string
         return (
           <div className="capitalize">
@@ -113,7 +113,7 @@ export function UserTable({
     },
     {
       accessorKey: 'status',
-      header: ({ column }: { column: Column<User> }) => (
+      header: ({ column }: { column: Column<Features, User> }) => (
         <SortableHeader
           column={column}
           title={t('users.columns.status')}
@@ -121,7 +121,7 @@ export function UserTable({
           columnKey="status"
         />
       ),
-      cell: ({ row }: { row: Row<User> }) => {
+      cell: ({ row }: { row: Row<Features, User> }) => {
         const status = row.getValue('status') as string
         return (
           <div className="capitalize">
@@ -140,7 +140,7 @@ export function UserTable({
     },
     {
       accessorKey: 'createdAt',
-      header: ({ column }: { column: Column<User> }) => (
+      header: ({ column }: { column: Column<Features, User> }) => (
         <SortableHeader
           column={column}
           title={t('users.columns.created')}
@@ -148,7 +148,7 @@ export function UserTable({
           columnKey="createdAt"
         />
       ),
-      cell: ({ row }: { row: Row<User> }) => {
+      cell: ({ row }: { row: Row<Features, User> }) => {
         const date = new Date(row.getValue('createdAt'))
         return <div className="text-sm text-muted-foreground">{date.toLocaleDateString()}</div>
       },
@@ -156,7 +156,7 @@ export function UserTable({
     {
       id: 'actions',
       header: t('users.columns.actions'),
-      cell: ({ row }: { row: Row<User> }) => {
+      cell: ({ row }: { row: Row<Features, User> }) => {
         const user = row.original
         return (
           <UserActions user={user} onEdit={() => onEdit(user)} onDelete={() => onDelete(user)} />
@@ -165,17 +165,7 @@ export function UserTable({
     },
   ].filter((col) => visibleColumns.includes(col.accessorKey || col.id || ''))
 
-  const table = useReactTable({
-    data: users,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: true,
-    manualSorting: true,
-    pageCount: totalPages,
-  })
+  const table = useTable({ features, data: users, columns, manualSorting: true })
 
   return (
     <div className="space-y-4">
@@ -190,9 +180,7 @@ export function UserTable({
                       key={header.id}
                       className="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.isPlaceholder ? null : <table.FlexRender header={header} />}
                     </th>
                   ))}
                 </tr>
@@ -220,9 +208,9 @@ export function UserTable({
                     key={row.id}
                     className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                   >
-                    {row.getVisibleCells().map((cell) => (
+                    {row.getAllCells().map((cell) => (
                       <td key={cell.id} className="p-4 align-middle has-[[role=checkbox]]:pr-0">
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        <table.FlexRender cell={cell} />
                       </td>
                     ))}
                   </tr>
