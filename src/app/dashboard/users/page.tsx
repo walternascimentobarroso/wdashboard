@@ -214,6 +214,7 @@ export default function UsersPage() {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Input
             placeholder={t('users.searchPlaceholder')}
+            aria-label={t('users.searchPlaceholder')}
             value={filters.search}
             onChange={(e) => handleSearchChange(e.target.value)}
             className="min-w-[160px] w-[200px]"

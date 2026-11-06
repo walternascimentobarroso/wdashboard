@@ -17,6 +17,12 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
 
+const NOTIFICATIONS = [
+  { key: 'fileUploaded', dotClass: 'bg-info' },
+  { key: 'errorDetected', dotClass: 'bg-destructive' },
+  { key: 'userCreated', dotClass: 'bg-success' },
+] as const
+
 interface TopbarProps {
   onSidebarToggle?: () => void
   title?: string
@@ -58,45 +64,49 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
     <header className="flex items-center justify-between h-16 px-4 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="flex items-center space-x-4">
         <Button variant="ghost" size="icon" onClick={onSidebarToggle} className="md:hidden">
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5" aria-hidden="true" />
           <span className="sr-only">{t('header.toggleSidebar')}</span>
         </Button>
         <p className="text-xl font-semibold">{title || t('header.dashboard')}</p>
       </div>
 
       <div className="flex items-center space-x-2">
-        {/* Search */}
         <Button
           variant="outline"
           size="sm"
           className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground"
           onClick={onSearchOpen}
         >
-          <Search className="h-4 w-4" />
+          <Search className="h-4 w-4" aria-hidden="true" />
           <span>{t('search.placeholder')}</span>
           <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
             <span className="text-xs">⌘</span>K
           </kbd>
         </Button>
-
-        {/* Theme Toggle */}
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="h-9 w-9"
         >
-          <Sun className="h-4 w-4 rotate-0 scale-100 transition-transform motion-reduce:transition-none dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-transform motion-reduce:transition-none dark:rotate-0 dark:scale-100" />
+          <Sun
+            className="h-4 w-4 rotate-0 scale-100 transition-transform motion-reduce:transition-none dark:-rotate-90 dark:scale-0"
+            aria-hidden="true"
+          />
+          <Moon
+            className="absolute h-4 w-4 rotate-90 scale-0 transition-transform motion-reduce:transition-none dark:rotate-0 dark:scale-100"
+            aria-hidden="true"
+          />
           <span className="sr-only">{t('theme.toggle')}</span>
         </Button>
-
-        {/* Notifications */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative h-9 w-9">
-              <Bell className="h-4 w-4" />
-              <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full" />
+              <Bell className="h-4 w-4" aria-hidden="true" />
+              <span
+                aria-hidden="true"
+                className="absolute top-1 right-1 h-2 w-2 bg-destructive rounded-full"
+              />
               <span className="sr-only">{t('notifications.title')}</span>
             </Button>
           </DropdownMenuTrigger>
@@ -109,36 +119,22 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
             </div>
             <DropdownMenuSeparator />
             <div className="max-h-80 overflow-y-auto">
-              <DropdownMenuItem asChild className="cursor-pointer">
-                <div className="flex items-start space-x-3 p-2">
-                  <div className="h-2 w-2 bg-blue-500 rounded-full mt-2" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">File uploaded successfully</p>
-                    <p className="text-xs text-muted-foreground">report.pdf was uploaded</p>
-                    <p className="text-xs text-muted-foreground mt-1">2 minutes ago</p>
+              {NOTIFICATIONS.map(({ key, dotClass }) => (
+                <DropdownMenuItem key={key} asChild className="cursor-pointer">
+                  <div className="flex items-start space-x-3 p-2">
+                    <div aria-hidden="true" className={`h-2 w-2 rounded-full mt-2 ${dotClass}`} />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">{t(`notifications.items.${key}.title`)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {t(`notifications.items.${key}.description`)}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {t(`notifications.items.${key}.time`)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer">
-                <div className="flex items-start space-x-3 p-2">
-                  <div className="h-2 w-2 bg-red-500 rounded-full mt-2" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Error detected</p>
-                    <p className="text-xs text-muted-foreground">Failed to process user data</p>
-                    <p className="text-xs text-muted-foreground mt-1">15 minutes ago</p>
-                  </div>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer">
-                <div className="flex items-start space-x-3 p-2">
-                  <div className="h-2 w-2 bg-green-500 rounded-full mt-2" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">New user created</p>
-                    <p className="text-xs text-muted-foreground">john.doe@example.com joined</p>
-                    <p className="text-xs text-muted-foreground mt-1">1 hour ago</p>
-                  </div>
-                </div>
-              </DropdownMenuItem>
+                </DropdownMenuItem>
+              ))}
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild className="cursor-pointer">
@@ -151,8 +147,6 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
-        {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -172,19 +166,19 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/dashboard/profile" className="flex items-center cursor-pointer">
-                <User className="mr-2 h-4 w-4" />
+                <User className="mr-2 h-4 w-4" aria-hidden="true" />
                 {t('common.profile')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/dashboard/settings" className="flex items-center cursor-pointer">
-                <Settings className="mr-2 h-4 w-4" />
+                <Settings className="mr-2 h-4 w-4" aria-hidden="true" />
                 {t('common.settings')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer" onSelect={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
+              <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
               {t('common.logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>

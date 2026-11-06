@@ -8,6 +8,7 @@ const badgeClass = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs 
 
 export function useUserColumns(): DataTableColumn<User>[] {
   const t = useTranslations('users.columns')
+  const tUsers = useTranslations('users')
   const format = useFormatter()
 
   return [
@@ -27,9 +28,9 @@ export function useUserColumns(): DataTableColumn<User>[] {
       cell: (user) => (
         <div className="capitalize">
           <span
-            className={`${badgeClass} bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100`}
+            className={`${badgeClass} ${user.role === 'admin' ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'}`}
           >
-            {user.role}
+            {tUsers(`roles.${user.role}`)}
           </span>
         </div>
       ),
@@ -42,11 +43,11 @@ export function useUserColumns(): DataTableColumn<User>[] {
           <span
             className={`${badgeClass} ${
               user.status === 'active'
-                ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
-                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100'
+                ? 'bg-success/15 text-success'
+                : 'bg-muted text-muted-foreground'
             }`}
           >
-            {user.status}
+            {tUsers(`statuses.${user.status}`)}
           </span>
         </div>
       ),

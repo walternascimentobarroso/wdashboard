@@ -13,7 +13,8 @@
     "profile": "Profile",
     "enabled": "Enabled",
     "disabled": "Disabled",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "cancel": "Cancel"
   },
   "search": {
     "placeholder": "Search users, files, logs…",
@@ -34,7 +35,24 @@
   "notifications": {
     "title": "Notifications",
     "markAllRead": "Mark all as read",
-    "viewAll": "View all notifications"
+    "viewAll": "View all notifications",
+    "items": {
+      "fileUploaded": {
+        "title": "File uploaded successfully",
+        "description": "report.pdf was uploaded",
+        "time": "2 minutes ago"
+      },
+      "errorDetected": {
+        "title": "Error detected",
+        "description": "Failed to process user data",
+        "time": "15 minutes ago"
+      },
+      "userCreated": {
+        "title": "New user created",
+        "description": "john.doe@example.com joined",
+        "time": "1 hour ago"
+      }
+    }
   },
   "breadcrumb": {
     "home": "Home"
@@ -81,7 +99,19 @@
     "signIn": "Sign in",
     "signUp": "Sign up",
     "alreadyHaveAccount": "Already have an account?",
-    "dontHaveAccount": "Don't have an account?"
+    "dontHaveAccount": "Don't have an account?",
+    "subtitle": "Use your account to access the dashboard.",
+    "tagline": "Users, files and activity in one place.",
+    "signingIn": "Signing in…",
+    "loginFailed": "Login failed",
+    "emailPlaceholder": "name@example.com",
+    "demoCredentials": "Demo accounts",
+    "demoHint": "Click an account to fill the form.",
+    "roles": {
+      "admin": "Admin",
+      "user": "User",
+      "viewer": "Viewer"
+    }
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -136,7 +166,22 @@
       "editDesc": "Update the user information below.",
       "viewTitle": "View User",
       "viewDesc": "User details.",
-      "close": "Close"
+      "close": "Close",
+      "namePlaceholder": "Enter user name…",
+      "emailPlaceholder": "name@example.com…",
+      "rolePlaceholder": "Select a role…",
+      "statusPlaceholder": "Select a status…",
+      "cancel": "Cancel",
+      "create": "Create User",
+      "update": "Update User",
+      "creating": "Creating…",
+      "updating": "Updating…",
+      "validation": {
+        "nameRequired": "Name is required",
+        "nameTooLong": "Name must be less than 100 characters",
+        "invalidEmail": "Invalid email address",
+        "roleRequired": "Please select a role"
+      }
     },
     "empty": {
       "title": "No users yet",
@@ -149,7 +194,10 @@
       "title": "Delete User",
       "description": "Are you sure you want to delete this user? This action cannot be undone.",
       "confirm": "Delete",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "aboutTo": "You are about to delete <strong>{name}</strong> ({email}).",
+      "adminWarning": "This user is an administrator. Make sure there are other administrators before deleting.",
+      "deleting": "Deleting…"
     },
     "toasts": {
       "created": "User {name} created successfully",
@@ -190,7 +238,8 @@
       "email": "Email Address",
       "phone": "Phone Number",
       "location": "Location",
-      "bio": "Bio"
+      "bio": "Bio",
+      "role": "Role"
     },
     "security": {
       "title": "Security Settings",
@@ -287,6 +336,47 @@
         "updates": "Updates",
         "actions": "Actions",
         "system": "System"
+      }
+    },
+    "roleOptions": {
+      "administrator": "Administrator",
+      "manager": "Manager",
+      "developer": "Developer",
+      "user": "User"
+    },
+    "passwordModal": {
+      "currentPassword": "Current Password",
+      "currentPlaceholder": "Enter current password…",
+      "newPassword": "New Password",
+      "newPlaceholder": "Enter new password…",
+      "confirmPassword": "Confirm New Password",
+      "confirmPlaceholder": "Confirm new password…",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "match": "Passwords match",
+      "mismatch": "Passwords do not match",
+      "cancel": "Cancel",
+      "submitting": "Changing…",
+      "strength": {
+        "weak": "Weak password",
+        "fair": "Fair password",
+        "good": "Good password",
+        "strong": "Strong password"
+      },
+      "requirements": {
+        "minLength": "At least 8 characters",
+        "lowercase": "Lowercase letter",
+        "uppercase": "Uppercase letter",
+        "number": "Number",
+        "special": "Special character"
+      },
+      "errors": {
+        "currentRequired": "Current password is required",
+        "newRequired": "New password is required",
+        "tooShort": "Password must be at least 8 characters long",
+        "tooWeak": "Password is too weak. Please include more character variety",
+        "sameAsCurrent": "New password must be different from current password",
+        "failed": "Failed to change password"
       }
     }
   },

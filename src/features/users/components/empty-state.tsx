@@ -1,6 +1,7 @@
 'use client'
 
 import { Plus, Users } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 
 interface EmptyStateProps {
@@ -11,14 +12,12 @@ interface EmptyStateProps {
 function EmptyStateContent({
   title,
   description,
-  subDescription,
   buttonText,
   buttonVariant = 'default',
   onCreateUser,
 }: {
   title: string
   description: string
-  subDescription: string
   buttonText: string
   buttonVariant?: 'default' | 'outline'
   onCreateUser?: () => void
@@ -31,7 +30,6 @@ function EmptyStateContent({
         </div>
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="text-muted-foreground">{description}</p>
-        <p className="text-sm text-muted-foreground">{subDescription}</p>
         {onCreateUser && (
           <Button onClick={onCreateUser} variant={buttonVariant}>
             <Plus className="mr-2 h-4 w-4" />
@@ -44,26 +42,14 @@ function EmptyStateContent({
 }
 
 export function EmptyState({ onCreateUser, filtered = false }: EmptyStateProps) {
-  if (filtered) {
-    return (
-      <EmptyStateContent
-        title="No users found"
-        description="We couldn't find any users matching your search criteria."
-        subDescription="Try adjusting your filters or search terms."
-        buttonText="Create New User"
-        buttonVariant="outline"
-        onCreateUser={onCreateUser}
-      />
-    )
-  }
+  const t = useTranslations('users.empty')
 
   return (
     <EmptyStateContent
-      title="No users yet"
-      description="Get started by creating your first user account."
-      subDescription="Users can be administrators with full access or regular users with limited permissions."
-      buttonText="Create Your First User"
-      buttonVariant="default"
+      title={t(filtered ? 'filteredTitle' : 'title')}
+      description={t(filtered ? 'filteredDescription' : 'description')}
+      buttonText={t('button')}
+      buttonVariant={filtered ? 'outline' : 'default'}
       onCreateUser={onCreateUser}
     />
   )

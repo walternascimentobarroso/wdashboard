@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -25,9 +26,9 @@ import {
 import type { CreateUserRequest, UpdateUserRequest, User, UserRole, UserStatus } from '../types'
 
 const userFormSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(100, 'Name must be less than 100 characters'),
-  email: z.string().email('Invalid email address'),
-  role: z.enum(['admin', 'user'], { message: 'Please select a role' }),
+  name: z.string().min(1, 'nameRequired').max(100, 'nameTooLong'),
+  email: z.string().email('invalidEmail'),
+  role: z.enum(['admin', 'user'], { message: 'roleRequired' }),
   status: z.enum(['active', 'inactive']).optional(),
 })
 
@@ -52,6 +53,7 @@ export function UserForm({
   description,
   user,
 }: UserFormProps) {
+  const t = useTranslations('users')
   const form = useForm<UserFormData>({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
@@ -81,18 +83,10 @@ export function UserForm({
   }, [user, form])
 
   const handleSubmit = (data: UserFormData) => {
-    const submitData = user
-      ? {
-          ...data,
-          status: data.status || 'active',
-        }
-      : {
-          ...data,
-          status: data.status || 'active',
-        }
-
-    onSubmit(submitData)
+    onSubmit({ ...data, status: data.status || 'active' })
   }
+
+  const errorText = (message?: string) => message && t(`form.validation.${message}`)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -104,71 +98,79 @@ export function UserForm({
 
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">{t('columns.name')}</Label>
             <Input
               id="name"
               {...form.register('name')}
-              placeholder="Enter user name"
+              placeholder={t('form.namePlaceholder')}
               disabled={loading}
             />
             {form.formState.errors.name && (
-              <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
+              <p className="text-sm text-destructive">
+                {errorText(form.formState.errors.name.message)}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('columns.email')}</Label>
             <Input
               id="email"
               type="email"
               autoComplete="off"
               spellCheck={false}
               {...form.register('email')}
-              placeholder="name@example.com…"
+              placeholder={t('form.emailPlaceholder')}
               disabled={loading}
             />
             {form.formState.errors.email && (
-              <p className="text-sm text-destructive">{form.formState.errors.email.message}</p>
+              <p className="text-sm text-destructive">
+                {errorText(form.formState.errors.email.message)}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="role">Role</Label>
+            <Label htmlFor="role">{t('columns.role')}</Label>
             <Select
               value={form.watch('role')}
               onValueChange={(value) => form.setValue('role', value as UserRole)}
               disabled={loading}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a role" />
+              <SelectTrigger id="role">
+                <SelectValue placeholder={t('form.rolePlaceholder')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="user">User</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="user">{t('roles.user')}</SelectItem>
+                <SelectItem value="admin">{t('roles.admin')}</SelectItem>
               </SelectContent>
             </Select>
             {form.formState.errors.role && (
-              <p className="text-sm text-destructive">{form.formState.errors.role.message}</p>
+              <p className="text-sm text-destructive">
+                {errorText(form.formState.errors.role.message)}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">{t('columns.status')}</Label>
             <Select
               value={form.watch('status')}
               onValueChange={(value) => form.setValue('status', value as UserStatus)}
               disabled={loading}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select status" />
+              <SelectTrigger id="status">
+                <SelectValue placeholder={t('form.statusPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
+                <SelectItem value="active">{t('statuses.active')}</SelectItem>
+                <SelectItem value="inactive">{t('statuses.inactive')}</SelectItem>
               </SelectContent>
             </Select>
             {form.formState.errors.status && (
-              <p className="text-sm text-destructive">{form.formState.errors.status.message}</p>
+              <p className="text-sm text-destructive">
+                {errorText(form.formState.errors.status.message)}
+              </p>
             )}
           </div>
 
@@ -179,18 +181,18 @@ export function UserForm({
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
-              Cancel
+              {t('form.cancel')}
             </Button>
             <Button type="submit" disabled={loading}>
               {loading ? (
                 <>
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                  {user ? 'Updating...' : 'Creating...'}
+                  {user ? t('form.updating') : t('form.creating')}
                 </>
               ) : user ? (
-                'Update User'
+                t('form.update')
               ) : (
-                'Create User'
+                t('form.create')
               )}
             </Button>
           </DialogFooter>

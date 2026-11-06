@@ -143,7 +143,7 @@ export default function ProfilePage() {
         <div className="flex gap-2">
           {isEditing && (
             <Button variant="outline" onClick={handleCancelEdit} disabled={isLoading}>
-              Cancel
+              {t('common.cancel')}
             </Button>
           )}
           <Button
@@ -213,7 +213,7 @@ export default function ProfilePage() {
                 href={userData.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
+                className="text-primary hover:underline"
               >
                 {userData.website}
               </a>
@@ -246,6 +246,7 @@ export default function ProfilePage() {
                   <Label htmlFor="name">{t('profile.personal.name')}</Label>
                   <Input
                     id="name"
+                    autoComplete="name"
                     value={userData.name}
                     disabled={!isEditing}
                     onChange={(e) => handleInputChange('name', e.target.value)}
@@ -256,6 +257,8 @@ export default function ProfilePage() {
                   <Input
                     id="email"
                     type="email"
+                    autoComplete="email"
+                    spellCheck={false}
                     value={userData.email}
                     disabled={!isEditing}
                     onChange={(e) => handleInputChange('email', e.target.value)}
@@ -265,6 +268,8 @@ export default function ProfilePage() {
                   <Label htmlFor="phone">{t('profile.personal.phone')}</Label>
                   <Input
                     id="phone"
+                    type="tel"
+                    autoComplete="tel"
                     value={userData.phone}
                     disabled={!isEditing}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
@@ -274,6 +279,7 @@ export default function ProfilePage() {
                   <Label htmlFor="location">{t('profile.personal.location')}</Label>
                   <Input
                     id="location"
+                    autoComplete="address-level2"
                     value={userData.location}
                     disabled={!isEditing}
                     onChange={(e) => handleInputChange('location', e.target.value)}
@@ -283,13 +289,15 @@ export default function ProfilePage() {
                   <Label htmlFor="website">{t('profile.website')}</Label>
                   <Input
                     id="website"
+                    type="url"
+                    autoComplete="url"
                     value={userData.website}
                     disabled={!isEditing}
                     onChange={(e) => handleInputChange('website', e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="role">Role</Label>
+                  <Label htmlFor="role">{t('profile.personal.role')}</Label>
                   <select
                     id="role"
                     className="px-3 py-2 border rounded-md bg-background"
@@ -297,10 +305,10 @@ export default function ProfilePage() {
                     onChange={(e) => handleInputChange('role', e.target.value)}
                     disabled={!isEditing}
                   >
-                    <option value="Administrator">Administrator</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Developer">Developer</option>
-                    <option value="User">User</option>
+                    <option value="Administrator">{t('profile.roleOptions.administrator')}</option>
+                    <option value="Manager">{t('profile.roleOptions.manager')}</option>
+                    <option value="Developer">{t('profile.roleOptions.developer')}</option>
+                    <option value="User">{t('profile.roleOptions.user')}</option>
                   </select>
                 </div>
               </div>
@@ -393,12 +401,16 @@ export default function ProfilePage() {
                 </Button>
               </div>
               <Separator />
-              <div className="p-4 border rounded-lg border-red-200 bg-red-50">
+              <div className="p-4 border rounded-lg border-destructive/30 bg-destructive/10">
                 <div className="flex items-center gap-3">
-                  <User className="h-5 w-5 text-red-600" />
+                  <User className="h-5 w-5 text-destructive" />
                   <div>
-                    <p className="font-medium text-red-800">{t('profile.data.deleteAccount')}</p>
-                    <p className="text-sm text-red-600">{t('profile.data.deleteAccountDesc')}</p>
+                    <p className="font-medium text-destructive">
+                      {t('profile.data.deleteAccount')}
+                    </p>
+                    <p className="text-sm text-destructive">
+                      {t('profile.data.deleteAccountDesc')}
+                    </p>
                   </div>
                 </div>
                 <Button variant="destructive" className="mt-3">
@@ -413,10 +425,8 @@ export default function ProfilePage() {
         <TabsContent value="activity" className="space-y-4">
           <div className="space-y-6">
             {/* Activity List */}
-            <div className="rounded-xl bg-gray-900 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                {t('profile.activity.recentActivity')}
-              </h3>
+            <div className="rounded-xl bg-card p-6">
+              <h3 className="text-lg font-semibold mb-4">{t('profile.activity.recentActivity')}</h3>
               <div className="space-y-4">
                 {[
                   {
@@ -425,9 +435,9 @@ export default function ProfilePage() {
                     description: t('profile.activity.activities.descriptions.login'),
                     time: t('profile.activity.times.dayAgo', { count: 1 }),
                     category: t('profile.activity.categories.login'),
-                    categoryColor: 'blue',
-                    iconBg: 'bg-green-500/20',
-                    iconColor: 'text-green-500',
+                    categoryClass: 'bg-info/20 text-info',
+                    iconBg: 'bg-success/20',
+                    iconColor: 'text-success',
                     icon: LogIn,
                   },
                   {
@@ -436,9 +446,9 @@ export default function ProfilePage() {
                     description: t('profile.activity.activities.descriptions.edit'),
                     time: t('profile.activity.times.hoursAgo', { count: 2 }),
                     category: t('profile.activity.categories.profileUpdate'),
-                    categoryColor: 'gray',
-                    iconBg: 'bg-blue-500/20',
-                    iconColor: 'text-blue-500',
+                    categoryClass: 'bg-muted text-muted-foreground',
+                    iconBg: 'bg-info/20',
+                    iconColor: 'text-info',
                     icon: User,
                   },
                   {
@@ -447,9 +457,9 @@ export default function ProfilePage() {
                     description: t('profile.activity.activities.descriptions.delete'),
                     time: t('profile.activity.times.hoursAgo', { count: 3 }),
                     category: t('profile.activity.categories.userAction'),
-                    categoryColor: 'gray',
-                    iconBg: 'bg-red-500/20',
-                    iconColor: 'text-red-500',
+                    categoryClass: 'bg-muted text-muted-foreground',
+                    iconBg: 'bg-destructive/20',
+                    iconColor: 'text-destructive',
                     icon: Trash2,
                   },
                   {
@@ -458,9 +468,9 @@ export default function ProfilePage() {
                     description: t('profile.activity.activities.descriptions.create'),
                     time: t('profile.activity.times.hoursAgo', { count: 5 }),
                     category: t('profile.activity.categories.userAction'),
-                    categoryColor: 'gray',
-                    iconBg: 'bg-green-500/20',
-                    iconColor: 'text-green-500',
+                    categoryClass: 'bg-muted text-muted-foreground',
+                    iconBg: 'bg-success/20',
+                    iconColor: 'text-success',
                     icon: UserPlus,
                   },
                   {
@@ -469,9 +479,9 @@ export default function ProfilePage() {
                     description: t('profile.activity.activities.descriptions.password'),
                     time: t('profile.activity.times.dayAgo', { count: 1 }),
                     category: t('profile.activity.categories.security'),
-                    categoryColor: 'orange',
-                    iconBg: 'bg-orange-500/20',
-                    iconColor: 'text-orange-500',
+                    categoryClass: 'bg-warning/20 text-warning',
+                    iconBg: 'bg-warning/20',
+                    iconColor: 'text-warning',
                     icon: Key,
                   },
                   {
@@ -480,9 +490,9 @@ export default function ProfilePage() {
                     description: t('profile.activity.activities.descriptions.export'),
                     time: t('profile.activity.times.daysAgo', { count: 2 }),
                     category: t('profile.activity.categories.system'),
-                    categoryColor: 'purple',
-                    iconBg: 'bg-purple-500/20',
-                    iconColor: 'text-purple-500',
+                    categoryClass: 'bg-primary/20 text-primary',
+                    iconBg: 'bg-primary/20',
+                    iconColor: 'text-primary',
                     icon: Download,
                   },
                 ].map((activity) => (
@@ -494,15 +504,15 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium text-white">{activity.title}</span>
+                        <span className="font-medium">{activity.title}</span>
                         <span
-                          className={`rounded-full bg-${activity.categoryColor}-500/20 px-2 py-0.5 text-xs font-medium text-${activity.categoryColor}-400`}
+                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${activity.categoryClass}`}
                         >
                           {activity.category}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-400">{activity.description}</p>
-                      <p className="text-xs text-gray-500">{activity.time}</p>
+                      <p className="text-sm text-muted-foreground">{activity.description}</p>
+                      <p className="text-xs text-muted-foreground">{activity.time}</p>
                     </div>
                   </div>
                 ))}
@@ -510,53 +520,51 @@ export default function ProfilePage() {
             </div>
 
             {/* Summary Section */}
-            <div className="rounded-xl bg-gray-900 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                {t('profile.activity.summary')}
-              </h3>
+            <div className="rounded-xl bg-card p-6">
+              <h3 className="text-lg font-semibold mb-4">{t('profile.activity.summary')}</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="rounded-lg bg-gray-800 p-4">
+                <div className="rounded-lg bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold text-green-500">12</p>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-2xl font-bold tabular-nums text-success">12</p>
+                      <p className="text-sm text-muted-foreground">
                         {t('profile.activity.summaryItems.logins')}
                       </p>
                     </div>
-                    <LogIn className="h-8 w-8 text-green-500/30" />
+                    <LogIn className="h-8 w-8 text-success/30" />
                   </div>
                 </div>
-                <div className="rounded-lg bg-gray-800 p-4">
+                <div className="rounded-lg bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold text-blue-500">8</p>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-2xl font-bold tabular-nums text-info">8</p>
+                      <p className="text-sm text-muted-foreground">
                         {t('profile.activity.summaryItems.updates')}
                       </p>
                     </div>
-                    <Edit className="h-8 w-8 text-blue-500/30" />
+                    <Edit className="h-8 w-8 text-info/30" />
                   </div>
                 </div>
-                <div className="rounded-lg bg-gray-800 p-4">
+                <div className="rounded-lg bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold text-orange-500">15</p>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-2xl font-bold tabular-nums text-warning">15</p>
+                      <p className="text-sm text-muted-foreground">
                         {t('profile.activity.summaryItems.actions')}
                       </p>
                     </div>
-                    <UserPlus className="h-8 w-8 text-orange-500/30" />
+                    <UserPlus className="h-8 w-8 text-warning/30" />
                   </div>
                 </div>
-                <div className="rounded-lg bg-gray-800 p-4">
+                <div className="rounded-lg bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold text-purple-500">6</p>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-2xl font-bold tabular-nums text-primary">6</p>
+                      <p className="text-sm text-muted-foreground">
                         {t('profile.activity.summaryItems.system')}
                       </p>
                     </div>
-                    <Settings className="h-8 w-8 text-purple-500/30" />
+                    <Settings className="h-8 w-8 text-primary/30" />
                   </div>
                 </div>
               </div>

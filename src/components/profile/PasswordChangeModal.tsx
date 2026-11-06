@@ -1,6 +1,7 @@
 'use client'
 
 import { AlertCircle, CheckCircle2, Eye, EyeOff, Shield } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import type React from 'react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -35,37 +36,46 @@ export function PasswordChangeModal({
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
+  const t = useTranslations()
 
   const passwordStrength = usePasswordStrength(newPassword)
 
   const validatePasswords = () => {
     if (!currentPassword) {
-      setError('Current password is required')
+      setError(t('profile.passwordModal.errors.currentRequired'))
       return false
     }
     if (!newPassword) {
-      setError('New password is required')
+      setError(t('profile.passwordModal.errors.newRequired'))
       return false
     }
     if (newPassword.length < 8) {
-      setError('Password must be at least 8 characters long')
+      setError(t('profile.passwordModal.errors.tooShort'))
       return false
     }
     if (passwordStrength.score < 4) {
-      setError('Password is too weak. Please include more character variety')
+      setError(t('profile.passwordModal.errors.tooWeak'))
       return false
     }
     if (newPassword !== confirmPassword) {
-      setError('Passwords do not match')
+      setError(t('profile.passwordModal.mismatch'))
       return false
     }
     if (currentPassword === newPassword) {
-      setError('New password must be different from current password')
+      setError(t('profile.passwordModal.errors.sameAsCurrent'))
       return false
     }
     setError('')
     return true
   }
+
+  const requirements = [
+    { key: 'minLength', met: newPassword.length >= 8 },
+    { key: 'lowercase', met: /[a-z]/.test(newPassword) },
+    { key: 'uppercase', met: /[A-Z]/.test(newPassword) },
+    { key: 'number', met: /[0-9]/.test(newPassword) },
+    { key: 'special', met: /[^a-zA-Z0-9]/.test(newPassword) },
+  ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -74,27 +84,26 @@ export function PasswordChangeModal({
 
     try {
       await onSubmit()
-      // Reset form on success
       setCurrentPassword('')
       setNewPassword('')
       setConfirmPassword('')
       setError('')
       onOpenChange(false)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to change password')
+      setError(err instanceof Error ? err.message : t('profile.passwordModal.errors.failed'))
     }
   }
 
   const getStrengthIcon = () => {
     switch (passwordStrength.level) {
       case 'weak':
-        return <AlertCircle className="h-4 w-4 text-red-500" />
+        return <AlertCircle className="h-4 w-4 text-destructive" />
       case 'fair':
-        return <AlertCircle className="h-4 w-4 text-orange-500" />
+        return <AlertCircle className="h-4 w-4 text-warning" />
       case 'good':
-        return <Shield className="h-4 w-4 text-yellow-500" />
+        return <Shield className="h-4 w-4 text-warning" />
       case 'strong':
-        return <CheckCircle2 className="h-4 w-4 text-green-500" />
+        return <CheckCircle2 className="h-4 w-4 text-success" />
       default:
         return null
     }
@@ -103,13 +112,13 @@ export function PasswordChangeModal({
   const getStrengthText = () => {
     switch (passwordStrength.level) {
       case 'weak':
-        return 'Weak password'
+        return t('profile.passwordModal.strength.weak')
       case 'fair':
-        return 'Fair password'
+        return t('profile.passwordModal.strength.fair')
       case 'good':
-        return 'Good password'
+        return t('profile.passwordModal.strength.good')
       case 'strong':
-        return 'Strong password'
+        return t('profile.passwordModal.strength.strong')
       default:
         return ''
     }
@@ -121,21 +130,21 @@ export function PasswordChangeModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            Change Password
+            {t('profile.security.changePassword')}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Current Password */}
           <div className="space-y-2">
-            <Label htmlFor="current-password">Current Password</Label>
+            <Label htmlFor="current-password">{t('profile.passwordModal.currentPassword')}</Label>
             <div className="relative">
               <Input
                 id="current-password"
                 type={showCurrentPassword ? 'text' : 'password'}
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="Enter current password"
+                placeholder={t('profile.passwordModal.currentPlaceholder')}
+                autoComplete="current-password"
                 className="pr-10"
               />
               <Button
@@ -143,6 +152,9 @@ export function PasswordChangeModal({
                 variant="ghost"
                 size="sm"
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                aria-label={t(
+                  `profile.passwordModal.${showCurrentPassword ? 'hide' : 'show'}Password`
+                )}
                 onClick={() => setShowCurrentPassword(!showCurrentPassword)}
               >
                 {showCurrentPassword ? (
@@ -154,16 +166,16 @@ export function PasswordChangeModal({
             </div>
           </div>
 
-          {/* New Password */}
           <div className="space-y-2">
-            <Label htmlFor="new-password">New Password</Label>
+            <Label htmlFor="new-password">{t('profile.passwordModal.newPassword')}</Label>
             <div className="relative">
               <Input
                 id="new-password"
                 type={showNewPassword ? 'text' : 'password'}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
+                placeholder={t('profile.passwordModal.newPlaceholder')}
+                autoComplete="new-password"
                 className="pr-10"
               />
               <Button
@@ -171,6 +183,7 @@ export function PasswordChangeModal({
                 variant="ghost"
                 size="sm"
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                aria-label={t(`profile.passwordModal.${showNewPassword ? 'hide' : 'show'}Password`)}
                 onClick={() => setShowNewPassword(!showNewPassword)}
               >
                 {showNewPassword ? (
@@ -181,11 +194,10 @@ export function PasswordChangeModal({
               </Button>
             </div>
 
-            {/* Password Strength Indicator */}
             {newPassword && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                  <div className="flex-1 bg-muted rounded-full h-2 overflow-hidden">
                     <div
                       className={`h-full transition-[width] duration-300 ease-out motion-reduce:transition-none ${passwordStrength.color} ${passwordStrength.width}`}
                     />
@@ -196,85 +208,32 @@ export function PasswordChangeModal({
                   </div>
                 </div>
 
-                {/* Password Requirements */}
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-xs">
-                    <div
-                      className={`w-3 h-3 rounded-full ${newPassword.length >= 8 ? 'bg-green-500' : 'bg-gray-300'}`}
-                    />
-                    <span
-                      className={
-                        newPassword.length >= 8 ? 'text-green-700' : 'text-muted-foreground'
-                      }
-                    >
-                      At least 8 characters
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <div
-                      className={`w-3 h-3 rounded-full ${/[a-z]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
-                    />
-                    <span
-                      className={
-                        /[a-z]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'
-                      }
-                    >
-                      Lowercase letter
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <div
-                      className={`w-3 h-3 rounded-full ${/[A-Z]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
-                    />
-                    <span
-                      className={
-                        /[A-Z]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'
-                      }
-                    >
-                      Uppercase letter
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <div
-                      className={`w-3 h-3 rounded-full ${/[0-9]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
-                    />
-                    <span
-                      className={
-                        /[0-9]/.test(newPassword) ? 'text-green-700' : 'text-muted-foreground'
-                      }
-                    >
-                      Number
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <div
-                      className={`w-3 h-3 rounded-full ${/[^a-zA-Z0-9]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`}
-                    />
-                    <span
-                      className={
-                        /[^a-zA-Z0-9]/.test(newPassword)
-                          ? 'text-green-700'
-                          : 'text-muted-foreground'
-                      }
-                    >
-                      Special character
-                    </span>
-                  </div>
+                  {requirements.map(({ key, met }) => (
+                    <div key={key} className="flex items-center gap-2 text-xs">
+                      <div
+                        className={`w-3 h-3 rounded-full ${met ? 'bg-success' : 'bg-muted-foreground/30'}`}
+                      />
+                      <span className={met ? 'text-success' : 'text-muted-foreground'}>
+                        {t(`profile.passwordModal.requirements.${key}`)}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Confirm Password */}
           <div className="space-y-2">
-            <Label htmlFor="confirm-password">Confirm New Password</Label>
+            <Label htmlFor="confirm-password">{t('profile.passwordModal.confirmPassword')}</Label>
             <div className="relative">
               <Input
                 id="confirm-password"
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm new password"
+                placeholder={t('profile.passwordModal.confirmPlaceholder')}
+                autoComplete="new-password"
                 className="pr-10"
               />
               <Button
@@ -282,6 +241,9 @@ export function PasswordChangeModal({
                 variant="ghost"
                 size="sm"
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                aria-label={t(
+                  `profile.passwordModal.${showConfirmPassword ? 'hide' : 'show'}Password`
+                )}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? (
@@ -291,18 +253,19 @@ export function PasswordChangeModal({
                 )}
               </Button>
             </div>
-            {confirmPassword && newPassword !== confirmPassword && (
-              <p className="text-sm text-red-500">Passwords do not match</p>
-            )}
-            {confirmPassword && newPassword === confirmPassword && (
-              <p className="text-sm text-green-500">Passwords match</p>
-            )}
+            <div aria-live="polite">
+              {confirmPassword && newPassword !== confirmPassword && (
+                <p className="text-sm text-destructive">{t('profile.passwordModal.mismatch')}</p>
+              )}
+              {confirmPassword && newPassword === confirmPassword && (
+                <p className="text-sm text-success">{t('profile.passwordModal.match')}</p>
+              )}
+            </div>
           </div>
 
-          {/* Error Message */}
           {error && (
-            <div className="p-3 rounded-md bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="p-3 rounded-md bg-destructive/10 border border-destructive/30">
+              <p className="text-sm text-destructive">{error}</p>
             </div>
           )}
 
@@ -313,13 +276,15 @@ export function PasswordChangeModal({
               onClick={() => onOpenChange(false)}
               disabled={isLoading}
             >
-              Cancel
+              {t('profile.passwordModal.cancel')}
             </Button>
             <Button
               type="submit"
               disabled={isLoading || !currentPassword || !newPassword || !confirmPassword}
             >
-              {isLoading ? 'Changing...' : 'Change Password'}
+              {isLoading
+                ? t('profile.passwordModal.submitting')
+                : t('profile.security.changePassword')}
             </Button>
           </DialogFooter>
         </form>

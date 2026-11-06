@@ -30,20 +30,20 @@ export function KPICard({
   const getTrendIcon = (trend: 'up' | 'down' | 'neutral') => {
     switch (trend) {
       case 'up':
-        return <TrendingUp className="h-3 w-3" />
+        return <TrendingUp className="h-3 w-3" aria-hidden="true" />
       case 'down':
-        return <TrendingDown className="h-3 w-3" />
+        return <TrendingDown className="h-3 w-3" aria-hidden="true" />
       case 'neutral':
-        return <Minus className="h-3 w-3" />
+        return <Minus className="h-3 w-3" aria-hidden="true" />
     }
   }
 
   const getTrendColor = (trend: 'up' | 'down' | 'neutral') => {
     switch (trend) {
       case 'up':
-        return 'text-green-600'
+        return 'text-success'
       case 'down':
-        return 'text-red-600'
+        return 'text-destructive'
       case 'neutral':
         return 'text-muted-foreground'
     }
@@ -65,7 +65,6 @@ export function KPICard({
       .join(' ')
 
     const isPositive = sparklineData[sparklineData.length - 1] > sparklineData[0]
-    const color = isPositive ? '#10b981' : '#ef4444'
 
     return (
       <div className="h-8 w-full">
@@ -73,7 +72,7 @@ export function KPICard({
           <polyline
             points={points}
             fill="none"
-            stroke={color}
+            className={isPositive ? 'stroke-success' : 'stroke-destructive'}
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -91,7 +90,7 @@ export function KPICard({
           <div className="flex items-start justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">{title}</p>
-              <p className="text-2xl font-bold mt-1">{value}</p>
+              <p className="text-2xl font-bold mt-1 tabular-nums">{value}</p>
             </div>
             {sparklineData.length > 0 && <div className="h-8 w-16">{renderSparkline()}</div>}
           </div>

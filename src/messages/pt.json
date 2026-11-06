@@ -13,7 +13,8 @@
     "profile": "Perfil",
     "enabled": "Ativado",
     "disabled": "Desativado",
-    "skipToContent": "Pular para o conteúdo"
+    "skipToContent": "Pular para o conteúdo",
+    "cancel": "Cancelar"
   },
   "search": {
     "placeholder": "Pesquisar usuários, arquivos, registros…",
@@ -34,7 +35,24 @@
   "notifications": {
     "title": "Notificações",
     "markAllRead": "Marcar todas como lidas",
-    "viewAll": "Ver todas as notificações"
+    "viewAll": "Ver todas as notificações",
+    "items": {
+      "fileUploaded": {
+        "title": "Arquivo enviado com sucesso",
+        "description": "report.pdf foi enviado",
+        "time": "há 2 minutos"
+      },
+      "errorDetected": {
+        "title": "Erro detectado",
+        "description": "Falha ao processar os dados do usuário",
+        "time": "há 15 minutos"
+      },
+      "userCreated": {
+        "title": "Novo usuário criado",
+        "description": "john.doe@example.com entrou",
+        "time": "há 1 hora"
+      }
+    }
   },
   "breadcrumb": {
     "home": "Início"
@@ -81,7 +99,19 @@
     "signIn": "Entrar",
     "signUp": "Cadastrar-se",
     "alreadyHaveAccount": "Já tem uma conta?",
-    "dontHaveAccount": "Não tem uma conta?"
+    "dontHaveAccount": "Não tem uma conta?",
+    "subtitle": "Use a sua conta para aceder ao dashboard.",
+    "tagline": "Utilizadores, ficheiros e atividade num só lugar.",
+    "signingIn": "A entrar…",
+    "loginFailed": "Falha ao entrar",
+    "emailPlaceholder": "nome@exemplo.com",
+    "demoCredentials": "Contas de demonstração",
+    "demoHint": "Clique numa conta para preencher o formulário.",
+    "roles": {
+      "admin": "Administrador",
+      "user": "Utilizador",
+      "viewer": "Leitor"
+    }
   },
   "navigation": {
     "dashboard": "Painel",
@@ -136,7 +166,22 @@
       "editDesc": "Atualize as informações do usuário abaixo.",
       "viewTitle": "Visualizar Usuário",
       "viewDesc": "Detalhes do usuário.",
-      "close": "Fechar"
+      "close": "Fechar",
+      "namePlaceholder": "Digite o nome do usuário…",
+      "emailPlaceholder": "nome@exemplo.com…",
+      "rolePlaceholder": "Selecione um cargo…",
+      "statusPlaceholder": "Selecione um status…",
+      "cancel": "Cancelar",
+      "create": "Criar usuário",
+      "update": "Atualizar usuário",
+      "creating": "Criando…",
+      "updating": "Atualizando…",
+      "validation": {
+        "nameRequired": "O nome é obrigatório",
+        "nameTooLong": "O nome deve ter menos de 100 caracteres",
+        "invalidEmail": "Endereço de e-mail inválido",
+        "roleRequired": "Selecione um cargo"
+      }
     },
     "empty": {
       "title": "Nenhum usuário ainda",
@@ -149,7 +194,10 @@
       "title": "Excluir Usuário",
       "description": "Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.",
       "confirm": "Excluir",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "aboutTo": "Você está prestes a excluir <strong>{name}</strong> ({email}).",
+      "adminWarning": "Este usuário é administrador. Certifique-se de que existem outros administradores antes de excluir.",
+      "deleting": "Excluindo…"
     },
     "toasts": {
       "created": "Usuário {name} criado com sucesso",
@@ -190,7 +238,8 @@
       "email": "Endereço de E-mail",
       "phone": "Telefone",
       "location": "Localização",
-      "bio": "Biografia"
+      "bio": "Biografia",
+      "role": "Função"
     },
     "security": {
       "title": "Configurações de Segurança",
@@ -287,6 +336,47 @@
         "updates": "Atualizações",
         "actions": "Ações",
         "system": "Sistema"
+      }
+    },
+    "roleOptions": {
+      "administrator": "Administrador",
+      "manager": "Gerente",
+      "developer": "Desenvolvedor",
+      "user": "Usuário"
+    },
+    "passwordModal": {
+      "currentPassword": "Senha atual",
+      "currentPlaceholder": "Digite a senha atual…",
+      "newPassword": "Nova senha",
+      "newPlaceholder": "Digite a nova senha…",
+      "confirmPassword": "Confirmar nova senha",
+      "confirmPlaceholder": "Confirme a nova senha…",
+      "showPassword": "Mostrar senha",
+      "hidePassword": "Ocultar senha",
+      "match": "As senhas coincidem",
+      "mismatch": "As senhas não coincidem",
+      "cancel": "Cancelar",
+      "submitting": "Alterando…",
+      "strength": {
+        "weak": "Senha fraca",
+        "fair": "Senha razoável",
+        "good": "Senha boa",
+        "strong": "Senha forte"
+      },
+      "requirements": {
+        "minLength": "Pelo menos 8 caracteres",
+        "lowercase": "Letra minúscula",
+        "uppercase": "Letra maiúscula",
+        "number": "Número",
+        "special": "Caractere especial"
+      },
+      "errors": {
+        "currentRequired": "A senha atual é obrigatória",
+        "newRequired": "A nova senha é obrigatória",
+        "tooShort": "A senha deve ter pelo menos 8 caracteres",
+        "tooWeak": "Senha muito fraca. Use mais variedade de caracteres",
+        "sameAsCurrent": "A nova senha deve ser diferente da atual",
+        "failed": "Falha ao alterar a senha"
       }
     }
   },

@@ -31,7 +31,7 @@ export function ColumnToggle({ columns, visibleColumns, onChange }: ColumnToggle
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm">
-          <Settings className="h-4 w-4 mr-2" />
+          <Settings className="h-4 w-4 mr-2" aria-hidden="true" />
           {t('customizeColumns')}
         </Button>
       </DropdownMenuTrigger>
@@ -48,7 +48,7 @@ export function ColumnToggle({ columns, visibleColumns, onChange }: ColumnToggle
                 type="checkbox"
                 checked={visibleColumns.includes(column.key)}
                 onChange={() => {}}
-                className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                className="rounded border-input accent-primary"
               />
               <span className="text-sm">{column.label}</span>
             </DropdownMenuItem>

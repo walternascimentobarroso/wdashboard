@@ -17,20 +17,3 @@ export interface ActivityLog {
   timestamp: Date
   type: 'login' | 'profile_update' | 'user_action' | 'system'
 }
-
-export interface SecurityForm {
-  currentPassword: string
-  newPassword: string
-  confirmPassword: string
-}
-
-export interface ProfileFormData {
-  name: string
-  email: string
-  avatar?: string
-}
-
-export interface PreferencesFormData {
-  language: 'en' | 'pt'
-  theme: 'light' | 'dark'
-}

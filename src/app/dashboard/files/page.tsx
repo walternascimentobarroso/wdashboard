@@ -74,7 +74,10 @@ export default function FilesPage() {
         <CardContent className="p-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"
+                aria-hidden="true"
+              />
               <Input
                 placeholder={t('search')}
                 aria-label={t('search')}
@@ -115,12 +118,14 @@ export default function FilesPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     {file.status === 'uploading' && (
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+                      <div className="w-2 h-2 bg-warning rounded-full animate-pulse" />
                     )}
                     {file.status === 'completed' && (
-                      <div className="w-2 h-2 bg-green-500 rounded-full" />
+                      <div className="w-2 h-2 bg-success rounded-full" />
                     )}
-                    {file.status === 'error' && <div className="w-2 h-2 bg-red-500 rounded-full" />}
+                    {file.status === 'error' && (
+                      <div className="w-2 h-2 bg-destructive rounded-full" />
+                    )}
                   </div>
                 </div>
               </CardContent>

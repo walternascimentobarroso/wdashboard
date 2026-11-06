@@ -128,6 +128,7 @@ export default function RolesPage() {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Input
             placeholder={t('searchPlaceholder')}
+            aria-label={t('searchPlaceholder')}
             value={roles.filters.search}
             onChange={(e) => roles.setFiltering({ search: e.target.value })}
             className="min-w-[160px] w-[200px]"
