@@ -96,6 +96,8 @@ temp/
 
 # TypeScript cache
 *.tsbuildinfo
+next-env.d.ts
+AGENTS.md
 
 # Optional stylelint cache
 .stylelintcache

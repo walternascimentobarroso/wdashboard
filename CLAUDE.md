@@ -35,7 +35,7 @@ Princípios do projeto:
 
 ## Verificação visual
 
-O MCP do Playwright está configurado em `.mcp.json`. Usa-o para navegar no app (`make dev`) e validar mudanças de UI com screenshots em light e dark.
+O MCP do Playwright fica em escopo local (fora do repo); para configurar numa máquina nova: `claude mcp add playwright --scope local -- npx @playwright/mcp@latest`. Usa-o para navegar no app (`make dev`) e validar mudanças de UI com screenshots em light e dark.
 
 ## Fluxo de specs
 

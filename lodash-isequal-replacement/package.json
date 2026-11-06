@@ -1,6 +1,0 @@
-{
-  "name": "lodash-isequal-replacement",
-  "version": "4.5.0",
-  "main": "index.js",
-  "description": "Replacement for lodash.isequal using node:util"
-}
