@@ -28,7 +28,7 @@ export function Sidebar({
     <TooltipProvider delayDuration={0}>
       <div
         className={cn(
-          'flex flex-col h-full bg-background border-r transition-all duration-300',
+          'flex flex-col h-full bg-background border-r transition-[width] duration-300 motion-reduce:transition-none',
           expanded ? 'w-64' : 'w-16',
           className
         )}
@@ -39,7 +39,13 @@ export function Sidebar({
           {expanded && <span className="font-semibold">{companyName}</span>}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" onClick={onToggle} className="h-8 w-8">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onToggle}
+                className="h-8 w-8"
+                aria-label={expanded ? t('sidebar.collapse') : t('sidebar.expand')}
+              >
                 {expanded ? (
                   <ChevronLeft className="h-4 w-4" />
                 ) : (

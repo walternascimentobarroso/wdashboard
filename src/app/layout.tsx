@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { cookies, headers } from 'next/headers'
@@ -31,6 +31,14 @@ async function getLocaleFromServer(): Promise<string> {
 export const metadata: Metadata = {
   title: 'WDashboard',
   description: 'A dashboard template built with Next.js and shadcn/ui',
+}
+
+// Mirrors --background in globals.css: the meta tag cannot read CSS variables.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'oklch(1 0 0)' },
+    { media: '(prefers-color-scheme: dark)', color: 'oklch(0.137 0.036 258.526)' },
+  ],
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

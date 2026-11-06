@@ -19,7 +19,7 @@ export function Header({ onSidebarToggle, title }: HeaderProps) {
           <Menu className="h-5 w-5" />
           <span className="sr-only">{t('header.toggleSidebar')}</span>
         </Button>
-        <h1 className="text-xl font-semibold">{title || t('header.dashboard')}</h1>
+        <p className="text-xl font-semibold">{title || t('header.dashboard')}</p>
       </div>
     </header>
   )

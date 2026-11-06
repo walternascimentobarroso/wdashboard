@@ -1,6 +1,7 @@
 'use client'
 
 import { Download, FileSpreadsheet, FileText, Loader2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -20,23 +21,24 @@ interface ExportUsersButtonProps {
 }
 
 export function ExportUsersButton({ users, disabled = false }: ExportUsersButtonProps) {
+  const t = useTranslations('users.export')
   const [isExporting, setIsExporting] = useState<'excel' | 'pdf' | null>(null)
 
   const handleExportExcel = async () => {
     if (users.length === 0) {
-      toast.error('No users to export')
+      toast.error(t('noUsers'))
       return
     }
 
     setIsExporting('excel')
-    toast.info('Starting Excel export...')
+    toast.info(t('excelStart'))
 
     try {
       await exportUsersToExcel(users)
-      toast.success('Excel export completed successfully!')
+      toast.success(t('excelDone'))
     } catch (error) {
       console.error('Excel export failed:', error)
-      toast.error('Failed to export to Excel. Please try again.')
+      toast.error(t('excelError'))
     } finally {
       setIsExporting(null)
     }
@@ -44,19 +46,19 @@ export function ExportUsersButton({ users, disabled = false }: ExportUsersButton
 
   const handleExportPDF = async () => {
     if (users.length === 0) {
-      toast.error('No users to export')
+      toast.error(t('noUsers'))
       return
     }
 
     setIsExporting('pdf')
-    toast.info('Starting PDF export...')
+    toast.info(t('pdfStart'))
 
     try {
       exportUsersToPDF(users)
-      toast.success('PDF export completed successfully!')
+      toast.success(t('pdfDone'))
     } catch (error) {
       console.error('PDF export failed:', error)
-      toast.error('Failed to export to PDF. Please try again.')
+      toast.error(t('pdfError'))
     } finally {
       setIsExporting(null)
     }
@@ -69,20 +71,20 @@ export function ExportUsersButton({ users, disabled = false }: ExportUsersButton
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" disabled={isDisabled} className="gap-2">
           <Download className="h-4 w-4" />
-          Export
+          {t('label')}
           {isExporting && <Loader2 className="h-4 w-4 animate-spin" />}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={handleExportExcel} disabled={isExporting === 'excel'}>
           <FileSpreadsheet className="mr-2 h-4 w-4" />
-          Export as Excel
+          {t('excel')}
           {isExporting === 'excel' && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleExportPDF} disabled={isExporting === 'pdf'}>
           <FileText className="mr-2 h-4 w-4" />
-          Export as PDF
+          {t('pdf')}
           {isExporting === 'pdf' && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
         </DropdownMenuItem>
       </DropdownMenuContent>

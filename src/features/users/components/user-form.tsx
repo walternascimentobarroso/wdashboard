@@ -121,8 +121,10 @@ export function UserForm({
             <Input
               id="email"
               type="email"
+              autoComplete="off"
+              spellCheck={false}
               {...form.register('email')}
-              placeholder="Enter email address"
+              placeholder="name@example.com…"
               disabled={loading}
             />
             {form.formState.errors.email && (

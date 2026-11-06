@@ -17,6 +17,17 @@ interface DashboardLayoutProps {
   className?: string
 }
 
+function SkipLink({ label }: { label: string }) {
+  return (
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:ring-2 focus:ring-ring"
+    >
+      {label}
+    </a>
+  )
+}
+
 export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   const [sidebarExpanded, setSidebarExpanded] = useState(true)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -114,6 +125,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   if (isMobile) {
     return (
       <div className={cn('min-h-screen bg-background', className)}>
+        <SkipLink label={t('common.skipToContent')} />
         <Topbar
           onSidebarToggle={handleSidebarToggle}
           onSearchOpen={() => setCommandPaletteOpen(true)}
@@ -125,7 +137,9 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
             </Sidebar>
           </SheetContent>
         </Sheet>
-        <main className="p-4">{children}</main>
+        <main id="main-content" tabIndex={-1} className="p-4">
+          {children}
+        </main>
         <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>
     )
@@ -133,6 +147,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
+      <SkipLink label={t('common.skipToContent')} />
       <div className="flex h-screen">
         <Sidebar expanded={sidebarExpanded} onToggle={handleSidebarToggle}>
           {renderNavigation()}
@@ -142,7 +157,9 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
             onSidebarToggle={handleSidebarToggle}
             onSearchOpen={() => setCommandPaletteOpen(true)}
           />
-          <main className="flex-1 overflow-auto p-4">{children}</main>
+          <main id="main-content" tabIndex={-1} className="flex-1 overflow-auto p-4">
+            {children}
+          </main>
         </div>
       </div>
       <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />

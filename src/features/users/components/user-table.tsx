@@ -9,8 +9,9 @@ import {
   useTable,
 } from '@tanstack/react-table'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useFormatter, useTranslations } from 'next-intl'
 import { SortableHeader } from '@/components/shared/SortableHeader'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
@@ -54,6 +55,7 @@ export function UserTable({
   visibleColumns,
 }: UserTableProps) {
   const t = useTranslations()
+  const format = useFormatter()
 
   const columns: ColumnDef<Features, User>[] = [
     {
@@ -150,7 +152,11 @@ export function UserTable({
       ),
       cell: ({ row }: { row: Row<Features, User> }) => {
         const date = new Date(row.getValue('createdAt'))
-        return <div className="text-sm text-muted-foreground">{date.toLocaleDateString()}</div>
+        return (
+          <div className="text-sm text-muted-foreground">
+            {format.dateTime(date, { dateStyle: 'medium' })}
+          </div>
+        )
       },
     },
     {
@@ -190,16 +196,19 @@ export function UserTable({
               {loading ? (
                 <tr>
                   <td colSpan={columns.length} className="h-24 text-center">
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                      <span>Loading users...</span>
+                    <div className="flex items-center justify-center space-x-2" role="status">
+                      <div
+                        aria-hidden="true"
+                        className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"
+                      ></div>
+                      <span>{t('users.table.loading')}</span>
                     </div>
                   </td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
                   <td colSpan={columns.length} className="h-24 text-center text-muted-foreground">
-                    No users found
+                    {t('users.table.noUsers')}
                   </td>
                 </tr>
               ) : (
@@ -258,14 +267,15 @@ export function UserTable({
 
           {/* Pagination Buttons */}
           <div className="flex items-center space-x-1">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
+            <Button
+              variant="outline"
+              size="icon-sm"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage <= 1}
+              aria-label={t('users.table.previous')}
             >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
+              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            </Button>
 
             <div className="flex items-center space-x-1">
               {/* Show limited page numbers with ellipsis */}
@@ -283,7 +293,7 @@ export function UserTable({
                   pages.push(1)
 
                   if (currentPage > 3) {
-                    pages.push('...')
+                    pages.push('…')
                   }
 
                   const start = Math.max(
@@ -302,7 +312,7 @@ export function UserTable({
                   }
 
                   if (currentPage < totalPages - 2) {
-                    pages.push('...')
+                    pages.push('…')
                   }
 
                   if (totalPages > 1) {
@@ -311,37 +321,36 @@ export function UserTable({
                 }
 
                 return pages.map((page, index) =>
-                  page === '...' ? (
+                  page === '…' ? (
                     // biome-ignore lint/suspicious/noArrayIndexKey: ellipsis has no identity besides its position
                     <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">
-                      ...
+                      …
                     </span>
                   ) : (
-                    <button
-                      type="button"
+                    <Button
                       key={page}
-                      className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 min-w-8 px-2 ${
-                        currentPage === page
-                          ? 'bg-primary text-primary-foreground'
-                          : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground'
-                      }`}
+                      variant={currentPage === page ? 'default' : 'outline'}
+                      size="sm"
+                      className="min-w-8 px-2 tabular-nums"
+                      aria-current={currentPage === page ? 'page' : undefined}
                       onClick={() => onPageChange(page as number)}
                     >
                       {page}
-                    </button>
+                    </Button>
                   )
                 )
               })()}
             </div>
 
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
+            <Button
+              variant="outline"
+              size="icon-sm"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage >= totalPages}
+              aria-label={t('users.table.next')}
             >
-              <ChevronRight className="h-4 w-4" />
-            </button>
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </Button>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 {
   "common": {
-    "loading": "Loading...",
+    "loading": "Loading…",
     "toggle": "Toggle",
     "user": "User",
     "logout": "Logout",
@@ -12,11 +12,12 @@
     "search": "Search",
     "profile": "Profile",
     "enabled": "Enabled",
-    "disabled": "Disabled"
+    "disabled": "Disabled",
+    "skipToContent": "Skip to content"
   },
   "search": {
-    "placeholder": "Search users, files, logs...",
-    "empty": "Start typing to search...",
+    "placeholder": "Search users, files, logs…",
+    "empty": "Start typing to search…",
     "noResults": "No results found.",
     "navigate": "to navigate",
     "select": "to select",
@@ -109,7 +110,7 @@
   "users": {
     "title": "Users",
     "addUser": "Add User",
-    "searchPlaceholder": "Search users...",
+    "searchPlaceholder": "Search users…",
     "allRoles": "All Roles",
     "allStatuses": "All Statuses",
     "customizeColumns": "Customize Columns",
@@ -145,7 +146,7 @@
     },
     "table": {
       "noUsers": "No users found",
-      "loading": "Loading users...",
+      "loading": "Loading users…",
       "error": "Error loading users",
       "showing": "Showing",
       "to": "to",
@@ -155,7 +156,8 @@
       "perPage": "per page",
       "rowsPerPage": "Rows per page",
       "next": "Next",
-      "previous": "Previous"
+      "previous": "Previous",
+      "loadingHint": "Please wait while we fetch the user data."
     },
     "actions": {
       "edit": "Edit",
@@ -180,6 +182,19 @@
       "updateError": "Failed to update user: {error}",
       "deleteError": "Failed to delete user: {error}",
       "lastAdmin": "Cannot delete or demote the last admin user"
+    },
+    "openMenu": "Open menu",
+    "export": {
+      "noUsers": "No users to export",
+      "excelStart": "Starting Excel export…",
+      "excelDone": "Excel export completed",
+      "excelError": "Excel export failed. Please try again.",
+      "pdfStart": "Starting PDF export…",
+      "pdfDone": "PDF export completed",
+      "pdfError": "PDF export failed. Please try again.",
+      "label": "Export",
+      "excel": "Export as Excel",
+      "pdf": "Export as PDF"
     }
   },
   "profile": {
@@ -305,6 +320,28 @@
         "actions": "Actions",
         "system": "System"
       }
+    }
+  },
+  "files": {
+    "title": "Files",
+    "description": "Manage and organize your files",
+    "upload": "Upload File",
+    "search": "Search files…",
+    "filter": "Filter"
+  },
+  "logs": {
+    "title": "System Logs",
+    "description": "Monitor system activity and events",
+    "export": "Export Logs",
+    "search": "Search logs…",
+    "levelFilter": "Filter by level",
+    "source": "Source: {source}",
+    "levels": {
+      "all": "All Levels",
+      "error": "Errors",
+      "warning": "Warnings",
+      "info": "Info",
+      "success": "Success"
     }
   }
 }

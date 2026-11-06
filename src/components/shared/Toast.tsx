@@ -107,7 +107,7 @@ function ToastContainer() {
           key={toast.id}
           className={cn(
             'p-4 rounded-lg shadow-lg max-w-sm w-full',
-            'transform transition-all duration-300 ease-in-out',
+            'transform transition-[transform,opacity] duration-300 ease-in-out motion-reduce:transition-none',
             getToastStyles(toast.type)
           )}
         >

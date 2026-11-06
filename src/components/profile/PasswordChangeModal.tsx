@@ -187,7 +187,7 @@ export function PasswordChangeModal({
                 <div className="flex items-center gap-2">
                   <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                     <div
-                      className={`h-full transition-all duration-300 ease-out ${passwordStrength.color} ${passwordStrength.width}`}
+                      className={`h-full transition-[width] duration-300 ease-out motion-reduce:transition-none ${passwordStrength.color} ${passwordStrength.width}`}
                     />
                   </div>
                   <div className="flex items-center gap-1 text-sm">

@@ -1,6 +1,7 @@
 'use client'
 
 import { Activity, Clock, FileText, LogIn, Settings, Shield, Trash2, User } from 'lucide-react'
+import { useFormatter } from 'next-intl'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -13,6 +14,7 @@ interface ActivityListProps {
 }
 
 export function ActivityList({ activities, isLoading }: ActivityListProps) {
+  const format = useFormatter()
   const getActivityIcon = (type: ActivityLog['type']) => {
     switch (type) {
       case 'login':
@@ -44,23 +46,10 @@ export function ActivityList({ activities, isLoading }: ActivityListProps) {
   }
 
   const formatRelativeTime = (date: Date) => {
-    const now = new Date()
-    const diffInMs = now.getTime() - date.getTime()
-    const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
-    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
-
-    if (diffInMinutes < 1) {
-      return 'Just now'
-    } else if (diffInMinutes < 60) {
-      return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`
-    } else if (diffInHours < 24) {
-      return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`
-    } else if (diffInDays < 7) {
-      return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`
-    } else {
-      return date.toLocaleDateString()
-    }
+    const weekInMs = 7 * 24 * 60 * 60 * 1000
+    if (Date.now() - date.getTime() >= weekInMs)
+      return format.dateTime(date, { dateStyle: 'medium' })
+    return format.relativeTime(date)
   }
 
   const getActionIcon = (action: string) => {

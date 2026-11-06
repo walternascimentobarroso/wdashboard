@@ -1,6 +1,6 @@
 {
   "common": {
-    "loading": "Carregando...",
+    "loading": "Carregando…",
     "toggle": "Alternar",
     "user": "Usuário",
     "logout": "Sair",
@@ -12,11 +12,12 @@
     "search": "Pesquisar",
     "profile": "Perfil",
     "enabled": "Ativado",
-    "disabled": "Desativado"
+    "disabled": "Desativado",
+    "skipToContent": "Pular para o conteúdo"
   },
   "search": {
-    "placeholder": "Pesquisar usuários, arquivos, registros...",
-    "empty": "Comece a digitar para pesquisar...",
+    "placeholder": "Pesquisar usuários, arquivos, registros…",
+    "empty": "Comece a digitar para pesquisar…",
     "noResults": "Nenhum resultado encontrado.",
     "navigate": "para navegar",
     "select": "para selecionar",
@@ -109,7 +110,7 @@
   "users": {
     "title": "Usuários",
     "addUser": "Adicionar Usuário",
-    "searchPlaceholder": "Pesquisar usuários...",
+    "searchPlaceholder": "Pesquisar usuários…",
     "allRoles": "Todos os Cargos",
     "allStatuses": "Todos os Status",
     "customizeColumns": "Personalizar Colunas",
@@ -145,7 +146,7 @@
     },
     "table": {
       "noUsers": "Nenhum usuário encontrado",
-      "loading": "Carregando usuários...",
+      "loading": "Carregando usuários…",
       "error": "Erro ao carregar usuários",
       "showing": "Mostrando",
       "to": "a",
@@ -155,7 +156,8 @@
       "perPage": "por página",
       "rowsPerPage": "Linhas por página",
       "next": "Próximo",
-      "previous": "Anterior"
+      "previous": "Anterior",
+      "loadingHint": "Aguarde enquanto carregamos os dados dos usuários."
     },
     "actions": {
       "edit": "Editar",
@@ -180,6 +182,19 @@
       "updateError": "Falha ao atualizar usuário: {error}",
       "deleteError": "Falha ao excluir usuário: {error}",
       "lastAdmin": "Não é possível excluir ou rebaixar o último usuário administrador"
+    },
+    "openMenu": "Abrir menu",
+    "export": {
+      "noUsers": "Nenhum usuário para exportar",
+      "excelStart": "Iniciando exportação Excel…",
+      "excelDone": "Exportação Excel concluída",
+      "excelError": "Falha na exportação Excel. Tente novamente.",
+      "pdfStart": "Iniciando exportação PDF…",
+      "pdfDone": "Exportação PDF concluída",
+      "pdfError": "Falha na exportação PDF. Tente novamente.",
+      "label": "Exportar",
+      "excel": "Exportar como Excel",
+      "pdf": "Exportar como PDF"
     }
   },
   "profile": {
@@ -305,6 +320,28 @@
         "actions": "Ações",
         "system": "Sistema"
       }
+    }
+  },
+  "files": {
+    "title": "Arquivos",
+    "description": "Gerencie e organize seus arquivos",
+    "upload": "Enviar arquivo",
+    "search": "Pesquisar arquivos…",
+    "filter": "Filtrar"
+  },
+  "logs": {
+    "title": "Logs do sistema",
+    "description": "Monitore a atividade e os eventos do sistema",
+    "export": "Exportar logs",
+    "search": "Pesquisar logs…",
+    "levelFilter": "Filtrar por nível",
+    "source": "Origem: {source}",
+    "levels": {
+      "all": "Todos os níveis",
+      "error": "Erros",
+      "warning": "Avisos",
+      "info": "Info",
+      "success": "Sucesso"
     }
   }
 }

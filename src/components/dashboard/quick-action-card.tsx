@@ -27,7 +27,7 @@ export function QuickActionCard({
   return (
     <Card
       className={cn(
-        'group cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-border/50 hover:border-border glass',
+        'group cursor-pointer transition-[transform,box-shadow,border-color] duration-200 hover:shadow-md hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100 border-border/50 hover:border-border glass',
         className
       )}
     >

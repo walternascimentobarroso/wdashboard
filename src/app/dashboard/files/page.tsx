@@ -1,6 +1,7 @@
 'use client'
 
 import { Filter, Search, Upload } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
@@ -18,6 +19,7 @@ interface FileItem {
 }
 
 export default function FilesPage() {
+  const t = useTranslations('files')
   const [searchTerm, setSearchTerm] = useState('')
   const [files] = useState<FileItem[]>([
     {
@@ -53,17 +55,17 @@ export default function FilesPage() {
   return (
     <div className="container mx-auto py-6 space-y-6">
       {/* Breadcrumb */}
-      <Breadcrumb items={[{ label: 'Files' }]} />
+      <Breadcrumb items={[{ label: t('title') }]} />
 
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Files</h1>
-          <p className="text-muted-foreground">Manage and organize your files</p>
+          <h1 className="text-3xl font-bold">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </div>
         <Button>
-          <Upload className="mr-2 h-4 w-4" />
-          Upload File
+          <Upload className="mr-2 h-4 w-4" aria-hidden="true" />
+          {t('upload')}
         </Button>
       </div>
 
@@ -74,15 +76,16 @@ export default function FilesPage() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search files..."
+                placeholder={t('search')}
+                aria-label={t('search')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
               />
             </div>
             <Button variant="outline" size="sm">
-              <Filter className="mr-2 h-4 w-4" />
-              Filter
+              <Filter className="mr-2 h-4 w-4" aria-hidden="true" />
+              {t('filter')}
             </Button>
           </div>
         </CardContent>
@@ -91,7 +94,7 @@ export default function FilesPage() {
       {/* Files List */}
       <div className="space-y-4">
         {filteredFiles.length === 0 ? (
-          <EmptyStateFiles onUploadFile={() => console.warn('Upload file clicked')} />
+          <EmptyStateFiles />
         ) : (
           filteredFiles.map((file) => (
             <Card key={file.id} className="hover:shadow-md transition-shadow">

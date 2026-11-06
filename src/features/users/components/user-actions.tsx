@@ -1,6 +1,7 @@
 'use client'
 
 import { Edit, MoreHorizontal, Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -18,22 +19,21 @@ interface UserActionsProps {
   onDelete: () => void
 }
 
-export function UserActions({ user, onEdit, onDelete }: UserActionsProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _user = user // User parameter kept for future use (permissions, user-specific actions)
+export function UserActions({ onEdit, onDelete }: UserActionsProps) {
+  const t = useTranslations()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
+          <span className="sr-only">{t('users.openMenu')}</span>
+          <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('users.columns.actions')}</DropdownMenuLabel>
         <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
           <Edit className="mr-2 h-4 w-4" />
-          Edit
+          {t('users.actions.edit')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -41,7 +41,7 @@ export function UserActions({ user, onEdit, onDelete }: UserActionsProps) {
           className="cursor-pointer text-destructive focus:text-destructive"
         >
           <Trash2 className="mr-2 h-4 w-4" />
-          Delete
+          {t('users.actions.delete')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

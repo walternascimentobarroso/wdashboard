@@ -1,6 +1,7 @@
 'use client'
 
 import { AlertCircle, CheckCircle, Filter, Info, Search } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
@@ -18,6 +19,7 @@ interface LogItem {
 }
 
 export default function LogsPage() {
+  const t = useTranslations('logs')
   const [searchTerm, setSearchTerm] = useState('')
   const [levelFilter, setLevelFilter] = useState<string>('all')
   const [logs] = useState<LogItem[]>([
@@ -98,12 +100,12 @@ export default function LogsPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">System Logs</h1>
-          <p className="text-muted-foreground">Monitor system activity and events</p>
+          <h1 className="text-3xl font-bold">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </div>
         <Button variant="outline">
-          <Filter className="mr-2 h-4 w-4" />
-          Export Logs
+          <Filter className="mr-2 h-4 w-4" aria-hidden="true" />
+          {t('export')}
         </Button>
       </div>
 
@@ -114,7 +116,8 @@ export default function LogsPage() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search logs..."
+                placeholder={t('search')}
+                aria-label={t('search')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -123,13 +126,14 @@ export default function LogsPage() {
             <select
               value={levelFilter}
               onChange={(e) => setLevelFilter(e.target.value)}
-              className="px-3 py-2 border border rounded-md bg-background text-sm"
+              aria-label={t('levelFilter')}
+              className="px-3 py-2 border rounded-md bg-background text-foreground text-sm"
             >
-              <option value="all">All Levels</option>
-              <option value="error">Errors</option>
-              <option value="warning">Warnings</option>
-              <option value="info">Info</option>
-              <option value="success">Success</option>
+              <option value="all">{t('levels.all')}</option>
+              <option value="error">{t('levels.error')}</option>
+              <option value="warning">{t('levels.warning')}</option>
+              <option value="info">{t('levels.info')}</option>
+              <option value="success">{t('levels.success')}</option>
             </select>
           </div>
         </CardContent>
@@ -138,7 +142,7 @@ export default function LogsPage() {
       {/* Logs List */}
       <div className="space-y-4">
         {filteredLogs.length === 0 ? (
-          <EmptyStateLogs onRefresh={() => console.warn('Refresh logs clicked')} />
+          <EmptyStateLogs />
         ) : (
           filteredLogs.map((log) => (
             <Card key={log.id} className="hover:shadow-md transition-shadow">
@@ -151,7 +155,9 @@ export default function LogsPage() {
                       <span className="text-xs text-muted-foreground">{log.timestamp}</span>
                     </div>
                     <p className="text-sm font-medium">{log.message}</p>
-                    <p className="text-xs text-muted-foreground">Source: {log.source}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t('source', { source: log.source })}
+                    </p>
                   </div>
                 </div>
               </CardContent>
