@@ -138,7 +138,7 @@ export class UsersStorage {
   }
 
   private generateId(): string {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2)
+    return crypto.randomUUID()
   }
 
   private validateEmail(email: string): boolean {

@@ -214,6 +214,8 @@
     },
     "preferences": {
       "title": "Preferências",
+      "pageSize": "Itens por página",
+      "pageSizeDesc": "Quantidade padrão de linhas mostradas nas listas",
       "description": "Personalize suas configurações de idioma e tema",
       "language": "Idioma",
       "languageDesc": "Escolha seu idioma preferido para a interface",

@@ -15,6 +15,8 @@ import {
 import type { SortDirection } from '@/hooks/useCrudList'
 import { RowActions } from './row-actions'
 
+export const PAGE_SIZE_OPTIONS = [5, 10, 20, 50]
+
 export interface DataTableColumn<T> {
   key: keyof T & string
   label: string
@@ -174,10 +176,11 @@ export function DataTable<T extends { id: string }>({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="5">5</SelectItem>
-                <SelectItem value="10">10</SelectItem>
-                <SelectItem value="20">20</SelectItem>
-                <SelectItem value="50">50</SelectItem>
+                {PAGE_SIZE_OPTIONS.map((size) => (
+                  <SelectItem key={size} value={size.toString()}>
+                    {size}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <span className="text-muted-foreground">{t('perPage')}</span>

@@ -25,7 +25,7 @@ function compareValues(a: unknown, b: unknown): number {
 // `service` and `matches` must be stable (module-level), or the list reloads every render.
 export function useCrudList<T, F, C, U>(
   service: CrudService<T, C, U>,
-  { initialFilters, matches, defaultSort, pageSize: initialPageSize = 10 }: CrudListOptions<T, F>
+  { initialFilters, matches, defaultSort, pageSize: explicitPageSize }: CrudListOptions<T, F>
 ) {
   const [items, setItems] = useState<T[]>([])
   const [loading, setLoading] = useState(false)
@@ -36,7 +36,7 @@ export function useCrudList<T, F, C, U>(
     direction: 'desc',
   })
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(initialPageSize)
+  const [pageSize, setPageSize] = useState(explicitPageSize ?? 10)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -53,6 +53,14 @@ export function useCrudList<T, F, C, U>(
   useEffect(() => {
     load()
   }, [load])
+
+  // Read after mount: localStorage is unavailable during server render.
+  useEffect(() => {
+    if (explicitPageSize) return
+    const stored = localStorage.getItem('userProfile')
+    const savedPageSize = stored ? Number(JSON.parse(stored).pageSize) : 0
+    if (savedPageSize > 0) setPageSize(savedPageSize)
+  }, [explicitPageSize])
 
   const mutate = useCallback(
     async <R>(action: () => Promise<R>) => {

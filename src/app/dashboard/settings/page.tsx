@@ -1,9 +1,10 @@
 'use client'
 
-import { Bell, Globe, Mail, Palette } from 'lucide-react'
+import { Bell, Globe, List, Mail, Palette } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { PAGE_SIZE_OPTIONS } from '@/components/shared/data-table/data-table'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,6 +17,7 @@ const defaultSettings = {
   theme: 'system',
   emailNotifications: true,
   pushNotifications: false,
+  pageSize: 10,
 }
 
 type UserSettings = typeof defaultSettings
@@ -39,7 +41,7 @@ export default function SettingsPage() {
     })
   }, [theme, locale])
 
-  const updateSetting = (field: keyof UserSettings, value: string | boolean) => {
+  const updateSetting = (field: keyof UserSettings, value: string | boolean | number) => {
     const next = { ...settings, [field]: value }
     setSettings(next)
     // Merge into the shared profile record so profile fields are kept
@@ -155,6 +157,28 @@ export default function SettingsPage() {
               <option value="light">{t('profile.preferences.themeLight')}</option>
               <option value="dark">{t('profile.preferences.themeDark')}</option>
               <option value="system">{t('profile.preferences.themeSystem')}</option>
+            </select>
+          </div>
+          <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center gap-3">
+              <List className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <p className="font-medium">{t('profile.preferences.pageSize')}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t('profile.preferences.pageSizeDesc')}
+                </p>
+              </div>
+            </div>
+            <select
+              className="px-3 py-2 border rounded-md bg-background"
+              value={settings.pageSize}
+              onChange={(e) => updateSetting('pageSize', Number(e.target.value))}
+            >
+              {PAGE_SIZE_OPTIONS.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
             </select>
           </div>
         </CardContent>

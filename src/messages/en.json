@@ -214,6 +214,8 @@
     },
     "preferences": {
       "title": "Preferences",
+      "pageSize": "Items per page",
+      "pageSizeDesc": "Default number of rows shown in lists",
       "description": "Customize your language and theme settings",
       "language": "Language",
       "languageDesc": "Choose your preferred language for the interface",
