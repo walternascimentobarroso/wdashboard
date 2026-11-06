@@ -106,3 +106,6 @@ temp/
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
+
+# Claude Code
+.claude/
