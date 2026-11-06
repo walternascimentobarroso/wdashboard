@@ -12,31 +12,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-interface UserActionsProps {
+interface RowActionsProps {
   onView: () => void
   onEdit: () => void
   onDelete: () => void
 }
 
-export function UserActions({ onView, onEdit, onDelete }: UserActionsProps) {
-  const t = useTranslations()
+export function RowActions({ onView, onEdit, onDelete }: RowActionsProps) {
+  const t = useTranslations('table')
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">{t('users.openMenu')}</span>
+          <span className="sr-only">{t('openMenu')}</span>
           <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{t('users.columns.actions')}</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('actions.title')}</DropdownMenuLabel>
         <DropdownMenuItem onClick={onView} className="cursor-pointer">
           <Eye className="mr-2 h-4 w-4" />
-          {t('users.actions.view')}
+          {t('actions.view')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
           <Edit className="mr-2 h-4 w-4" />
-          {t('users.actions.edit')}
+          {t('actions.edit')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -44,7 +44,7 @@ export function UserActions({ onView, onEdit, onDelete }: UserActionsProps) {
           className="cursor-pointer text-destructive focus:text-destructive"
         >
           <Trash2 className="mr-2 h-4 w-4" />
-          {t('users.actions.delete')}
+          {t('actions.delete')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,12 +1,12 @@
 # WDashboard
 
-Dashboard administrativo em Next.js 16 (App Router), TypeScript, Tailwind CSS 4 e shadcn/ui.
+Admin dashboard built with Next.js 16 (App Router), TypeScript, Tailwind CSS 4 and shadcn/ui.
 
-Não tem backend: os dados e a autenticação são simulados e ficam guardados no `localStorage` do navegador.
+There is no backend: data and authentication are mocked and stored in the browser's `localStorage`.
 
-## Como rodar
+## Getting started
 
-Requisitos: Node.js 26 (LTS) e npm. Com nvm: `nvm use`.
+Requirements: Node.js 26 (LTS) and npm. With nvm: `nvm use`.
 
 ```bash
 npm install
@@ -14,59 +14,59 @@ cp .env.example .env.local
 make dev
 ```
 
-Abra http://localhost:3000.
+Open http://localhost:3000.
 
-### Contas de demonstração
+### Demo accounts
 
-| Perfil | Email                  | Senha       |
+| Role   | Email                  | Password    |
 | ------ | ---------------------- | ----------- |
 | Admin  | `admin@dashboard.com`  | `admin123`  |
 | User   | `user@dashboard.com`   | `user123`   |
 | Viewer | `viewer@dashboard.com` | `viewer123` |
 
-## Comandos
+## Commands
 
-| Comando         | O que faz                                      |
-| --------------- | ---------------------------------------------- |
-| `make dev`      | Servidor de desenvolvimento                    |
-| `make build`    | Build de produção                              |
-| `make validate` | Formatação, lint e imports (Biome) e typecheck |
-| `make clean`    | Apaga o `.next` e o cache                      |
+| Command         | What it does                                       |
+| --------------- | -------------------------------------------------- |
+| `make dev`      | Development server                                 |
+| `make build`    | Production build                                   |
+| `make validate` | Formatting, lint and imports (Biome) and typecheck |
+| `make clean`    | Removes `.next` and the cache                      |
 
-Não há testes configurados.
+No tests are configured.
 
-## Funcionalidades
+## Features
 
-- **Login:** autenticação simulada com "lembrar-me" e redirecionamento conforme a sessão. A proteção das rotas é feita no cliente.
-- **Dashboard:** KPIs com sparklines e indicadores de tendência, gráficos (Recharts) e ações rápidas.
-- **Usuários:** cadastro completo (criar, editar e excluir), com paginação, ordenação, busca e filtros por cargo e status. Recusa emails duplicados, impede excluir o último admin e exporta a lista para Excel e PDF.
-- **Arquivos:** upload, listagem e busca, com o status de cada arquivo.
-- **Logs:** filtro por nível (error, warning, info, success) e busca por texto.
-- **Perfil:** dados pessoais, avatar, troca de senha, preferências e histórico de atividade.
-- **Interface:** tema light, dark ou do sistema; idiomas português e inglês (next-intl); paleta de comandos; layout responsivo. As preferências ficam salvas no `localStorage`.
+- **Login:** mocked authentication with "remember me" and session-based redirects. Route protection is client-side.
+- **Dashboard:** KPIs with sparklines and trend indicators, charts (Recharts) and quick actions.
+- **Users:** full CRUD (create, edit, delete) with pagination, sorting, search and filters by role and status. Rejects duplicate emails, prevents deleting the last admin, and exports the list to Excel and PDF.
+- **Files:** upload, listing and search, with the status of each file.
+- **Logs:** filter by level (error, warning, info, success) and text search.
+- **Profile:** personal details, avatar, password change, preferences and activity history.
+- **Interface:** light, dark or system theme; Portuguese and English (next-intl); command palette; responsive layout. Preferences are saved in `localStorage`.
 
 ## Stack
 
-- Next.js 16, React e TypeScript 7
-- Biome (lint e formatação)
-- Tailwind CSS 4, shadcn/ui (Radix UI) e next-themes
-- React Hook Form com Zod
+- Next.js 16, React and TypeScript 7
+- Biome (lint and formatting)
+- Tailwind CSS 4, shadcn/ui (Radix UI) and next-themes
+- React Hook Form with Zod
 - TanStack Query
 - next-intl
 - Recharts
-- ExcelJS e jsPDF
+- ExcelJS and jsPDF
 
-## Estrutura
+## Structure
 
 ```
 src/
-├── app/          # rotas: login, dashboard/{users,files,logs,profile}
-├── components/   # ui/ (shadcn) e componentes da aplicação
-├── features/     # funcionalidades completas (users: components, hooks, services)
-├── modules/      # auth e dashboard (providers e serviços simulados)
-├── lib/          # utilitários, navegação, export Excel/PDF
-├── hooks/        # hooks compartilhados
-└── messages/     # traduções (en, pt)
+├── app/          # routes: login, dashboard/{users,files,logs,profile}
+├── components/   # ui/ (shadcn) and app components
+├── features/     # complete features (users: components, hooks, services)
+├── modules/      # auth and dashboard (providers and mock services)
+├── lib/          # utilities, navigation, Excel/PDF export
+├── hooks/        # shared hooks
+└── messages/     # translations (en, pt)
 ```
 
-Uma funcionalidade nova deve seguir o modelo de `src/features/users/`.
+New features should follow the `src/features/users/` pattern.

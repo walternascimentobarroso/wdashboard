@@ -1,4 +1,4 @@
-import { Activity, FileText, Home, Users } from 'lucide-react'
+import { Activity, FileText, Home, Shield, Users } from 'lucide-react'
 import React from 'react'
 
 export interface NavigationItem {
@@ -38,6 +38,12 @@ export const navigationConfig: NavigationSection = {
           label: 'Users',
           icon: React.createElement(Users, { className: 'h-4 w-4' }),
           href: '/dashboard/users',
+        },
+        {
+          id: 'roles',
+          label: 'Roles',
+          icon: React.createElement(Shield, { className: 'h-4 w-4' }),
+          href: '/dashboard/roles',
         },
       ],
     },

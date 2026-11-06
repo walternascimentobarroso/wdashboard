@@ -1,16 +1,14 @@
 'use client'
 
-import { Plus, Settings } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import { ColumnToggle } from '@/components/shared/data-table/column-toggle'
+import { DataTable } from '@/components/shared/data-table/data-table'
+import { ExportButton } from '@/components/shared/data-table/export-button'
+import { LoadingState } from '@/components/shared/data-table/loading-state'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -19,13 +17,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { ExportUsersButton } from '@/components/users/export-users-button'
 import { DeleteDialog } from '@/features/users/components/delete-dialog'
 import { EmptyState } from '@/features/users/components/empty-state'
-import { LoadingState } from '@/features/users/components/loading-state'
 import { userToasts } from '@/features/users/components/toast-notifications'
+import { useUserColumns } from '@/features/users/components/user-columns'
 import { UserForm } from '@/features/users/components/user-form'
-import { UserTable } from '@/features/users/components/user-table'
 import { UserViewDialog } from '@/features/users/components/user-view-dialog'
 import { useUsers } from '@/features/users/hooks/useUsers'
 import type {
@@ -35,26 +31,30 @@ import type {
   UserRole,
   UserStatus,
 } from '@/features/users/types'
+import { transformUserForExport } from '@/lib/export-utils'
 
 export default function UsersPage() {
   const t = useTranslations()
 
+  const columns = useUserColumns()
   const {
-    displayUsers,
+    displayItems: displayUsers,
+    filteredItems: filteredUsers,
     loading,
     error,
-    state,
-    createUser,
-    updateUser,
-    deleteUser,
+    filters,
+    sorting,
+    pageSize,
+    create: createUser,
+    update: updateUser,
+    remove: deleteUser,
     setSorting,
     setFiltering,
     setPagination,
-    hasUsers,
-    hasFilteredUsers,
+    hasItems: hasUsers,
+    hasFilteredItems: hasFilteredUsers,
     totalPages,
     currentPage,
-    getFilteredUsers,
   } = useUsers()
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -70,22 +70,6 @@ export default function UsersPage() {
     'actions',
   ])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
-
-  const allColumns = [
-    { key: 'name', label: t('users.columns.name') },
-    { key: 'email', label: t('users.columns.email') },
-    { key: 'role', label: t('users.columns.role') },
-    { key: 'status', label: t('users.columns.status') },
-    { key: 'createdAt', label: t('users.columns.created') },
-    { key: 'actions', label: t('users.columns.actions') },
-  ]
-
-  const toggleColumn = (columnKey: string) => {
-    const newColumns = visibleColumns.includes(columnKey)
-      ? visibleColumns.filter((col) => col !== columnKey)
-      : [...visibleColumns, columnKey]
-    setVisibleColumns(newColumns)
-  }
 
   const handleCreateUser = async (userData: CreateUserRequest | UpdateUserRequest) => {
     try {
@@ -230,11 +214,11 @@ export default function UsersPage() {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Input
             placeholder={t('users.searchPlaceholder')}
-            value={state.filtering.search}
+            value={filters.search}
             onChange={(e) => handleSearchChange(e.target.value)}
             className="min-w-[160px] w-[200px]"
           />
-          <Select value={state.filtering.role || 'all'} onValueChange={handleRoleFilterChange}>
+          <Select value={filters.role || 'all'} onValueChange={handleRoleFilterChange}>
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder={t('users.roles.admin')} />
             </SelectTrigger>
@@ -244,7 +228,7 @@ export default function UsersPage() {
               <SelectItem value="user">{t('users.roles.user')}</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={state.filtering.status || 'all'} onValueChange={handleStatusFilterChange}>
+          <Select value={filters.status || 'all'} onValueChange={handleStatusFilterChange}>
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder={t('users.statuses.active')} />
             </SelectTrigger>
@@ -258,38 +242,21 @@ export default function UsersPage() {
 
         {/* Action Buttons */}
         <div className="flex gap-2">
-          {/* Export Button */}
-          <ExportUsersButton users={getFilteredUsers()} disabled={loading} />
+          <ExportButton
+            table={{
+              title: t('users.title'),
+              filename: 'users',
+              columns: columns.map(({ key, label }) => ({ key, header: label })),
+              rows: transformUserForExport(filteredUsers),
+            }}
+            disabled={loading}
+          />
 
-          {/* Column Visibility Selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Settings className="h-4 w-4 mr-2" />
-                {t('users.customizeColumns')}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <div className="p-2">
-                <p className="text-sm font-medium mb-2">{t('users.toggleColumns')}</p>
-                {allColumns.map((column) => (
-                  <DropdownMenuItem
-                    key={column.key}
-                    className="flex items-center space-x-2 p-2 cursor-pointer"
-                    onClick={() => toggleColumn(column.key)}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={visibleColumns.includes(column.key)}
-                      onChange={() => {}}
-                      className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-                    />
-                    <span className="text-sm">{column.label}</span>
-                  </DropdownMenuItem>
-                ))}
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ColumnToggle
+            columns={columns}
+            visibleColumns={visibleColumns}
+            onChange={setVisibleColumns}
+          />
 
           <Button onClick={() => setIsCreateModalOpen(true)} size="sm">
             <Plus className="mr-2 h-4 w-4" />
@@ -303,8 +270,10 @@ export default function UsersPage() {
 
       {/* Users Table */}
       {hasFilteredUsers ? (
-        <UserTable
-          users={displayUsers}
+        <DataTable
+          columns={columns}
+          data={displayUsers}
+          sorting={sorting}
           loading={loading}
           onView={handleViewClick}
           onEdit={handleEditClick}
@@ -312,10 +281,10 @@ export default function UsersPage() {
           onSort={handleSort}
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
-          pageSize={state.pagination.pageSize}
+          pageSize={pageSize}
           currentPage={currentPage}
           totalPages={totalPages}
-          totalItems={getFilteredUsers().length}
+          totalItems={filteredUsers.length}
           visibleColumns={visibleColumns}
         />
       ) : (

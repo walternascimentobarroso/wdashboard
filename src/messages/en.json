@@ -64,7 +64,8 @@
     "users": "Users",
     "documents": "Documents",
     "files": "Files",
-    "logs": "Logs"
+    "logs": "Logs",
+    "roles": "Roles"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -113,15 +114,12 @@
     "searchPlaceholder": "Search users…",
     "allRoles": "All Roles",
     "allStatuses": "All Statuses",
-    "customizeColumns": "Customize Columns",
-    "toggleColumns": "Toggle columns",
     "columns": {
       "name": "Name",
       "email": "Email",
       "role": "Role",
       "status": "Status",
-      "created": "Created",
-      "actions": "Actions"
+      "created": "Created"
     },
     "roles": {
       "admin": "Admin",
@@ -147,28 +145,6 @@
       "filteredTitle": "No users found",
       "filteredDescription": "Try adjusting your search or filter criteria."
     },
-    "table": {
-      "noUsers": "No users found",
-      "loading": "Loading users…",
-      "error": "Error loading users",
-      "showing": "Showing",
-      "to": "to",
-      "of": "of",
-      "results": "results",
-      "show": "Show",
-      "perPage": "per page",
-      "rowsPerPage": "Rows per page",
-      "next": "Next",
-      "previous": "Previous",
-      "loadingHint": "Please wait while we fetch the user data."
-    },
-    "actions": {
-      "edit": "Edit",
-      "delete": "Delete",
-      "view": "View",
-      "activate": "Activate",
-      "deactivate": "Deactivate"
-    },
     "delete": {
       "title": "Delete User",
       "description": "Are you sure you want to delete this user? This action cannot be undone.",
@@ -185,19 +161,6 @@
       "updateError": "Failed to update user: {error}",
       "deleteError": "Failed to delete user: {error}",
       "lastAdmin": "Cannot delete or demote the last admin user"
-    },
-    "openMenu": "Open menu",
-    "export": {
-      "noUsers": "No users to export",
-      "excelStart": "Starting Excel export…",
-      "excelDone": "Excel export completed",
-      "excelError": "Excel export failed. Please try again.",
-      "pdfStart": "Starting PDF export…",
-      "pdfDone": "PDF export completed",
-      "pdfError": "PDF export failed. Please try again.",
-      "label": "Export",
-      "excel": "Export as Excel",
-      "pdf": "Export as PDF"
     }
   },
   "profile": {
@@ -345,6 +308,90 @@
       "warning": "Warnings",
       "info": "Info",
       "success": "Success"
+    }
+  },
+  "table": {
+    "loading": "Loading…",
+    "loadingHint": "Please wait while we fetch the data.",
+    "noResults": "No results",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "results": "results",
+    "show": "Show",
+    "perPage": "per page",
+    "next": "Next",
+    "previous": "Previous",
+    "openMenu": "Open menu",
+    "customizeColumns": "Customize Columns",
+    "toggleColumns": "Toggle columns",
+    "actions": {
+      "title": "Actions",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "delete": {
+      "description": "Are you sure? This action cannot be undone.",
+      "target": "You are about to delete \"{name}\".",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "export": {
+      "excelStart": "Starting Excel export…",
+      "excelDone": "Excel export completed",
+      "excelError": "Excel export failed. Please try again.",
+      "pdfStart": "Starting PDF export…",
+      "pdfDone": "PDF export completed",
+      "pdfError": "PDF export failed. Please try again.",
+      "label": "Export",
+      "excel": "Export as Excel",
+      "pdf": "Export as PDF",
+      "noRows": "Nothing to export"
+    }
+  },
+  "roles": {
+    "title": "Roles",
+    "addRole": "Add Role",
+    "searchPlaceholder": "Search roles…",
+    "allStatuses": "All Statuses",
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "created": "Created"
+    },
+    "form": {
+      "createTitle": "Create New Role",
+      "createDesc": "Fill in the details of the new role.",
+      "editTitle": "Edit Role",
+      "editDesc": "Update the role information below.",
+      "viewTitle": "View Role",
+      "viewDesc": "Role details.",
+      "nameRequired": "Name is required",
+      "nameTooLong": "Maximum 50 characters",
+      "descriptionTooLong": "Maximum 200 characters",
+      "cancel": "Cancel",
+      "save": "Save",
+      "close": "Close"
+    },
+    "empty": {
+      "title": "No roles yet",
+      "description": "Get started by creating your first role.",
+      "filteredTitle": "No roles found",
+      "filteredDescription": "Try adjusting your search or filter criteria."
+    },
+    "deleteTitle": "Delete Role",
+    "toasts": {
+      "created": "Role {name} created successfully",
+      "updated": "Role {name} updated successfully",
+      "deleted": "Role {name} deleted successfully",
+      "duplicateName": "A role with this name already exists",
+      "error": "Operation failed: {error}"
     }
   }
 }

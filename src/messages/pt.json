@@ -64,7 +64,8 @@
     "users": "Usuários",
     "documents": "Documentos",
     "files": "Arquivos",
-    "logs": "Registros"
+    "logs": "Registros",
+    "roles": "Perfis"
   },
   "header": {
     "dashboard": "Painel",
@@ -113,15 +114,12 @@
     "searchPlaceholder": "Pesquisar usuários…",
     "allRoles": "Todos os Cargos",
     "allStatuses": "Todos os Status",
-    "customizeColumns": "Personalizar Colunas",
-    "toggleColumns": "Alternar colunas",
     "columns": {
       "name": "Nome",
       "email": "E-mail",
       "role": "Cargo",
       "status": "Status",
-      "created": "Criado",
-      "actions": "Ações"
+      "created": "Criado"
     },
     "roles": {
       "admin": "Administrador",
@@ -147,28 +145,6 @@
       "filteredTitle": "Nenhum usuário encontrado",
       "filteredDescription": "Tente ajustar sua pesquisa ou critérios de filtro."
     },
-    "table": {
-      "noUsers": "Nenhum usuário encontrado",
-      "loading": "Carregando usuários…",
-      "error": "Erro ao carregar usuários",
-      "showing": "Mostrando",
-      "to": "a",
-      "of": "de",
-      "results": "resultados",
-      "show": "Mostrar",
-      "perPage": "por página",
-      "rowsPerPage": "Linhas por página",
-      "next": "Próximo",
-      "previous": "Anterior",
-      "loadingHint": "Aguarde enquanto carregamos os dados dos usuários."
-    },
-    "actions": {
-      "edit": "Editar",
-      "delete": "Excluir",
-      "view": "Visualizar",
-      "activate": "Ativar",
-      "deactivate": "Desativar"
-    },
     "delete": {
       "title": "Excluir Usuário",
       "description": "Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.",
@@ -185,19 +161,6 @@
       "updateError": "Falha ao atualizar usuário: {error}",
       "deleteError": "Falha ao excluir usuário: {error}",
       "lastAdmin": "Não é possível excluir ou rebaixar o último usuário administrador"
-    },
-    "openMenu": "Abrir menu",
-    "export": {
-      "noUsers": "Nenhum usuário para exportar",
-      "excelStart": "Iniciando exportação Excel…",
-      "excelDone": "Exportação Excel concluída",
-      "excelError": "Falha na exportação Excel. Tente novamente.",
-      "pdfStart": "Iniciando exportação PDF…",
-      "pdfDone": "Exportação PDF concluída",
-      "pdfError": "Falha na exportação PDF. Tente novamente.",
-      "label": "Exportar",
-      "excel": "Exportar como Excel",
-      "pdf": "Exportar como PDF"
     }
   },
   "profile": {
@@ -345,6 +308,90 @@
       "warning": "Avisos",
       "info": "Info",
       "success": "Sucesso"
+    }
+  },
+  "table": {
+    "loading": "A carregar…",
+    "loadingHint": "Aguarde enquanto os dados são carregados.",
+    "noResults": "Nenhum resultado",
+    "showing": "Mostrando",
+    "to": "a",
+    "of": "de",
+    "results": "resultados",
+    "show": "Mostrar",
+    "perPage": "por página",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "openMenu": "Abrir menu",
+    "customizeColumns": "Personalizar Colunas",
+    "toggleColumns": "Alternar colunas",
+    "actions": {
+      "title": "Ações",
+      "view": "Visualizar",
+      "edit": "Editar",
+      "delete": "Excluir"
+    },
+    "delete": {
+      "description": "Tem a certeza? Esta ação não pode ser desfeita.",
+      "target": "Vai apagar \"{name}\".",
+      "confirm": "Excluir",
+      "cancel": "Cancelar"
+    },
+    "export": {
+      "excelStart": "Iniciando exportação Excel…",
+      "excelDone": "Exportação Excel concluída",
+      "excelError": "Falha na exportação Excel. Tente novamente.",
+      "pdfStart": "Iniciando exportação PDF…",
+      "pdfDone": "Exportação PDF concluída",
+      "pdfError": "Falha na exportação PDF. Tente novamente.",
+      "label": "Exportar",
+      "excel": "Exportar como Excel",
+      "pdf": "Exportar como PDF",
+      "noRows": "Nada para exportar"
+    }
+  },
+  "roles": {
+    "title": "Perfis",
+    "addRole": "Adicionar perfil",
+    "searchPlaceholder": "Pesquisar perfis…",
+    "allStatuses": "Todos os Status",
+    "statuses": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "columns": {
+      "name": "Nome",
+      "description": "Descrição",
+      "status": "Status",
+      "created": "Criado"
+    },
+    "form": {
+      "createTitle": "Novo perfil",
+      "createDesc": "Preencha os dados do novo perfil.",
+      "editTitle": "Editar perfil",
+      "editDesc": "Atualize os dados do perfil.",
+      "viewTitle": "Ver perfil",
+      "viewDesc": "Detalhes do perfil.",
+      "nameRequired": "O nome é obrigatório",
+      "nameTooLong": "Máximo de 50 caracteres",
+      "descriptionTooLong": "Máximo de 200 caracteres",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "close": "Fechar"
+    },
+    "empty": {
+      "title": "Ainda não há perfis",
+      "description": "Crie o primeiro perfil para começar.",
+      "filteredTitle": "Nenhum perfil encontrado",
+      "filteredDescription": "Tente ajustar sua pesquisa ou critérios de filtro."
+    },
+    "deleteTitle": "Apagar perfil",
+    "toasts": {
+      "created": "Perfil {name} criado",
+      "updated": "Perfil {name} atualizado",
+      "deleted": "Perfil {name} apagado",
+      "duplicateName": "Já existe um perfil com este nome",
+      "error": "A operação falhou: {error}"
     }
   }
 }

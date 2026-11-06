@@ -30,22 +30,6 @@ export interface UserFilters {
   status?: UserStatus
 }
 
-export interface UserTableState {
-  users: User[]
-  loading: boolean
-  error: string | null
-  pagination: {
-    page: number
-    pageSize: number
-    total: number
-  }
-  sorting: {
-    column: keyof User
-    direction: 'asc' | 'desc'
-  }
-  filtering: UserFilters
-}
-
 export type UserErrorCode =
   | 'VALIDATION_ERROR'
   | 'DUPLICATE_EMAIL'

@@ -1,4 +1,4 @@
-export interface ExportData {
+export type ExportData = {
   name: string
   email: string
   role: string
