@@ -1,8 +1,16 @@
 'use client'
 
-import { useState } from 'react'
 import { Plus, Settings } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -11,29 +19,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { useUsers } from '@/features/users/hooks/useUsers'
-import { UserTable } from '@/features/users/components/user-table'
-import { UserForm } from '@/features/users/components/user-form'
+import { ExportUsersButton } from '@/components/users/export-users-button'
 import { DeleteDialog } from '@/features/users/components/delete-dialog'
 import { EmptyState } from '@/features/users/components/empty-state'
 import { LoadingState } from '@/features/users/components/loading-state'
-import {
-  User,
+import { userToasts } from '@/features/users/components/toast-notifications'
+import { UserForm } from '@/features/users/components/user-form'
+import { UserTable } from '@/features/users/components/user-table'
+import { useUsers } from '@/features/users/hooks/useUsers'
+import type {
   CreateUserRequest,
   UpdateUserRequest,
+  User,
   UserRole,
   UserStatus,
 } from '@/features/users/types'
-import { ExportUsersButton } from '@/components/users/export-users-button'
-import { userToasts } from '@/features/users/components/toast-notifications'
-import { useTranslations } from 'next-intl'
-import { Breadcrumb } from '@/components/ui/breadcrumb'
 
 export default function UsersPage() {
   const t = useTranslations()

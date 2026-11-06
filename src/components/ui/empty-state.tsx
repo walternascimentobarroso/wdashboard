@@ -1,9 +1,9 @@
 'use client'
 
-import * as React from 'react'
+import { useTranslations } from 'next-intl'
+import type * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { useTranslations } from 'next-intl'
 
 interface EmptyStateProps {
   icon?: React.ReactNode
@@ -47,6 +47,7 @@ export function EmptyStateUsers({ onCreateUser, className }: EmptyStateUsersProp
     <EmptyState
       icon={
         <svg
+          aria-hidden="true"
           className="h-8 w-8 text-muted-foreground"
           fill="none"
           viewBox="0 0 24 24"
@@ -87,6 +88,7 @@ export function EmptyStateFiles({ onUploadFile, className }: EmptyStateFilesProp
     <EmptyState
       icon={
         <svg
+          aria-hidden="true"
           className="h-8 w-8 text-muted-foreground"
           fill="none"
           viewBox="0 0 24 24"
@@ -127,6 +129,7 @@ export function EmptyStateLogs({ onRefresh, className }: EmptyStateLogsProps) {
     <EmptyState
       icon={
         <svg
+          aria-hidden="true"
           className="h-8 w-8 text-muted-foreground"
           fill="none"
           viewBox="0 0 24 24"

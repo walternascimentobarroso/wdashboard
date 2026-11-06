@@ -1,11 +1,10 @@
 'use client'
 
-import * as React from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Activity, Clock, FileText, LogIn, Settings, Shield, Trash2, User } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { Activity, User, Settings, Shield, FileText, Trash2, LogIn, Clock } from 'lucide-react'
 import type { ActivityLog } from '@/types'
 
 interface ActivityListProps {
@@ -90,6 +89,7 @@ export function ActivityList({ activities, isLoading }: ActivityListProps) {
         <CardContent>
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton placeholders
               <div key={i} className="flex items-center space-x-4">
                 <div className="w-8 h-8 bg-muted rounded-full animate-pulse"></div>
                 <div className="flex-1 space-y-2">

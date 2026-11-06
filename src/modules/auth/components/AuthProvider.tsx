@@ -1,9 +1,9 @@
 'use client'
 
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
-import { User } from '@/types/user'
-import { AuthState } from '../types'
+import { createContext, type ReactNode, useContext, useEffect, useReducer } from 'react'
+import type { User } from '@/types/user'
 import { mockAuthService } from '../services/auth'
+import type { AuthState } from '../types'
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string, rememberMe?: boolean) => Promise<void>
@@ -122,6 +122,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: restores the session once on mount
   useEffect(() => {
     checkAuth()
   }, [])

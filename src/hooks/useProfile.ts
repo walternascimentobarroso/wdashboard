@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import type { UserProfile, ActivityLog } from '@/types'
+import { useEffect, useState } from 'react'
+import type { ActivityLog, UserProfile } from '@/types'
 
 const PROFILE_STORAGE_KEY = 'user_profile'
 const ACTIVITY_STORAGE_KEY = 'user_activity'

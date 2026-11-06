@@ -1,6 +1,7 @@
 'use client'
 
 import { AlertTriangle, Loader2 } from 'lucide-react'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -10,8 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { User } from '../types'
+import type { User } from '../types'
 
 interface DeleteDialogProps {
   open: boolean

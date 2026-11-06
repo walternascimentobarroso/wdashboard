@@ -1,6 +1,6 @@
-import { BaseMockService, MockDataStore } from '@/services/api'
-import { KPI, ChartData, DashboardStats, GetKPIsParams, ChartDataRequest } from '@/types/kpi'
 import { MOCK_DELAYS } from '@/lib/constants'
+import { BaseMockService, MockDataStore } from '@/services/api'
+import type { ChartData, ChartDataRequest, DashboardStats, GetKPIsParams, KPI } from '@/types/kpi'
 
 export class MockDashboardService extends BaseMockService {
   private store = MockDataStore.getInstance()
@@ -144,7 +144,7 @@ export class MockDashboardService extends BaseMockService {
         // Generate hourly labels for the last 24 hours
         for (let i = 23; i >= 0; i--) {
           const hour = new Date(now.getTime() - i * 60 * 60 * 1000)
-          labels.push(hour.getHours() + ':00')
+          labels.push(`${hour.getHours()}:00`)
         }
         break
       case '7d':

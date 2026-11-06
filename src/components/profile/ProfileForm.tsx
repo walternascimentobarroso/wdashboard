@@ -1,10 +1,11 @@
 'use client'
 
-import * as React from 'react'
-import { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useState } from 'react'
+import { type ControllerRenderProps, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -16,12 +17,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { ProfileAvatarUpload } from './ProfileAvatarUpload'
-import { toast } from 'sonner'
-import { ControllerRenderProps } from 'react-hook-form'
 import type { UserProfile } from '@/types'
+import { ProfileAvatarUpload } from './ProfileAvatarUpload'
 
 const profileFormSchema = z.object({
   name: z

@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { AuthProvider } from '@/modules/auth/components/AuthProvider'
 

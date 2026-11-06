@@ -1,4 +1,4 @@
-import { ApiResponse, ErrorResponse } from '@/types'
+import type { ApiResponse, ErrorResponse } from '@/types'
 
 export abstract class BaseMockService {
   protected delay(ms: number = 200): Promise<void> {
@@ -54,7 +54,7 @@ export abstract class BaseMockService {
     return data.filter((item) =>
       searchFields.some((field) => {
         const value = item[field]
-        return value && value.toString().toLowerCase().includes(lowerSearchTerm)
+        return value?.toString().toLowerCase().includes(lowerSearchTerm)
       })
     )
   }

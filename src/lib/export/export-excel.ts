@@ -1,5 +1,5 @@
 import ExcelJS from 'exceljs'
-import { User } from '@/features/users/types'
+import type { User } from '@/features/users/types'
 import { transformUserForExport } from '@/lib/export-utils'
 
 export async function exportUsersToExcel(users: User[], filename?: string): Promise<void> {

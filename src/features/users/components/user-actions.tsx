@@ -1,6 +1,6 @@
 'use client'
 
-import { MoreHorizontal, Edit, Trash2 } from 'lucide-react'
+import { Edit, MoreHorizontal, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { User } from '../types'
+import type { User } from '../types'
 
 interface UserActionsProps {
   user: User

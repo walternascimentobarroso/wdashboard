@@ -1,19 +1,18 @@
 'use client'
 
 import {
-  useReactTable,
+  type Column,
+  type ColumnDef,
+  flexRender,
   getCoreRowModel,
-  getSortedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  ColumnDef,
-  flexRender,
-  Column,
-  Row,
+  getSortedRowModel,
+  type Row,
+  useReactTable,
 } from '@tanstack/react-table'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { User } from '../types'
-import { UserActions } from './user-actions'
+import { useTranslations } from 'next-intl'
 import { SortableHeader } from '@/components/shared/SortableHeader'
 import {
   Select,
@@ -22,7 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useTranslations } from 'next-intl'
+import type { User } from '../types'
+import { UserActions } from './user-actions'
 
 interface UserTableProps {
   users: User[]
@@ -271,6 +271,7 @@ export function UserTable({
           {/* Pagination Buttons */}
           <div className="flex items-center space-x-1">
             <button
+              type="button"
               className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage <= 1}
@@ -323,11 +324,13 @@ export function UserTable({
 
                 return pages.map((page, index) =>
                   page === '...' ? (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: ellipsis has no identity besides its position
                     <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">
                       ...
                     </span>
                   ) : (
                     <button
+                      type="button"
                       key={page}
                       className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 min-w-8 px-2 ${
                         currentPage === page
@@ -344,6 +347,7 @@ export function UserTable({
             </div>
 
             <button
+              type="button"
               className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage >= totalPages}

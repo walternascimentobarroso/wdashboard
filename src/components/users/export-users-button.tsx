@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { Download, FileSpreadsheet, FileText, Loader2 } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -10,9 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import type { User } from '@/features/users/types'
 import { exportUsersToExcel, exportUsersToPDF } from '@/lib/export'
-import { User } from '@/features/users/types'
-import { toast } from 'sonner'
 
 interface ExportUsersButtonProps {
   users: User[]

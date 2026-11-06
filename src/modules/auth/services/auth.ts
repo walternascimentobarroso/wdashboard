@@ -1,7 +1,7 @@
-import { BaseMockService, MockDataStore } from '@/services/api'
-import { User } from '@/types/user'
-import { LoginRequest, LoginResponse, TokenVerification } from '../types'
 import { MOCK_DELAYS, USER_ROLES } from '@/lib/constants'
+import { BaseMockService, MockDataStore } from '@/services/api'
+import type { User } from '@/types/user'
+import type { LoginRequest, LoginResponse, TokenVerification } from '../types'
 
 export class MockAuthService extends BaseMockService {
   private store = MockDataStore.getInstance()

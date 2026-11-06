@@ -1,6 +1,6 @@
 'use client'
 
-import { Users, Plus } from 'lucide-react'
+import { Plus, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface EmptyStateProps {

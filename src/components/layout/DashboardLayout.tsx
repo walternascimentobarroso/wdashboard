@@ -1,16 +1,16 @@
 'use client'
 
-import * as React from 'react'
-import { useState, useEffect } from 'react'
-import { cn } from '@/lib/utils'
-import { Topbar } from './Topbar'
-import { Sidebar, SidebarItem, SidebarCategory } from './Sidebar'
-import { Sheet, SheetContent } from '@/components/ui/sheet'
-import { useResponsive } from '@/lib/use-responsive'
-import { navigationConfig } from '@/lib/navigation'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import type * as React from 'react'
+import { useEffect, useState } from 'react'
 import { CommandPalette } from '@/components/ui/command-palette'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { navigationConfig } from '@/lib/navigation'
+import { useResponsive } from '@/lib/use-responsive'
+import { cn } from '@/lib/utils'
+import { Sidebar, SidebarCategory, SidebarItem } from './Sidebar'
+import { Topbar } from './Topbar'
 
 interface DashboardLayoutProps {
   children: React.ReactNode

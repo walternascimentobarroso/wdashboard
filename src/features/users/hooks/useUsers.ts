@@ -1,6 +1,12 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { User, CreateUserRequest, UpdateUserRequest, UserTableState, UserFilters } from '../types'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { UsersStorage } from '../services/storage'
+import type {
+  CreateUserRequest,
+  UpdateUserRequest,
+  User,
+  UserFilters,
+  UserTableState,
+} from '../types'
 
 const USERS_PER_PAGE = 10
 
@@ -88,8 +94,8 @@ export function useUsers() {
       const { column, direction } = state.sorting
 
       sorted.sort((a, b) => {
-        let aValue = a[column]
-        let bValue = b[column]
+        const aValue = a[column]
+        const bValue = b[column]
 
         // Handle string comparison
         if (typeof aValue === 'string' && typeof bValue === 'string') {
@@ -137,7 +143,7 @@ export function useUsers() {
         total: filtered.length,
       },
     }))
-  }, [users, state.filtering.search, state.filtering.role, state.filtering.status])
+  }, [getFilteredUsers])
 
   // Create user
   const createUser = useCallback(

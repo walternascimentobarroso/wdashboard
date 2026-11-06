@@ -1,5 +1,6 @@
 'use client'
 
+import { Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -7,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Globe } from 'lucide-react'
 import { useLocale } from '@/hooks/useLocale'
 
 export function LanguageSwitcher() {

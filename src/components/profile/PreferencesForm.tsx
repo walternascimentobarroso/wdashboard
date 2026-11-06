@@ -1,9 +1,11 @@
 'use client'
 
-import * as React from 'react'
-import { useState, useEffect } from 'react'
-import { useForm, ControllerRenderProps } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Globe, Moon, Palette, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
+import { type ControllerRenderProps, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -23,9 +25,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { toast } from 'sonner'
-import { useTheme } from 'next-themes'
-import { Globe, Palette, Moon, Sun } from 'lucide-react'
 import type { UserProfile } from '@/types'
 
 const preferencesFormSchema = z.object({

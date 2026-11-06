@@ -1,14 +1,13 @@
-import React from 'react'
 import {
-  BarChart as RechartsBarChart,
   Bar,
+  CartesianGrid,
+  BarChart as RechartsBarChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from 'recharts'
-import { ChartData, transformChartData } from '@/lib/chart-utils'
+import { type ChartData, transformChartData } from '@/lib/chart-utils'
 
 interface BarChartProps {
   data: ChartData

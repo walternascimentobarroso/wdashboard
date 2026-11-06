@@ -1,18 +1,19 @@
 'use client'
 
-import React, { useState } from 'react'
+import { AlertCircle, CheckCircle2, Eye, EyeOff, Shield } from 'lucide-react'
+import type React from 'react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { usePasswordStrength } from '@/hooks/usePasswordStrength'
-import { Eye, EyeOff, Shield, AlertCircle, CheckCircle2 } from 'lucide-react'
 
 interface PasswordChangeModalProps {
   open: boolean

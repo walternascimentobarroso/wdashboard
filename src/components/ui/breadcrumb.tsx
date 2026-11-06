@@ -1,10 +1,10 @@
 'use client'
 
-import * as React from 'react'
-import Link from 'next/link'
 import { ChevronRight, Home } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 
 interface BreadcrumbItem {
   label: string
@@ -29,8 +29,8 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
         <span className="sr-only">{t('breadcrumb.home')}</span>
       </Link>
 
-      {items.map((item, index) => (
-        <React.Fragment key={index}>
+      {items.map((item) => (
+        <React.Fragment key={item.href ?? item.label}>
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
           {item.href ? (
             <Link

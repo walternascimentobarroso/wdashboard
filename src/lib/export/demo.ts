@@ -1,8 +1,8 @@
 // Demo script to test export functionality
 // This can be run in the browser console to test exports
 
+import type { User } from '@/features/users/types'
 import { exportUsersToExcel, exportUsersToPDF } from './index'
-import { User } from '@/features/users/types'
 
 // Sample data for testing
 const sampleUsers: User[] = [

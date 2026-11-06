@@ -1,11 +1,11 @@
 'use client'
 
-import * as React from 'react'
-import Link from 'next/link'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import type * as React from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 interface QuickActionCardProps {
   title: string

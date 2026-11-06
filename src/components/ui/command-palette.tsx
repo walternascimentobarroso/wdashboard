@@ -1,11 +1,11 @@
 'use client'
 
-import * as React from 'react'
 import { Command } from 'cmdk'
-import { Search, Users, FileText, Activity } from 'lucide-react'
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
+import { Activity, FileText, Search, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import * as React from 'react'
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 
 interface CommandPaletteProps {
   open: boolean
@@ -21,62 +21,61 @@ interface SearchResult {
   action?: () => void
 }
 
+const searchResults: SearchResult[] = [
+  {
+    id: 'user-1',
+    title: 'John Doe',
+    description: 'john.doe@example.com • Active user',
+    type: 'user',
+    icon: <Users className="h-4 w-4" />,
+    action: () => console.warn('Navigate to user John Doe'),
+  },
+  {
+    id: 'user-2',
+    title: 'Jane Smith',
+    description: 'jane.smith@example.com • Admin user',
+    type: 'user',
+    icon: <Users className="h-4 w-4" />,
+    action: () => console.warn('Navigate to user Jane Smith'),
+  },
+  {
+    id: 'file-1',
+    title: 'Annual Report 2024',
+    description: 'PDF • 2.4 MB • Uploaded 2 hours ago',
+    type: 'file',
+    icon: <FileText className="h-4 w-4" />,
+    action: () => console.warn('Navigate to file Annual Report'),
+  },
+  {
+    id: 'file-2',
+    title: 'Budget Analysis',
+    description: 'Excel • 856 KB • Uploaded yesterday',
+    type: 'file',
+    icon: <FileText className="h-4 w-4" />,
+    action: () => console.warn('Navigate to file Budget Analysis'),
+  },
+  {
+    id: 'log-1',
+    title: 'System Error Log',
+    description: 'Error • Database connection failed • 15 min ago',
+    type: 'log',
+    icon: <Activity className="h-4 w-4" />,
+    action: () => console.warn('Navigate to error log'),
+  },
+  {
+    id: 'log-2',
+    title: 'User Activity Log',
+    description: 'Info • 150 active sessions • 1 hour ago',
+    type: 'log',
+    icon: <Activity className="h-4 w-4" />,
+    action: () => console.warn('Navigate to activity log'),
+  },
+]
+
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   const t = useTranslations()
   const [search, setSearch] = React.useState('')
   const inputRef = React.useRef<HTMLInputElement>(null)
-
-  // Mock search results
-  const searchResults: SearchResult[] = [
-    {
-      id: 'user-1',
-      title: 'John Doe',
-      description: 'john.doe@example.com • Active user',
-      type: 'user',
-      icon: <Users className="h-4 w-4" />,
-      action: () => console.warn('Navigate to user John Doe'),
-    },
-    {
-      id: 'user-2',
-      title: 'Jane Smith',
-      description: 'jane.smith@example.com • Admin user',
-      type: 'user',
-      icon: <Users className="h-4 w-4" />,
-      action: () => console.warn('Navigate to user Jane Smith'),
-    },
-    {
-      id: 'file-1',
-      title: 'Annual Report 2024',
-      description: 'PDF • 2.4 MB • Uploaded 2 hours ago',
-      type: 'file',
-      icon: <FileText className="h-4 w-4" />,
-      action: () => console.warn('Navigate to file Annual Report'),
-    },
-    {
-      id: 'file-2',
-      title: 'Budget Analysis',
-      description: 'Excel • 856 KB • Uploaded yesterday',
-      type: 'file',
-      icon: <FileText className="h-4 w-4" />,
-      action: () => console.warn('Navigate to file Budget Analysis'),
-    },
-    {
-      id: 'log-1',
-      title: 'System Error Log',
-      description: 'Error • Database connection failed • 15 min ago',
-      type: 'log',
-      icon: <Activity className="h-4 w-4" />,
-      action: () => console.warn('Navigate to error log'),
-    },
-    {
-      id: 'log-2',
-      title: 'User Activity Log',
-      description: 'Info • 150 active sessions • 1 hour ago',
-      type: 'log',
-      icon: <Activity className="h-4 w-4" />,
-      action: () => console.warn('Navigate to activity log'),
-    },
-  ]
 
   const filteredResults = React.useMemo(() => {
     if (!search) return []
@@ -133,36 +132,34 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
               </div>
             )}
 
-            {search && filteredResults.length > 0 && (
-              <>
-                {['user', 'file', 'log'].map((type) => {
-                  const typeResults = filteredResults.filter((r) => r.type === type)
-                  if (typeResults.length === 0) return null
+            {search &&
+              filteredResults.length > 0 &&
+              ['user', 'file', 'log'].map((type) => {
+                const typeResults = filteredResults.filter((r) => r.type === type)
+                if (typeResults.length === 0) return null
 
-                  return (
-                    <Command.Group key={type} heading={t(`search.categories.${type}`)}>
-                      {typeResults.map((result) => (
-                        <Command.Item
-                          key={result.id}
-                          onSelect={() => handleSelect(result)}
-                          className="flex items-center gap-3 px-2 py-3 rounded-sm cursor-pointer hover:bg-accent"
-                        >
-                          <div className="flex items-center justify-center w-8 h-8 rounded-md bg-muted">
-                            {result.icon}
+                return (
+                  <Command.Group key={type} heading={t(`search.categories.${type}`)}>
+                    {typeResults.map((result) => (
+                      <Command.Item
+                        key={result.id}
+                        onSelect={() => handleSelect(result)}
+                        className="flex items-center gap-3 px-2 py-3 rounded-sm cursor-pointer hover:bg-accent"
+                      >
+                        <div className="flex items-center justify-center w-8 h-8 rounded-md bg-muted">
+                          {result.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium">{result.title}</div>
+                          <div className="text-xs text-muted-foreground truncate">
+                            {result.description}
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium">{result.title}</div>
-                            <div className="text-xs text-muted-foreground truncate">
-                              {result.description}
-                            </div>
-                          </div>
-                        </Command.Item>
-                      ))}
-                    </Command.Group>
-                  )
-                })}
-              </>
-            )}
+                        </div>
+                      </Command.Item>
+                    ))}
+                  </Command.Group>
+                )
+              })}
           </Command.List>
 
           {search && filteredResults.length > 0 && (

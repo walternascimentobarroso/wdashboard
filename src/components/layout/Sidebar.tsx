@@ -1,12 +1,12 @@
 'use client'
 
-import * as React from 'react'
-import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import type * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { useTranslations } from 'next-intl'
+import { cn } from '@/lib/utils'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   expanded?: boolean

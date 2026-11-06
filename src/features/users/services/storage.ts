@@ -1,5 +1,5 @@
-import { User, CreateUserRequest, UpdateUserRequest, UserError, UserErrorCode } from '../types'
 import { mockUsers } from '../data/mock'
+import type { CreateUserRequest, UpdateUserRequest, User, UserError, UserErrorCode } from '../types'
 
 const STORAGE_KEY = 'wdashboard-users'
 const STORAGE_VERSION = '1.0.0'
@@ -21,7 +21,7 @@ export class UsersStorage {
     operation: 'update' | 'delete' = 'update'
   ): void {
     const currentUser = data.users.find((u) => u.id === currentUserId)
-    if (!currentUser || currentUser.role !== 'admin') return
+    if (currentUser?.role !== 'admin') return
 
     const otherAdmins = data.users.filter((u) => u.role === 'admin' && u.id !== currentUserId)
     const activeAdmins = data.users.filter(
@@ -245,9 +245,10 @@ export class UsersStorage {
       const user = data.users[userIndex]
 
       // Check for duplicate email if email is being updated
-      if (updates.email && updates.email.toLowerCase() !== user.email.toLowerCase()) {
+      const newEmail = updates.email?.toLowerCase()
+      if (newEmail && newEmail !== user.email.toLowerCase()) {
         const emailExists = data.users.some(
-          (u) => u.email.toLowerCase() === updates.email!.toLowerCase() && u.id !== id
+          (u) => u.email.toLowerCase() === newEmail && u.id !== id
         )
         if (emailExists) {
           throw this.createError('DUPLICATE_EMAIL', 'Email address already exists')

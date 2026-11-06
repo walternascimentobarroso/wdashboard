@@ -1,10 +1,9 @@
 'use client'
 
-import * as React from 'react'
+import { Minus, TrendingDown, TrendingUp } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 interface KPICardProps {
   title: string
@@ -70,7 +69,7 @@ export function KPICard({
 
     return (
       <div className="h-8 w-full">
-        <svg viewBox="0 0 100 100" className="h-full w-full">
+        <svg aria-hidden="true" viewBox="0 0 100 100" className="h-full w-full">
           <polyline
             points={points}
             fill="none"

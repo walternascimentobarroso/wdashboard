@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import { User } from '@/features/users/types'
+import type { User } from '@/features/users/types'
 import { transformUserForExport } from '@/lib/export-utils'
 
 export function exportToPDF(users: User[]): void {

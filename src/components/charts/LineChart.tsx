@@ -1,14 +1,13 @@
-import React from 'react'
 import {
-  LineChart as RechartsLineChart,
+  CartesianGrid,
   Line,
+  LineChart as RechartsLineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from 'recharts'
-import { ChartData, transformChartData } from '@/lib/chart-utils'
+import { type ChartData, transformChartData } from '@/lib/chart-utils'
 
 interface LineChartProps {
   data: ChartData

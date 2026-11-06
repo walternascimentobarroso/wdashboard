@@ -1,5 +1,5 @@
+import { Activity, FileText, Home, Users } from 'lucide-react'
 import React from 'react'
-import { Home, FileText, Users, Activity } from 'lucide-react'
 
 export interface NavigationItem {
   id: string

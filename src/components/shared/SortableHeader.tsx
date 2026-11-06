@@ -1,5 +1,5 @@
-import { Column } from '@tanstack/react-table'
-import { ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react'
+import type { Column } from '@tanstack/react-table'
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
 
 interface SortableHeaderProps<T> {
   column: Column<T>
@@ -11,6 +11,7 @@ interface SortableHeaderProps<T> {
 export function SortableHeader<T>({ column, title, onSort, columnKey }: SortableHeaderProps<T>) {
   return (
     <button
+      type="button"
       className="flex items-center hover:text-muted-foreground"
       onClick={() => onSort(columnKey, column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
     >

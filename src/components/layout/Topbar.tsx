@@ -1,11 +1,13 @@
 'use client'
 
-import * as React from 'react'
+import { Bell, LogOut, Menu, Moon, Search, Settings, Sun, User } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Menu, Search, Sun, Moon, Bell, User, Settings, LogOut } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useTranslations } from 'next-intl'
+import { useTheme } from 'next-themes'
+import * as React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useTranslations } from 'next-intl'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
-import { useTheme } from 'next-themes'
 
 interface TopbarProps {
   onSidebarToggle?: () => void
@@ -43,14 +43,13 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
   const userEmail = user?.email || 'm@example.com'
   const userAvatar = user?.avatar || undefined
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault()
-      onSearchOpen?.()
-    }
-  }
-
   React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        onSearchOpen?.()
+      }
+    }
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [onSearchOpen])

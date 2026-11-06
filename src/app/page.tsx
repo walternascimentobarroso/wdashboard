@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { useEffect } from 'react'
 
 export default function HomePage() {
   const router = useRouter()

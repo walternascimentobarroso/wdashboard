@@ -1,16 +1,15 @@
 'use client'
 
-import * as React from 'react'
+import { Activity, Palette, Shield, User } from 'lucide-react'
 import { Suspense } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
+import { ActivityList } from '@/components/profile/ActivityList'
+import { PreferencesForm } from '@/components/profile/PreferencesForm'
 import { ProfileForm } from '@/components/profile/ProfileForm'
 import { SecurityForm } from '@/components/profile/SecurityForm'
-import { PreferencesForm } from '@/components/profile/PreferencesForm'
-import { ActivityList } from '@/components/profile/ActivityList'
-import { useUserProfile, useUserActivity } from '@/hooks/useProfile'
-import { User, Shield, Palette, Activity } from 'lucide-react'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useUserActivity, useUserProfile } from '@/hooks/useProfile'
 
 function ProfilePageContent() {
   const { profile, isLoading: profileLoading, updateProfile, updatePreferences } = useUserProfile()

@@ -1,39 +1,40 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import {
+  Bell,
+  Calendar,
+  Download,
+  Edit,
+  Globe,
+  Key,
+  LogIn,
+  Mail,
+  MapPin,
+  Palette,
+  Settings,
+  Shield,
+  Trash2,
+  Upload,
+  User,
+  UserPlus,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useAuth } from '@/modules/auth/components/AuthProvider'
 import { useTheme } from 'next-themes'
-import { useLocale } from '@/hooks/useLocale'
+import type React from 'react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { PasswordChangeModal } from '@/components/profile/PasswordChangeModal'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import {
-  User,
-  Mail,
-  Calendar,
-  MapPin,
-  Globe,
-  Shield,
-  Key,
-  Bell,
-  Palette,
-  Download,
-  Upload,
-  LogIn,
-  Edit,
-  Trash2,
-  UserPlus,
-  Settings,
-} from 'lucide-react'
-import { toast } from 'sonner'
-import { PasswordChangeModal } from '@/components/profile/PasswordChangeModal'
-import { Breadcrumb } from '@/components/ui/breadcrumb'
+import { useLocale } from '@/hooks/useLocale'
+import { useAuth } from '@/modules/auth/components/AuthProvider'
 
 export default function ProfilePage() {
   const t = useTranslations()
@@ -642,8 +643,8 @@ export default function ProfilePage() {
                     iconColor: 'text-purple-500',
                     icon: Download,
                   },
-                ].map((activity, index) => (
-                  <div key={index} className="flex items-center gap-4">
+                ].map((activity) => (
+                  <div key={activity.action} className="flex items-center gap-4">
                     <div
                       className={`flex h-10 w-10 items-center justify-center rounded-full ${activity.iconBg} ${activity.iconColor}`}
                     >

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react'
+import { createContext, type ReactNode, useContext, useReducer } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface Toast {
@@ -117,6 +117,7 @@ function ToastContainer() {
               {toast.message && <p className="text-sm mt-1 opacity-90">{toast.message}</p>}
             </div>
             <button
+              type="button"
               onClick={() => removeToast(toast.id)}
               className="ml-4 text-lg leading-none hover:opacity-70"
             >
