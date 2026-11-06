@@ -26,7 +26,7 @@ export function BarChart({ data, className }: BarChartProps) {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="value" fill={data.datasets[0]?.color || '#3b82f6'} />
+          <Bar dataKey="value" fill={data.datasets[0]?.color || 'var(--chart-1)'} />
         </RechartsBarChart>
       </ResponsiveContainer>
     </div>

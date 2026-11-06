@@ -29,9 +29,9 @@ export function LineChart({ data, className }: LineChartProps) {
           <Line
             type="monotone"
             dataKey="value"
-            stroke={data.datasets[0]?.color || '#3b82f6'}
+            stroke={data.datasets[0]?.color || 'var(--chart-1)'}
             strokeWidth={2}
-            dot={{ fill: data.datasets[0]?.color || '#3b82f6' }}
+            dot={{ fill: data.datasets[0]?.color || 'var(--chart-1)' }}
           />
         </RechartsLineChart>
       </ResponsiveContainer>

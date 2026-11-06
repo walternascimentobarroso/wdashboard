@@ -176,14 +176,14 @@ export class MockDashboardService extends BaseMockService {
 
   private getChartColor(metric: string): string {
     const colors: Record<string, string> = {
-      users: '#3b82f6',
-      files: '#10b981',
-      sessions: '#f59e0b',
-      errors: '#ef4444',
-      performance: '#8b5cf6',
+      users: 'var(--chart-1)',
+      files: 'var(--chart-2)',
+      sessions: 'var(--chart-3)',
+      errors: 'var(--chart-5)',
+      performance: 'var(--chart-4)',
     }
 
-    return colors[metric.toLowerCase()] || '#3b82f6'
+    return colors[metric.toLowerCase()] || 'var(--chart-1)'
   }
 }
 
