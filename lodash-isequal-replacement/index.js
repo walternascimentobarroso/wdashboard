@@ -1,8 +1,8 @@
-const { isDeepStrictEqual } = require('node:util');
+const { isDeepStrictEqual } = require('node:util')
 
 function isEqual(a, b) {
-  return isDeepStrictEqual(a, b);
+  return isDeepStrictEqual(a, b)
 }
 
-module.exports = isEqual;
-module.exports.default = isEqual;
+module.exports = isEqual
+module.exports.default = isEqual

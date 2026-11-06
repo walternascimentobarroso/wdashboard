@@ -246,19 +246,19 @@ export function SecurityForm({ onSubmit }: SecurityFormProps) {
         <CardContent>
           <div className="space-y-3 text-sm">
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 shrink-0"></div>
               <p>Use a unique password that you don't use for other accounts</p>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 shrink-0"></div>
               <p>Include a mix of letters, numbers, and special characters</p>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 shrink-0"></div>
               <p>Never share your password with anyone</p>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 shrink-0"></div>
               <p>Update your password regularly</p>
             </div>
           </div>

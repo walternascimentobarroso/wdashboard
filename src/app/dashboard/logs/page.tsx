@@ -26,39 +26,39 @@ export default function LogsPage() {
       level: 'error',
       message: 'Database connection failed',
       timestamp: '15 minutes ago',
-      source: 'Database Service'
+      source: 'Database Service',
     },
     {
       id: '2',
       level: 'warning',
       message: 'High memory usage detected',
       timestamp: '1 hour ago',
-      source: 'System Monitor'
+      source: 'System Monitor',
     },
     {
       id: '3',
       level: 'info',
       message: 'User john.doe@example.com logged in',
       timestamp: '2 hours ago',
-      source: 'Authentication Service'
+      source: 'Authentication Service',
     },
     {
       id: '4',
       level: 'success',
       message: 'File processing completed successfully',
       timestamp: '3 hours ago',
-      source: 'File Processor'
+      source: 'File Processor',
     },
     {
       id: '5',
       level: 'error',
       message: 'API rate limit exceeded',
       timestamp: '5 hours ago',
-      source: 'API Gateway'
-    }
+      source: 'API Gateway',
+    },
   ])
 
-  const filteredLogs = logs.filter(log => {
+  const filteredLogs = logs.filter((log) => {
     const matchesSearch = log.message.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesLevel = levelFilter === 'all' || log.level === levelFilter
     return matchesSearch && matchesLevel
@@ -144,22 +144,14 @@ export default function LogsPage() {
             <Card key={log.id} className="hover:shadow-md transition-shadow">
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 mt-1">
-                    {getLevelIcon(log.level)}
-                  </div>
+                  <div className="shrink-0 mt-1">{getLevelIcon(log.level)}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-2">
-                      <Badge variant={getLevelColor(log.level)}>
-                        {log.level.toUpperCase()}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground">
-                        {log.timestamp}
-                      </span>
+                      <Badge variant={getLevelColor(log.level)}>{log.level.toUpperCase()}</Badge>
+                      <span className="text-xs text-muted-foreground">{log.timestamp}</span>
                     </div>
                     <p className="text-sm font-medium">{log.message}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Source: {log.source}
-                    </p>
+                    <p className="text-xs text-muted-foreground">Source: {log.source}</p>
                   </div>
                 </div>
               </CardContent>

@@ -92,7 +92,7 @@ export function ProfileForm({ profile, onProfileUpdate }: ProfileFormProps) {
         <CardContent className="space-y-6">
           <div className="flex flex-col sm:flex-row gap-6">
             {/* Avatar Upload */}
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <ProfileAvatarUpload
                 currentAvatar={profile.avatar}
                 name={profile.name}

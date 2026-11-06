@@ -56,7 +56,7 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
   }, [onSearchOpen])
 
   return (
-    <header className="flex items-center justify-between h-16 px-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="flex items-center justify-between h-16 px-4 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="flex items-center space-x-4">
         <Button variant="ghost" size="icon" onClick={onSidebarToggle} className="md:hidden">
           <Menu className="h-5 w-5" />

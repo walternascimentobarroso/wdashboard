@@ -33,6 +33,10 @@ Princípios do projeto:
 - Glassmorphism apenas em cards e dialogs.
 - **Limpeza ao passar:** sempre que editares um ficheiro, remove nele o código morto — imports, variáveis, funções, componentes e exports sem uso, código comentado e logs de debug. Antes de apagar um export, confirma com grep em `src/` que ninguém o importa. A limpeza fica restrita aos ficheiros já tocados pela tarefa.
 
+## Verificação visual
+
+O MCP do Playwright está configurado em `.mcp.json`. Usa-o para navegar no app (`make dev`) e validar mudanças de UI com screenshots em light e dark.
+
 ## Fluxo de specs
 
 Specs novas usam as skills `spec`, `build` e `review-spec`.

@@ -126,7 +126,7 @@ export function ActivityList({ activities, isLoading }: ActivityListProps) {
               activities.map((activity, index) => (
                 <div key={activity.id}>
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                    <div className="shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                       {getActivityIcon(activity.type)}
                     </div>
 

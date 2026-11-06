@@ -221,7 +221,7 @@ export function UserTable({
                     className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                      <td key={cell.id} className="p-4 align-middle has-[[role=checkbox]]:pr-0">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -329,7 +329,7 @@ export function UserTable({
                   ) : (
                     <button
                       key={page}
-                      className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 min-w-[2rem] px-2 ${
+                      className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 min-w-8 px-2 ${
                         currentPage === page
                           ? 'bg-primary text-primary-foreground'
                           : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground'

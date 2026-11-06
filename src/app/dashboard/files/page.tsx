@@ -26,7 +26,7 @@ export default function FilesPage() {
       type: 'PDF',
       size: '2.4 MB',
       uploadedAt: '2 hours ago',
-      status: 'completed'
+      status: 'completed',
     },
     {
       id: '2',
@@ -34,7 +34,7 @@ export default function FilesPage() {
       type: 'Excel',
       size: '856 KB',
       uploadedAt: '1 day ago',
-      status: 'completed'
+      status: 'completed',
     },
     {
       id: '3',
@@ -42,11 +42,11 @@ export default function FilesPage() {
       type: 'PowerPoint',
       size: '5.2 MB',
       uploadedAt: '3 days ago',
-      status: 'uploading'
-    }
+      status: 'uploading',
+    },
   ])
 
-  const filteredFiles = files.filter(file =>
+  const filteredFiles = files.filter((file) =>
     file.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -117,9 +117,7 @@ export default function FilesPage() {
                     {file.status === 'completed' && (
                       <div className="w-2 h-2 bg-green-500 rounded-full" />
                     )}
-                    {file.status === 'error' && (
-                      <div className="w-2 h-2 bg-red-500 rounded-full" />
-                    )}
+                    {file.status === 'error' && <div className="w-2 h-2 bg-red-500 rounded-full" />}
                   </div>
                 </div>
               </CardContent>
