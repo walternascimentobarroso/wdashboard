@@ -83,7 +83,8 @@
     "documents": "Documentos",
     "files": "Arquivos",
     "logs": "Registros",
-    "roles": "Perfis"
+    "roles": "Perfis",
+    "account": "Conta"
   },
   "header": {
     "dashboard": "Painel",
@@ -101,7 +102,6 @@
     "alreadyHaveAccount": "Já tem uma conta?",
     "dontHaveAccount": "Não tem uma conta?",
     "subtitle": "Use a sua conta para aceder ao dashboard.",
-    "tagline": "Utilizadores, ficheiros e atividade num só lugar.",
     "signingIn": "A entrar…",
     "loginFailed": "Falha ao entrar",
     "emailPlaceholder": "nome@exemplo.com",
@@ -111,12 +111,25 @@
       "admin": "Administrador",
       "user": "Utilizador",
       "viewer": "Leitor"
-    }
+    },
+    "welcomeBack": "Bem-vindo de volta",
+    "heroLine1": "Gere a tua equipa",
+    "heroHighlight": "melhor,",
+    "heroLine2": "tudo num só lugar.",
+    "features": {
+      "users": "Gerir utilizadores e perfis",
+      "files": "Organizar ficheiros e documentos",
+      "activity": "Acompanhar a atividade em tempo real"
+    },
+    "showPassword": "Mostrar palavra-passe",
+    "hidePassword": "Ocultar palavra-passe",
+    "demoTryAs": "Ou experimenta a demo como"
   },
   "navigation": {
     "dashboard": "Painel",
     "documents": "Documentos",
-    "user": "Usuário"
+    "user": "Usuário",
+    "account": "Conta"
   },
   "dashboard": {
     "welcome": "Bem-vindo ao seu painel",
@@ -136,11 +149,23 @@
       "uploadFilesDesc": "Processar e gerenciar uploads de arquivos",
       "viewLogs": "Ver Registros",
       "viewLogsDesc": "Monitorar atividade e erros do sistema"
+    },
+    "greeting": {
+      "morning": "Bom dia, {name}",
+      "afternoon": "Boa tarde, {name}",
+      "evening": "Boa noite, {name}"
+    },
+    "accounts": {
+      "title": "Contas de utilizadores",
+      "total": "Membros",
+      "active": "Ativos",
+      "inactive": "Inativos",
+      "admins": "Administradores",
+      "manage": "Gerir utilizadores"
     }
   },
   "users": {
     "title": "Usuários",
-    "addUser": "Adicionar Usuário",
     "searchPlaceholder": "Pesquisar usuários…",
     "allRoles": "Todos os Cargos",
     "allStatuses": "Todos os Status",
@@ -209,6 +234,21 @@
       "updateError": "Falha ao atualizar usuário: {error}",
       "deleteError": "Falha ao excluir usuário: {error}",
       "lastAdmin": "Não é possível excluir ou rebaixar o último usuário administrador"
+    },
+    "description": "Gere os membros da equipa e os respetivos acessos.",
+    "create": "Criar",
+    "filters": {
+      "search": "Pesquisar"
+    },
+    "kpi": {
+      "total": "Total de utilizadores",
+      "totalDesc": "Todos os utilizadores registados",
+      "active": "Utilizadores ativos",
+      "activeDesc": "Atualmente ativos",
+      "inactive": "Utilizadores inativos",
+      "inactiveDesc": "Contas desativadas",
+      "new": "Novos utilizadores",
+      "newDesc": "Últimos 30 dias"
     }
   },
   "profile": {
@@ -385,7 +425,15 @@
     "description": "Gerencie e organize seus arquivos",
     "upload": "Enviar arquivo",
     "search": "Pesquisar arquivos…",
-    "filter": "Filtrar"
+    "filter": "Filtrar",
+    "kpi": {
+      "total": "Total de ficheiros"
+    },
+    "status": {
+      "completed": "Concluído",
+      "uploading": "A carregar",
+      "error": "Erro"
+    }
   },
   "logs": {
     "title": "Logs do sistema",
@@ -400,6 +448,9 @@
       "warning": "Avisos",
       "info": "Info",
       "success": "Sucesso"
+    },
+    "kpi": {
+      "total": "Total de eventos"
     }
   },
   "table": {
@@ -484,6 +535,30 @@
       "deleted": "Perfil {name} apagado",
       "duplicateName": "Já existe um perfil com este nome",
       "error": "A operação falhou: {error}"
+    },
+    "description": "Defina e gira perfis e permissões",
+    "kpis": {
+      "total": {
+        "title": "Total de perfis",
+        "description": "Todos os perfis no sistema"
+      },
+      "active": {
+        "title": "Perfis ativos",
+        "description": "Perfis atualmente ativos"
+      },
+      "inactive": {
+        "title": "Perfis inativos",
+        "description": "Perfis atualmente desativados"
+      },
+      "recent": {
+        "title": "Adicionados recentemente",
+        "description": "Novos perfis (últimos 7 dias)"
+      }
     }
+  },
+  "settings": {
+    "description": "Gerir a sua conta e preferências",
+    "account": "Definições da conta",
+    "appearance": "Aparência"
   }
 }

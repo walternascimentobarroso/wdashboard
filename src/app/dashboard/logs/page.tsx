@@ -1,12 +1,13 @@
 'use client'
 
-import { AlertCircle, CheckCircle, Filter, Info, Search } from 'lucide-react'
+import { AlertCircle, CheckCircle, Filter, Info, ScrollText, Search } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import { KPICard } from '@/components/dashboard/kpi-card'
+import { PageHeader } from '@/components/shared/page-header'
 import { Badge } from '@/components/ui/badge'
-import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { EmptyStateLogs } from '@/components/ui/empty-state'
 import { Input } from '@/components/ui/input'
 
@@ -16,6 +17,20 @@ interface LogItem {
   message: string
   timestamp: string
   source: string
+}
+
+const LEVEL_BADGE = {
+  error: 'destructive',
+  warning: 'warning',
+  info: 'info',
+  success: 'success',
+} as const
+
+const LEVEL_ICON = {
+  error: <AlertCircle className="h-4 w-4 text-destructive" aria-hidden="true" />,
+  warning: <AlertCircle className="h-4 w-4 text-warning" aria-hidden="true" />,
+  info: <Info className="h-4 w-4 text-info" aria-hidden="true" />,
+  success: <CheckCircle className="h-4 w-4 text-success" aria-hidden="true" />,
 }
 
 export default function LogsPage() {
@@ -66,113 +81,90 @@ export default function LogsPage() {
     return matchesSearch && matchesLevel
   })
 
-  const getLevelIcon = (level: string) => {
-    switch (level) {
-      case 'error':
-        return <AlertCircle className="h-4 w-4 text-destructive" aria-hidden="true" />
-      case 'warning':
-        return <AlertCircle className="h-4 w-4 text-warning" aria-hidden="true" />
-      case 'success':
-        return <CheckCircle className="h-4 w-4 text-success" aria-hidden="true" />
-      default:
-        return <Info className="h-4 w-4 text-info" aria-hidden="true" />
-    }
-  }
-
-  const getLevelBadgeClass = (level: LogItem['level']) => {
-    switch (level) {
-      case 'error':
-        return 'bg-destructive/15 text-destructive'
-      case 'warning':
-        return 'bg-warning/15 text-warning'
-      case 'success':
-        return 'bg-success/15 text-success'
-      default:
-        return 'bg-info/15 text-info'
-    }
-  }
+  const countByLevel = (level: LogItem['level']) => logs.filter((log) => log.level === level).length
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      {/* Breadcrumb */}
-      <Breadcrumb items={[{ label: 'Logs' }]} />
+      <PageHeader
+        title={t('title')}
+        description={t('description')}
+        breadcrumb={[{ label: t('title') }]}
+        actions={
+          <Button variant="outline">
+            <Filter className="mr-2 h-4 w-4" aria-hidden="true" />
+            {t('export')}
+          </Button>
+        }
+      />
 
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">{t('title')}</h1>
-          <p className="text-muted-foreground">{t('description')}</p>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <KPICard title={t('kpi.total')} value={logs.length} icon={<ScrollText />} />
+        <KPICard title={t('levels.error')} value={countByLevel('error')} icon={<AlertCircle />} />
+        <KPICard
+          title={t('levels.warning')}
+          value={countByLevel('warning')}
+          icon={<AlertCircle />}
+        />
+        <KPICard
+          title={t('levels.success')}
+          value={countByLevel('success')}
+          icon={<CheckCircle />}
+        />
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1">
+          <Search
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden="true"
+          />
+          <Input
+            placeholder={t('search')}
+            aria-label={t('search')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
         </div>
-        <Button variant="outline">
-          <Filter className="mr-2 h-4 w-4" aria-hidden="true" />
-          {t('export')}
-        </Button>
+        <select
+          value={levelFilter}
+          onChange={(e) => setLevelFilter(e.target.value)}
+          aria-label={t('levelFilter')}
+          className="h-11 rounded-xl bg-muted px-3 text-sm text-foreground"
+        >
+          <option value="all">{t('levels.all')}</option>
+          <option value="error">{t('levels.error')}</option>
+          <option value="warning">{t('levels.warning')}</option>
+          <option value="info">{t('levels.info')}</option>
+          <option value="success">{t('levels.success')}</option>
+        </select>
       </div>
 
-      {/* Search and Filters */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"
-                aria-hidden="true"
-              />
-              <Input
-                placeholder={t('search')}
-                aria-label={t('search')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+      {filteredLogs.length === 0 ? (
+        <EmptyStateLogs />
+      ) : (
+        <Card glass className="divide-y divide-border p-0">
+          {filteredLogs.map((log) => (
+            <div key={log.id} className="flex items-start gap-3 p-4 sm:px-6">
+              <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary-soft">
+                {LEVEL_ICON[log.level]}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium">{log.message}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {t('source', { source: log.source })}
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-col items-end gap-1">
+                <Badge variant={LEVEL_BADGE[log.level]} className="uppercase">
+                  {log.level}
+                </Badge>
+                <span className="text-xs text-muted-foreground">{log.timestamp}</span>
+              </div>
             </div>
-            <select
-              value={levelFilter}
-              onChange={(e) => setLevelFilter(e.target.value)}
-              aria-label={t('levelFilter')}
-              className="px-3 py-2 border rounded-md bg-background text-foreground text-sm"
-            >
-              <option value="all">{t('levels.all')}</option>
-              <option value="error">{t('levels.error')}</option>
-              <option value="warning">{t('levels.warning')}</option>
-              <option value="info">{t('levels.info')}</option>
-              <option value="success">{t('levels.success')}</option>
-            </select>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Logs List */}
-      <div className="space-y-4">
-        {filteredLogs.length === 0 ? (
-          <EmptyStateLogs />
-        ) : (
-          filteredLogs.map((log) => (
-            <Card key={log.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <div className="flex items-start space-x-3">
-                  <div className="shrink-0 mt-1">{getLevelIcon(log.level)}</div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-2">
-                      <Badge
-                        variant="outline"
-                        className={`border-transparent uppercase ${getLevelBadgeClass(log.level)}`}
-                      >
-                        {log.level}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground">{log.timestamp}</span>
-                    </div>
-                    <p className="text-sm font-medium">{log.message}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {t('source', { source: log.source })}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        )}
-      </div>
+          ))}
+        </Card>
+      )}
     </div>
   )
 }

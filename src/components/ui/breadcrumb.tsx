@@ -20,7 +20,10 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
   const t = useTranslations()
 
   return (
-    <nav aria-label="Breadcrumb" className={cn('flex items-center space-x-1 text-sm', className)}>
+    <nav
+      aria-label="Breadcrumb"
+      className={cn('flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground', className)}
+    >
       <Link
         href="/dashboard"
         className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
@@ -31,7 +34,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 
       {items.map((item) => (
         <React.Fragment key={item.href ?? item.label}>
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          <ChevronRight className="size-3.5" />
           {item.href ? (
             <Link
               href={item.href}

@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -137,7 +138,7 @@ export function UserForm({
               onValueChange={(value) => form.setValue('role', value as UserRole)}
               disabled={loading}
             >
-              <SelectTrigger id="role">
+              <SelectTrigger id="role" className="w-full">
                 <SelectValue placeholder={t('form.rolePlaceholder')} />
               </SelectTrigger>
               <SelectContent>
@@ -159,7 +160,7 @@ export function UserForm({
               onValueChange={(value) => form.setValue('status', value as UserStatus)}
               disabled={loading}
             >
-              <SelectTrigger id="status">
+              <SelectTrigger id="status" className="w-full">
                 <SelectValue placeholder={t('form.statusPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
@@ -186,7 +187,7 @@ export function UserForm({
             <Button type="submit" disabled={loading}>
               {loading ? (
                 <>
-                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  <Loader2 className="animate-spin" aria-hidden="true" />
                   {user ? t('form.updating') : t('form.creating')}
                 </>
               ) : user ? (

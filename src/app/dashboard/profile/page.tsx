@@ -20,14 +20,14 @@ import type React from 'react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { PasswordChangeModal } from '@/components/profile/PasswordChangeModal'
+import { PageHeader } from '@/components/shared/page-header'
+import { SettingsCard, SettingsRow } from '@/components/shared/settings-row'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { readJson } from '@/lib/read-json'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
@@ -131,39 +131,38 @@ export default function ProfilePage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      {/* Breadcrumb */}
-      <Breadcrumb items={[{ label: t('profile.title') }]} />
-
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">{t('profile.title')}</h1>
-          <p className="text-muted-foreground">{t('profile.description')}</p>
-        </div>
-        <div className="flex gap-2">
-          {isEditing && (
-            <Button variant="outline" onClick={handleCancelEdit} disabled={isLoading}>
-              {t('common.cancel')}
+      <PageHeader
+        title={t('profile.title')}
+        description={t('profile.description')}
+        breadcrumb={[{ label: t('profile.title') }]}
+        actions={
+          <>
+            {isEditing && (
+              <Button variant="outline" onClick={handleCancelEdit} disabled={isLoading}>
+                {t('common.cancel')}
+              </Button>
+            )}
+            <Button
+              variant={isEditing ? 'default' : 'outline'}
+              onClick={() => (isEditing ? handleSaveProfile() : setIsEditing(true))}
+              disabled={isLoading}
+            >
+              {isEditing ? t('profile.save') : t('profile.edit')}
             </Button>
-          )}
-          <Button
-            variant={isEditing ? 'default' : 'outline'}
-            onClick={() => (isEditing ? handleSaveProfile() : setIsEditing(true))}
-            disabled={isLoading}
-          >
-            {isEditing ? t('profile.save') : t('profile.edit')}
-          </Button>
-        </div>
-      </div>
+          </>
+        }
+      />
 
-      {/* Profile Overview Card */}
-      <Card className="w-full">
+      <Card glass className="w-full">
         <CardHeader>
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src={userData.avatar || user?.avatar || undefined} />
-                <AvatarFallback className="text-lg">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="relative w-fit">
+              <Avatar className="size-20 rounded-xl">
+                <AvatarImage
+                  src={userData.avatar || user?.avatar || undefined}
+                  className="rounded-xl"
+                />
+                <AvatarFallback className="rounded-xl text-lg">
                   {userData.name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -184,10 +183,10 @@ export default function ProfilePage() {
                 </div>
               )}
             </div>
-            <div className="flex-1">
-              <CardTitle className="text-2xl">{userData.name}</CardTitle>
-              <CardDescription className="text-base">{userData.email}</CardDescription>
-              <div className="flex items-center gap-2 mt-2">
+            <div className="min-w-0 flex-1">
+              <CardTitle className="truncate text-xl">{userData.name}</CardTitle>
+              <CardDescription className="truncate">{userData.email}</CardDescription>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Badge variant="secondary">{userData.role}</Badge>
                 <Badge variant="outline">{userData.department}</Badge>
               </div>
@@ -206,14 +205,14 @@ export default function ProfilePage() {
               <span className="text-muted-foreground">{t('profile.location')}:</span>
               <span>{userData.location}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4 text-muted-foreground" />
+            <div className="flex min-w-0 items-center gap-2">
+              <Globe className="h-4 w-4 shrink-0 text-muted-foreground" />
               <span className="text-muted-foreground">{t('profile.website')}:</span>
               <a
                 href={userData.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:underline"
+                className="truncate text-link hover:underline"
               >
                 {userData.website}
               </a>
@@ -232,10 +231,10 @@ export default function ProfilePage() {
 
         {/* Personal Information Tab */}
         <TabsContent value="personal" className="space-y-4">
-          <Card className="w-full">
+          <Card glass className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5" />
+                <User className="h-5 w-5 text-link" />
                 {t('profile.personal.title')}
               </CardTitle>
               <CardDescription>{t('profile.personal.description')}</CardDescription>
@@ -300,7 +299,7 @@ export default function ProfilePage() {
                   <Label htmlFor="role">{t('profile.personal.role')}</Label>
                   <select
                     id="role"
-                    className="px-3 py-2 border rounded-md bg-background"
+                    className="flex h-11 w-full rounded-xl bg-muted px-3 text-sm disabled:opacity-50"
                     value={userData.role}
                     onChange={(e) => handleInputChange('role', e.target.value)}
                     disabled={!isEditing}
@@ -316,7 +315,7 @@ export default function ProfilePage() {
                 <Label htmlFor="bio">{t('profile.personal.bio')}</Label>
                 <textarea
                   id="bio"
-                  className="w-full min-h-[100px] p-3 border rounded-md resize-none"
+                  className="w-full min-h-[100px] resize-none rounded-xl bg-muted p-3 text-sm disabled:opacity-50"
                   value={userData.bio}
                   disabled={!isEditing}
                   onChange={(e) => handleInputChange('bio', e.target.value)}
@@ -328,42 +327,28 @@ export default function ProfilePage() {
 
         {/* Security Tab */}
         <TabsContent value="security" className="space-y-4">
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
-                {t('profile.security.title')}
-              </CardTitle>
-              <CardDescription>{t('profile.security.description')}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Key className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t('profile.security.password')}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('profile.security.passwordDesc')}
-                    </p>
-                  </div>
-                </div>
-                <Button variant="outline" onClick={() => setIsPasswordModalOpen(true)}>
+          <SettingsCard title={t('profile.security.title')} icon={<Shield />}>
+            <SettingsRow
+              icon={<Key />}
+              title={t('profile.security.password')}
+              description={t('profile.security.passwordDesc')}
+              action={
+                <Button size="sm" variant="outline" onClick={() => setIsPasswordModalOpen(true)}>
                   {t('profile.security.changePassword')}
                 </Button>
-              </div>
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Shield className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t('profile.security.twoFactor')}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {userData.twoFactorEnabled
-                        ? t('profile.security.twoFactorEnabled')
-                        : t('profile.security.twoFactorDisabled')}
-                    </p>
-                  </div>
-                </div>
+              }
+            />
+            <SettingsRow
+              icon={<Shield />}
+              title={t('profile.security.twoFactor')}
+              description={
+                userData.twoFactorEnabled
+                  ? t('profile.security.twoFactorEnabled')
+                  : t('profile.security.twoFactorDisabled')
+              }
+              action={
                 <Button
+                  size="sm"
                   variant={userData.twoFactorEnabled ? 'destructive' : 'default'}
                   onClick={() => handleInputChange('twoFactorEnabled', !userData.twoFactorEnabled)}
                   disabled={!isEditing}
@@ -372,60 +357,43 @@ export default function ProfilePage() {
                     ? t('profile.security.disableTwoFactor')
                     : t('profile.security.enableTwoFactor')}
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
+              }
+            />
+          </SettingsCard>
 
-          {/* Data Management Section */}
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Download className="h-5 w-5" />
-                {t('profile.data.title')}
-              </CardTitle>
-              <CardDescription>{t('profile.data.description')}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Download className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{t('profile.data.exportData')}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('profile.data.exportDataDesc')}
-                    </p>
-                  </div>
-                </div>
-                <Button variant="outline" onClick={handleExportData} disabled={isLoading}>
+          <SettingsCard title={t('profile.data.title')} icon={<Download />}>
+            <SettingsRow
+              icon={<Download />}
+              title={t('profile.data.exportData')}
+              description={t('profile.data.exportDataDesc')}
+              action={
+                <Button size="sm" variant="outline" onClick={handleExportData} disabled={isLoading}>
                   {t('profile.data.export')}
                 </Button>
+              }
+            />
+            <div className="flex flex-col gap-3 bg-destructive/10 px-5 py-4 sm:flex-row sm:items-center">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-destructive/30 text-destructive">
+                <Trash2 className="size-4" />
               </div>
-              <Separator />
-              <div className="p-4 border rounded-lg border-destructive/30 bg-destructive/10">
-                <div className="flex items-center gap-3">
-                  <User className="h-5 w-5 text-destructive" />
-                  <div>
-                    <p className="font-medium text-destructive">
-                      {t('profile.data.deleteAccount')}
-                    </p>
-                    <p className="text-sm text-destructive">
-                      {t('profile.data.deleteAccountDesc')}
-                    </p>
-                  </div>
-                </div>
-                <Button variant="destructive" className="mt-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-destructive">
                   {t('profile.data.deleteAccount')}
-                </Button>
+                </p>
+                <p className="text-xs text-destructive">{t('profile.data.deleteAccountDesc')}</p>
               </div>
-            </CardContent>
-          </Card>
+              <Button size="sm" variant="destructive">
+                {t('profile.data.deleteAccount')}
+              </Button>
+            </div>
+          </SettingsCard>
         </TabsContent>
 
         {/* Activity Tab */}
         <TabsContent value="activity" className="space-y-4">
           <div className="space-y-6">
             {/* Activity List */}
-            <div className="rounded-xl bg-card p-6">
+            <div className="glass rounded-2xl border bg-card p-6 shadow-sm">
               <h3 className="text-lg font-semibold mb-4">{t('profile.activity.recentActivity')}</h3>
               <div className="space-y-4">
                 {[
@@ -490,9 +458,9 @@ export default function ProfilePage() {
                     description: t('profile.activity.activities.descriptions.export'),
                     time: t('profile.activity.times.daysAgo', { count: 2 }),
                     category: t('profile.activity.categories.system'),
-                    categoryClass: 'bg-primary/20 text-primary',
-                    iconBg: 'bg-primary/20',
-                    iconColor: 'text-primary',
+                    categoryClass: 'bg-primary-soft text-link',
+                    iconBg: 'bg-primary-soft',
+                    iconColor: 'text-link',
                     icon: Download,
                   },
                 ].map((activity) => (
@@ -520,10 +488,10 @@ export default function ProfilePage() {
             </div>
 
             {/* Summary Section */}
-            <div className="rounded-xl bg-card p-6">
+            <div className="glass rounded-2xl border bg-card p-6 shadow-sm">
               <h3 className="text-lg font-semibold mb-4">{t('profile.activity.summary')}</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="rounded-lg bg-muted p-4">
+                <div className="rounded-xl bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold tabular-nums text-success">12</p>
@@ -534,7 +502,7 @@ export default function ProfilePage() {
                     <LogIn className="h-8 w-8 text-success/30" />
                   </div>
                 </div>
-                <div className="rounded-lg bg-muted p-4">
+                <div className="rounded-xl bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold tabular-nums text-info">8</p>
@@ -545,7 +513,7 @@ export default function ProfilePage() {
                     <Edit className="h-8 w-8 text-info/30" />
                   </div>
                 </div>
-                <div className="rounded-lg bg-muted p-4">
+                <div className="rounded-xl bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold tabular-nums text-warning">15</p>
@@ -556,15 +524,15 @@ export default function ProfilePage() {
                     <UserPlus className="h-8 w-8 text-warning/30" />
                   </div>
                 </div>
-                <div className="rounded-lg bg-muted p-4">
+                <div className="rounded-xl bg-muted p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold tabular-nums text-primary">6</p>
+                      <p className="text-2xl font-bold tabular-nums text-link">6</p>
                       <p className="text-sm text-muted-foreground">
                         {t('profile.activity.summaryItems.system')}
                       </p>
                     </div>
-                    <Settings className="h-8 w-8 text-primary/30" />
+                    <Settings className="h-8 w-8 text-link/30" />
                   </div>
                 </div>
               </div>

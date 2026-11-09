@@ -11,16 +11,16 @@ export function SortableHeader<T>({ column, title, onSort, columnKey }: Sortable
   return (
     <button
       type="button"
-      className="flex items-center hover:text-muted-foreground"
+      className="flex items-center gap-1.5 uppercase tracking-wide hover:text-foreground"
       onClick={() => onSort(columnKey, column.getIsSorted() === 'asc' ? 'desc' : 'asc')}
     >
       {title}
       {column.getIsSorted() === 'asc' ? (
-        <ArrowUp className="ml-2 h-4 w-4" />
+        <ArrowUp className="size-3.5" aria-hidden="true" />
       ) : column.getIsSorted() === 'desc' ? (
-        <ArrowDown className="ml-2 h-4 w-4" />
+        <ArrowDown className="size-3.5" aria-hidden="true" />
       ) : (
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        <ArrowUpDown className="size-3.5" aria-hidden="true" />
       )}
     </button>
   )

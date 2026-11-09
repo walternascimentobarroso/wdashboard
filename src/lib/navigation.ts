@@ -1,4 +1,4 @@
-import { Activity, FileText, Home, Shield, Users } from 'lucide-react'
+import { Activity, FileText, Home, Shield, UserCircle, Users } from 'lucide-react'
 import React from 'react'
 
 export interface NavigationItem {
@@ -8,6 +8,12 @@ export interface NavigationItem {
   href: string
   badge?: number
   disabled?: boolean
+  tabs?: NavigationTab[]
+}
+
+export interface NavigationTab {
+  labelKey: string
+  href: string
 }
 
 export interface NavigationCategory {
@@ -18,7 +24,6 @@ export interface NavigationCategory {
 
 export interface NavigationSection {
   categories: NavigationCategory[]
-  userItems?: NavigationItem[]
 }
 
 export const navigationConfig: NavigationSection = {
@@ -65,28 +70,36 @@ export const navigationConfig: NavigationSection = {
         },
       ],
     },
+    {
+      id: 'account',
+      label: 'Account',
+      items: [
+        {
+          id: 'account',
+          label: 'Account',
+          icon: React.createElement(UserCircle, { className: 'h-4 w-4' }),
+          href: '/dashboard/profile',
+          tabs: [
+            { labelKey: 'common.profile', href: '/dashboard/profile' },
+            { labelKey: 'common.settings', href: '/dashboard/settings' },
+          ],
+        },
+      ],
+    },
   ],
 }
 
-// Legacy support for existing code
-export const navigationItems: NavigationItem[] = [
-  ...navigationConfig.categories.flatMap((cat) => cat.items),
-  ...(navigationConfig.userItems || []),
-]
+function matchesPath(href: string, path: string) {
+  return path === href || (href !== '/dashboard' && path.startsWith(`${href}/`))
+}
 
-export function getActiveItem(currentPath: string): string | null {
-  // Remove trailing slash for consistent matching
-  const normalizedPath = currentPath.replace(/\/$/, '')
-
-  // Find exact match first
-  const exactMatch = navigationItems.find((item) => item.href.replace(/\/$/, '') === normalizedPath)
-
-  if (exactMatch) return exactMatch.id
-
-  // Find partial match for nested routes
-  const partialMatch = navigationItems.find(
-    (item) => normalizedPath.startsWith(item.href.replace(/\/$/, '')) && item.href !== '/dashboard'
+export function isItemActive(item: NavigationItem, path: string) {
+  return [item.href, ...(item.tabs ?? []).map((tab) => tab.href)].some((href) =>
+    matchesPath(href, path)
   )
+}
 
-  return partialMatch?.id || null
+export function getActiveTabs(path: string): NavigationTab[] {
+  const items = navigationConfig.categories.flatMap((category) => category.items)
+  return items.find((item) => isItemActive(item, path))?.tabs ?? []
 }

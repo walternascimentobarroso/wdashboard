@@ -1,6 +1,6 @@
 'use client'
 
-import { Edit, Eye, MoreHorizontal, Trash2 } from 'lucide-react'
+import { ChevronDown, Edit, Eye, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,9 +23,9 @@ export function RowActions({ onView, onEdit, onDelete }: RowActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">{t('openMenu')}</span>
-          <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+        <Button variant="secondary" size="sm" aria-label={t('openMenu')}>
+          {t('actions.title')}
+          <ChevronDown aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

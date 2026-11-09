@@ -1,10 +1,19 @@
 'use client'
 
+import { CalendarDays, Mail } from 'lucide-react'
 import { useFormatter, useTranslations } from 'next-intl'
 import type { DataTableColumn } from '@/components/shared/data-table/data-table'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import type { User } from '../types'
 
-const badgeClass = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium'
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('')
+}
 
 export function useUserColumns(): DataTableColumn<User>[] {
   const t = useTranslations('users.columns')
@@ -15,48 +24,51 @@ export function useUserColumns(): DataTableColumn<User>[] {
     {
       key: 'name',
       label: t('name'),
-      cell: (user) => <div className="font-medium">{user.name}</div>,
+      cell: (user) => (
+        <div className="flex items-center gap-3">
+          <Avatar className="size-9">
+            <AvatarFallback className="bg-primary-soft text-xs font-semibold text-link">
+              {initials(user.name)}
+            </AvatarFallback>
+          </Avatar>
+          <span className="font-medium">{user.name}</span>
+        </div>
+      ),
     },
     {
       key: 'email',
       label: t('email'),
-      cell: (user) => <div className="text-sm text-muted-foreground">{user.email}</div>,
+      cell: (user) => (
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Mail className="size-4 shrink-0" aria-hidden="true" />
+          {user.email}
+        </div>
+      ),
     },
     {
       key: 'role',
       label: t('role'),
       cell: (user) => (
-        <div className="capitalize">
-          <span
-            className={`${badgeClass} ${user.role === 'admin' ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'}`}
-          >
-            {tUsers(`roles.${user.role}`)}
-          </span>
-        </div>
+        <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+          {tUsers(`roles.${user.role}`)}
+        </Badge>
       ),
     },
     {
       key: 'status',
       label: t('status'),
       cell: (user) => (
-        <div className="capitalize">
-          <span
-            className={`${badgeClass} ${
-              user.status === 'active'
-                ? 'bg-success/15 text-success'
-                : 'bg-muted text-muted-foreground'
-            }`}
-          >
-            {tUsers(`statuses.${user.status}`)}
-          </span>
-        </div>
+        <Badge variant={user.status === 'active' ? 'success' : 'destructive'}>
+          {tUsers(`statuses.${user.status}`)}
+        </Badge>
       ),
     },
     {
       key: 'createdAt',
       label: t('created'),
       cell: (user) => (
-        <div className="text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <CalendarDays className="size-4 shrink-0" aria-hidden="true" />
           {format.dateTime(new Date(user.createdAt), { dateStyle: 'medium' })}
         </div>
       ),

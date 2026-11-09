@@ -1,11 +1,22 @@
 'use client'
 
-import { Bell, LogOut, Menu, Moon, Search, Settings, Sun, User } from 'lucide-react'
+import {
+  Bell,
+  ChevronDown,
+  LogOut,
+  Moon,
+  PanelLeft,
+  Search,
+  Settings,
+  Sun,
+  User,
+} from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,6 +26,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { getActiveTabs } from '@/lib/navigation'
+import { cn } from '@/lib/utils'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
 
 const NOTIFICATIONS = [
@@ -25,22 +38,21 @@ const NOTIFICATIONS = [
 
 interface TopbarProps {
   onSidebarToggle?: () => void
-  title?: string
   onSearchOpen?: () => void
 }
 
-export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
+export function Topbar({ onSidebarToggle, onSearchOpen }: TopbarProps) {
   const { user, logout } = useAuth()
   const router = useRouter()
   const t = useTranslations()
   const { theme, setTheme } = useTheme()
+  const pathname = usePathname()
+  const tabs = getActiveTabs(pathname)
 
   const handleLogout = async () => {
     try {
       await logout()
-      router.push('/login')
-    } catch (error) {
-      console.error('Logout failed:', error)
+    } finally {
       router.push('/login')
     }
   }
@@ -61,33 +73,52 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
   }, [onSearchOpen])
 
   return (
-    <header className="flex items-center justify-between h-16 px-4 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon" onClick={onSidebarToggle} className="md:hidden">
-          <Menu className="h-5 w-5" aria-hidden="true" />
-          <span className="sr-only">{t('header.toggleSidebar')}</span>
-        </Button>
-        <p className="text-xl font-semibold">{title || t('header.dashboard')}</p>
-      </div>
+    <header className="flex h-[72px] shrink-0 items-center gap-2 border-b bg-background px-4 md:px-6">
+      <Button variant="ghost" size="icon" onClick={onSidebarToggle} className="h-10 w-10 shrink-0">
+        <PanelLeft className="h-5 w-5" aria-hidden="true" />
+        <span className="sr-only">{t('header.toggleSidebar')}</span>
+      </Button>
 
-      <div className="flex items-center space-x-2">
-        <Button
-          variant="outline"
-          size="sm"
-          className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground"
+      <nav className="hidden h-full items-stretch gap-6 md:ml-4 md:flex">
+        {tabs.map((tab) => {
+          const active = pathname === tab.href
+          return (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              aria-current={active ? 'page' : undefined}
+              className={cn(
+                'flex items-center border-b-2 px-1 text-sm transition-colors',
+                active
+                  ? 'border-primary font-medium text-foreground'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              )}
+            >
+              {t(tab.labelKey)}
+            </Link>
+          )
+        })}
+      </nav>
+
+      <div className="ml-auto flex items-center gap-1 md:gap-2">
+        <button
+          type="button"
           onClick={onSearchOpen}
+          className="flex h-10 items-center gap-2 rounded-full bg-muted px-3 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:w-64 md:px-4"
         >
-          <Search className="h-4 w-4" aria-hidden="true" />
-          <span>{t('search.placeholder')}</span>
-          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-            <span className="text-xs">⌘</span>K
+          <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
+          <span className="hidden truncate md:inline">{t('search.placeholder')}</span>
+          <span className="sr-only md:hidden">{t('search.placeholder')}</span>
+          <kbd className="ml-auto hidden rounded border bg-background px-1.5 font-mono text-[10px] lg:inline">
+            ⌘K
           </kbd>
-        </Button>
+        </button>
+        <LanguageSwitcher />
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="h-9 w-9"
+          className="h-10 w-10 rounded-xl"
         >
           <Sun
             className="h-4 w-4 rotate-0 scale-100 transition-transform motion-reduce:transition-none dark:-rotate-90 dark:scale-0"
@@ -101,7 +132,7 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-9 w-9">
+            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-xl">
               <Bell className="h-4 w-4" aria-hidden="true" />
               <span
                 aria-hidden="true"
@@ -149,11 +180,20 @@ export function Topbar({ onSidebarToggle, title, onSearchOpen }: TopbarProps) {
         </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
+            <Button variant="ghost" className="h-11 gap-2 rounded-xl px-1.5 md:pr-2">
+              <Avatar className="h-9 w-9 rounded-xl">
                 <AvatarImage src={userAvatar} alt={userName} />
-                <AvatarFallback>{userName.slice(0, 2).toUpperCase()}</AvatarFallback>
+                <AvatarFallback className="rounded-xl">
+                  {userName.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
+              <span className="hidden max-w-32 truncate text-sm font-medium lg:inline">
+                {userName}
+              </span>
+              <ChevronDown
+                className="hidden h-4 w-4 text-muted-foreground lg:block"
+                aria-hidden="true"
+              />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>

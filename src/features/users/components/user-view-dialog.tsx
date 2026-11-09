@@ -47,10 +47,12 @@ export function UserViewDialog({ open, onOpenChange, user }: UserViewDialogProps
             <Field label={t('users.columns.name')}>{user.name}</Field>
             <Field label={t('users.columns.email')}>{user.email}</Field>
             <Field label={t('users.columns.role')}>
-              <Badge variant="secondary">{t(`users.roles.${user.role}`)}</Badge>
+              <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+                {t(`users.roles.${user.role}`)}
+              </Badge>
             </Field>
             <Field label={t('users.columns.status')}>
-              <Badge variant={user.status === 'active' ? 'default' : 'outline'}>
+              <Badge variant={user.status === 'active' ? 'success' : 'destructive'}>
                 {t(`users.statuses.${user.status}`)}
               </Badge>
             </Field>

@@ -1,5 +1,6 @@
 'use client'
 
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import type React from 'react'
 import { useState } from 'react'
@@ -23,6 +24,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -50,34 +52,61 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid gap-2">
           <Label htmlFor="email">{t('email')}</Label>
-          <Input
-            id="email"
-            type="email"
-            autoComplete="email"
-            spellCheck={false}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t('emailPlaceholder')}
-            required
-            disabled={isLoading}
-          />
+          <div className="relative">
+            <Mail
+              className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+              aria-hidden
+            />
+            <Input
+              id="email"
+              className="h-11 rounded-xl border-transparent bg-muted pl-10"
+              type="email"
+              autoComplete="email"
+              spellCheck={false}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t('emailPlaceholder')}
+              required
+              disabled={isLoading}
+            />
+          </div>
         </div>
 
         <div className="grid gap-2">
           <Label htmlFor="password">{t('password')}</Label>
-          <Input
-            id="password"
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            disabled={isLoading}
-          />
+          <div className="relative">
+            <Lock
+              className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+              aria-hidden
+            />
+            <Input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className="h-11 rounded-xl border-transparent bg-muted px-10"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((shown) => !shown)}
+              aria-label={t(showPassword ? 'hidePassword' : 'showPassword')}
+              aria-pressed={showPassword}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {showPassword ? (
+                <EyeOff className="size-4" aria-hidden />
+              ) : (
+                <Eye className="size-4" aria-hidden />
+              )}
+            </button>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -97,7 +126,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         {error && (
           <p
             role="alert"
-            className="rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
+            className="rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
           >
             {error}
           </p>
@@ -105,28 +134,27 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
         <Button
           type="submit"
-          className="w-full transition-transform active:scale-[0.98]"
+          className="h-11 w-full rounded-xl font-semibold transition-transform active:scale-[0.98]"
           disabled={isLoading}
         >
           {isLoading ? t('signingIn') : t('signIn')}
         </Button>
       </form>
 
-      <section aria-labelledby="demo-accounts" className="space-y-3 border-t pt-6">
-        <div className="space-y-1">
-          <h2 id="demo-accounts" className="text-sm font-medium text-foreground">
-            {t('demoCredentials')}
-          </h2>
-          <p className="text-xs text-muted-foreground">{t('demoHint')}</p>
+      <section aria-labelledby="demo-accounts" className="space-y-3">
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="h-px flex-1 bg-border" />
+          <h2 id="demo-accounts">{t('demoTryAs')}</h2>
+          <span className="h-px flex-1 bg-border" />
         </div>
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-3 gap-2">
           {DEMO_ACCOUNTS.map((account) => (
             <button
               key={account.role}
               type="button"
               onClick={() => fillDemoAccount(account)}
               disabled={isLoading}
-              className="rounded-md border px-3 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+              className="h-10 rounded-xl border bg-card text-sm font-medium transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
             >
               {t(`roles.${account.role}`)}
             </button>

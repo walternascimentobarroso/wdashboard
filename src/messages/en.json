@@ -83,7 +83,8 @@
     "documents": "Documents",
     "files": "Files",
     "logs": "Logs",
-    "roles": "Roles"
+    "roles": "Roles",
+    "account": "Account"
   },
   "header": {
     "dashboard": "Dashboard",
@@ -101,7 +102,6 @@
     "alreadyHaveAccount": "Already have an account?",
     "dontHaveAccount": "Don't have an account?",
     "subtitle": "Use your account to access the dashboard.",
-    "tagline": "Users, files and activity in one place.",
     "signingIn": "Signing in…",
     "loginFailed": "Login failed",
     "emailPlaceholder": "name@example.com",
@@ -111,12 +111,25 @@
       "admin": "Admin",
       "user": "User",
       "viewer": "Viewer"
-    }
+    },
+    "welcomeBack": "Welcome back",
+    "heroLine1": "Manage your team",
+    "heroHighlight": "smarter,",
+    "heroLine2": "all in one place.",
+    "features": {
+      "users": "Manage users and roles",
+      "files": "Organise files and documents",
+      "activity": "Track activity in real time"
+    },
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "demoTryAs": "Or try the demo as"
   },
   "navigation": {
     "dashboard": "Dashboard",
     "documents": "Documents",
-    "user": "User"
+    "user": "User",
+    "account": "Account"
   },
   "dashboard": {
     "welcome": "Welcome back to your dashboard",
@@ -136,11 +149,23 @@
       "uploadFilesDesc": "Process and manage file uploads",
       "viewLogs": "View Logs",
       "viewLogsDesc": "Monitor system activity and errors"
+    },
+    "greeting": {
+      "morning": "Good morning, {name}",
+      "afternoon": "Good afternoon, {name}",
+      "evening": "Good evening, {name}"
+    },
+    "accounts": {
+      "title": "User accounts",
+      "total": "Members",
+      "active": "Active",
+      "inactive": "Inactive",
+      "admins": "Admins",
+      "manage": "Manage users"
     }
   },
   "users": {
     "title": "Users",
-    "addUser": "Add User",
     "searchPlaceholder": "Search users…",
     "allRoles": "All Roles",
     "allStatuses": "All Statuses",
@@ -209,6 +234,21 @@
       "updateError": "Failed to update user: {error}",
       "deleteError": "Failed to delete user: {error}",
       "lastAdmin": "Cannot delete or demote the last admin user"
+    },
+    "description": "Manage your team members and their access.",
+    "create": "Create",
+    "filters": {
+      "search": "Search"
+    },
+    "kpi": {
+      "total": "Total users",
+      "totalDesc": "All registered users",
+      "active": "Active users",
+      "activeDesc": "Currently active",
+      "inactive": "Inactive users",
+      "inactiveDesc": "Deactivated accounts",
+      "new": "New users",
+      "newDesc": "Last 30 days"
     }
   },
   "profile": {
@@ -385,7 +425,15 @@
     "description": "Manage and organize your files",
     "upload": "Upload File",
     "search": "Search files…",
-    "filter": "Filter"
+    "filter": "Filter",
+    "kpi": {
+      "total": "Total files"
+    },
+    "status": {
+      "completed": "Completed",
+      "uploading": "Uploading",
+      "error": "Error"
+    }
   },
   "logs": {
     "title": "System Logs",
@@ -400,6 +448,9 @@
       "warning": "Warnings",
       "info": "Info",
       "success": "Success"
+    },
+    "kpi": {
+      "total": "Total events"
     }
   },
   "table": {
@@ -484,6 +535,30 @@
       "deleted": "Role {name} deleted successfully",
       "duplicateName": "A role with this name already exists",
       "error": "Operation failed: {error}"
+    },
+    "description": "Define and manage roles and permissions",
+    "kpis": {
+      "total": {
+        "title": "Total Roles",
+        "description": "All roles in system"
+      },
+      "active": {
+        "title": "Active Roles",
+        "description": "Roles currently enabled"
+      },
+      "inactive": {
+        "title": "Inactive Roles",
+        "description": "Roles currently disabled"
+      },
+      "recent": {
+        "title": "Recently Added",
+        "description": "New roles (last 7 days)"
+      }
     }
+  },
+  "settings": {
+    "description": "Manage your account and preferences",
+    "account": "Account settings",
+    "appearance": "Appearance"
   }
 }

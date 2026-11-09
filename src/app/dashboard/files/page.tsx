@@ -1,11 +1,13 @@
 'use client'
 
-import { Filter, Search, Upload } from 'lucide-react'
+import { CheckCircle, FileText, Filter, Loader, Search, Upload } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { Breadcrumb } from '@/components/ui/breadcrumb'
+import { KPICard } from '@/components/dashboard/kpi-card'
+import { PageHeader } from '@/components/shared/page-header'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { EmptyStateFiles } from '@/components/ui/empty-state'
 import { Input } from '@/components/ui/input'
 
@@ -17,6 +19,12 @@ interface FileItem {
   uploadedAt: string
   status: 'uploading' | 'completed' | 'error'
 }
+
+const STATUS_BADGE = {
+  completed: 'success',
+  uploading: 'warning',
+  error: 'destructive',
+} as const
 
 export default function FilesPage() {
   const t = useTranslations('files')
@@ -52,87 +60,79 @@ export default function FilesPage() {
     file.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  const countByStatus = (status: FileItem['status']) =>
+    files.filter((file) => file.status === status).length
+
   return (
     <div className="container mx-auto py-6 space-y-6">
-      {/* Breadcrumb */}
-      <Breadcrumb items={[{ label: t('title') }]} />
+      <PageHeader
+        title={t('title')}
+        description={t('description')}
+        breadcrumb={[{ label: t('title') }]}
+        actions={
+          <Button>
+            <Upload className="mr-2 h-4 w-4" aria-hidden="true" />
+            {t('upload')}
+          </Button>
+        }
+      />
 
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">{t('title')}</h1>
-          <p className="text-muted-foreground">{t('description')}</p>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <KPICard title={t('kpi.total')} value={files.length} icon={<FileText />} />
+        <KPICard
+          title={t('status.completed')}
+          value={countByStatus('completed')}
+          icon={<CheckCircle />}
+        />
+        <KPICard
+          title={t('status.uploading')}
+          value={countByStatus('uploading')}
+          icon={<Loader />}
+        />
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1">
+          <Search
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden="true"
+          />
+          <Input
+            placeholder={t('search')}
+            aria-label={t('search')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
         </div>
-        <Button>
-          <Upload className="mr-2 h-4 w-4" aria-hidden="true" />
-          {t('upload')}
+        <Button variant="outline">
+          <Filter className="mr-2 h-4 w-4" aria-hidden="true" />
+          {t('filter')}
         </Button>
       </div>
 
-      {/* Search and Filters */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"
-                aria-hidden="true"
-              />
-              <Input
-                placeholder={t('search')}
-                aria-label={t('search')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+      {filteredFiles.length === 0 ? (
+        <EmptyStateFiles />
+      ) : (
+        <Card glass className="divide-y divide-border p-0">
+          {filteredFiles.map((file) => (
+            <div key={file.id} className="flex items-center gap-4 p-4 sm:px-6">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary-soft text-xs font-semibold text-link">
+                {file.type.charAt(0)}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium">{file.name}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {file.type} • {file.size} • {file.uploadedAt}
+                </p>
+              </div>
+              <Badge variant={STATUS_BADGE[file.status]} className="shrink-0">
+                {t(`status.${file.status}`)}
+              </Badge>
             </div>
-            <Button variant="outline" size="sm">
-              <Filter className="mr-2 h-4 w-4" aria-hidden="true" />
-              {t('filter')}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Files List */}
-      <div className="space-y-4">
-        {filteredFiles.length === 0 ? (
-          <EmptyStateFiles />
-        ) : (
-          filteredFiles.map((file) => (
-            <Card key={file.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
-                      <span className="text-xs font-medium text-primary">
-                        {file.type.charAt(0)}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-medium">{file.name}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {file.size} • {file.uploadedAt}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {file.status === 'uploading' && (
-                      <div className="w-2 h-2 bg-warning rounded-full animate-pulse" />
-                    )}
-                    {file.status === 'completed' && (
-                      <div className="w-2 h-2 bg-success rounded-full" />
-                    )}
-                    {file.status === 'error' && (
-                      <div className="w-2 h-2 bg-destructive rounded-full" />
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        )}
-      </div>
+          ))}
+        </Card>
+      )}
     </div>
   )
 }

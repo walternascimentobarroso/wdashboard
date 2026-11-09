@@ -129,7 +129,9 @@ export function PasswordChangeModal({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
+            <span className="flex size-9 items-center justify-center rounded-full border border-primary/30 bg-primary-soft text-link">
+              <Shield className="size-4" />
+            </span>
             {t('profile.security.changePassword')}
           </DialogTitle>
         </DialogHeader>
@@ -212,7 +214,7 @@ export function PasswordChangeModal({
                   {requirements.map(({ key, met }) => (
                     <div key={key} className="flex items-center gap-2 text-xs">
                       <div
-                        className={`w-3 h-3 rounded-full ${met ? 'bg-success' : 'bg-muted-foreground/30'}`}
+                        className={`size-2 rounded-full ${met ? 'bg-success' : 'bg-muted-foreground/30'}`}
                       />
                       <span className={met ? 'text-success' : 'text-muted-foreground'}>
                         {t(`profile.passwordModal.requirements.${key}`)}
@@ -264,7 +266,7 @@ export function PasswordChangeModal({
           </div>
 
           {error && (
-            <div className="p-3 rounded-md bg-destructive/10 border border-destructive/30">
+            <div className="rounded-xl p-3 bg-destructive/10 border border-destructive/30">
               <p className="text-sm text-destructive">{error}</p>
             </div>
           )}

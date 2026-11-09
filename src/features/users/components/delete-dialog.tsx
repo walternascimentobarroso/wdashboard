@@ -3,6 +3,7 @@
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -53,29 +54,17 @@ export function DeleteDialog({ open, onOpenChange, onConfirm, loading, user }: D
               </AlertDescription>
             </Alert>
 
-            <div className="bg-muted/50 p-3 rounded-md">
+            <div className="rounded-xl border bg-muted/50 p-4">
               <div className="space-y-1">
                 <p className="text-sm font-medium">{user.name}</p>
                 <p className="text-sm text-muted-foreground">{user.email}</p>
-                <div className="flex items-center space-x-2 pt-2">
-                  <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                      user.role === 'admin'
-                        ? 'bg-primary/15 text-primary'
-                        : 'bg-muted text-muted-foreground'
-                    }`}
-                  >
+                <div className="flex items-center gap-2 pt-2">
+                  <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
                     {tUsers(`roles.${user.role}`)}
-                  </span>
-                  <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                      user.status === 'active'
-                        ? 'bg-success/15 text-success'
-                        : 'bg-muted text-muted-foreground'
-                    }`}
-                  >
+                  </Badge>
+                  <Badge variant={user.status === 'active' ? 'success' : 'destructive'}>
                     {tUsers(`statuses.${user.status}`)}
-                  </span>
+                  </Badge>
                 </div>
               </div>
             </div>

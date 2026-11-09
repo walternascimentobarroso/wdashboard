@@ -1,15 +1,16 @@
 'use client'
 
-import { Plus, Shield } from 'lucide-react'
+import { Clock, Plus, Shield, ShieldCheck, ShieldOff } from 'lucide-react'
 import { useFormatter, useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { KPICard } from '@/components/dashboard/kpi-card'
 import { ColumnToggle } from '@/components/shared/data-table/column-toggle'
 import { ConfirmDeleteDialog } from '@/components/shared/data-table/confirm-delete-dialog'
 import { DataTable } from '@/components/shared/data-table/data-table'
 import { ExportButton } from '@/components/shared/data-table/export-button'
 import { LoadingState } from '@/components/shared/data-table/loading-state'
-import { Breadcrumb } from '@/components/ui/breadcrumb'
+import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/empty-state'
 import { Input } from '@/components/ui/input'
@@ -31,6 +32,7 @@ type DialogKind = 'create' | 'view' | 'edit' | 'delete'
 
 export default function RolesPage() {
   const t = useTranslations('roles')
+  const tSidebar = useTranslations('sidebar')
   const format = useFormatter()
   const columns = useRoleColumns()
   const roles = useRoles()
@@ -89,6 +91,33 @@ export default function RolesPage() {
     createdAt: format.dateTime(new Date(role.createdAt), { dateStyle: 'short' }),
   }))
 
+  const breadcrumb = [{ label: tSidebar('dashboard'), href: '/dashboard' }, { label: t('title') }]
+  const header = (
+    <PageHeader
+      title={t('title')}
+      description={t('description')}
+      breadcrumb={breadcrumb}
+      actions={
+        <Button onClick={() => open('create')}>
+          <Plus className="h-4 w-4" />
+          {t('addRole')}
+        </Button>
+      }
+    />
+  )
+
+  const activeCount = roles.items.filter((role) => role.status === 'active').length
+  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
+  const recentCount = roles.items.filter(
+    (role) => new Date(role.createdAt).getTime() >= weekAgo
+  ).length
+  const kpis = [
+    { key: 'total', value: roles.items.length, icon: Shield },
+    { key: 'active', value: activeCount, icon: ShieldCheck },
+    { key: 'inactive', value: roles.items.length - activeCount, icon: ShieldOff },
+    { key: 'recent', value: recentCount, icon: Clock },
+  ]
+
   const createForm = (
     <RoleForm
       {...dialogProps('create')}
@@ -105,8 +134,8 @@ export default function RolesPage() {
 
   if (!roles.hasItems) {
     return (
-      <div className="container mx-auto py-6">
-        <h1 className="text-3xl font-bold mb-6">{t('title')}</h1>
+      <div className="space-y-6">
+        {header}
         <EmptyState
           icon={<Shield className="h-8 w-8 text-muted-foreground" />}
           title={t('empty.title')}
@@ -119,19 +148,29 @@ export default function RolesPage() {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <Breadcrumb items={[{ label: t('title') }]} />
+    <div className="space-y-6">
+      {header}
 
-      <h1 className="text-3xl font-bold">{t('title')}</h1>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {kpis.map(({ key, value, icon: Icon }) => (
+          <KPICard
+            key={key}
+            title={t(`kpis.${key}.title`)}
+            description={t(`kpis.${key}.description`)}
+            value={value}
+            icon={<Icon className="h-5 w-5" />}
+          />
+        ))}
+      </div>
 
-      <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-4 rounded-2xl border bg-card p-4">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Input
             placeholder={t('searchPlaceholder')}
             aria-label={t('searchPlaceholder')}
             value={roles.filters.search}
             onChange={(e) => roles.setFiltering({ search: e.target.value })}
-            className="min-w-[160px] w-[200px]"
+            className="w-full sm:w-[240px]"
           />
           <Select
             value={roles.filters.status || 'all'}
@@ -139,7 +178,7 @@ export default function RolesPage() {
               roles.setFiltering({ status: value === 'all' ? undefined : (value as RoleStatus) })
             }
           >
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-full sm:w-[160px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -150,7 +189,7 @@ export default function RolesPage() {
           </Select>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <ExportButton
             table={{
               title: t('title'),
@@ -165,15 +204,13 @@ export default function RolesPage() {
             visibleColumns={visibleColumns}
             onChange={setVisibleColumns}
           />
-          <Button onClick={() => open('create')} size="sm">
-            <Plus className="mr-2 h-4 w-4" />
-            {t('addRole')}
-          </Button>
         </div>
       </div>
 
       {roles.error && (
-        <div className="bg-destructive/15 text-destructive p-3 rounded-md">{roles.error}</div>
+        <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-destructive">
+          {roles.error}
+        </div>
       )}
 
       {roles.hasFilteredItems ? (

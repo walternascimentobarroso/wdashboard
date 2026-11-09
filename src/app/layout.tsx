@@ -36,8 +36,8 @@ export const metadata: Metadata = {
 // Mirrors --background in globals.css: the meta tag cannot read CSS variables.
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'oklch(1 0 0)' },
-    { media: '(prefers-color-scheme: dark)', color: 'oklch(0.137 0.036 258.526)' },
+    { media: '(prefers-color-scheme: light)', color: '#f5f7f8' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
   ],
 }
 

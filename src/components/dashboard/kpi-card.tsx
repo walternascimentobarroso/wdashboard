@@ -1,133 +1,101 @@
 'use client'
 
 import { Minus, TrendingDown, TrendingUp } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+import type { ReactNode } from 'react'
+import { Card } from '@/components/ui/card'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+
+type Trend = 'up' | 'down' | 'neutral'
 
 interface KPICardProps {
   title: string
   value: string | number
+  icon?: ReactNode
+  description?: string
   change?: {
     value: number
-    trend: 'up' | 'down' | 'neutral'
+    trend: Trend
   }
-  timeRange?: string
   sparklineData?: number[]
   tooltip?: string
   className?: string
 }
 
+const TREND_ICON = { up: TrendingUp, down: TrendingDown, neutral: Minus }
+
+const TREND_COLOR = {
+  up: 'text-link',
+  down: 'text-destructive',
+  neutral: 'text-muted-foreground',
+}
+
+function MiniBars({ values }: { values: number[] }) {
+  const max = Math.max(...values)
+  const min = Math.min(...values)
+  const range = max - min || 1
+
+  return (
+    <div aria-hidden="true" className="flex h-8 shrink-0 items-end gap-0.5">
+      {values.map((value, index) => (
+        <span
+          // biome-ignore lint/suspicious/noArrayIndexKey: bars only have a position
+          key={index}
+          className="w-1.5 rounded-sm bg-primary"
+          style={{ height: `${30 + ((value - min) / range) * 70}%` }}
+        />
+      ))}
+    </div>
+  )
+}
+
 export function KPICard({
   title,
   value,
+  icon,
+  description,
   change,
-  timeRange = 'Last 7 days',
   sparklineData = [],
   tooltip,
   className,
 }: KPICardProps) {
-  const getTrendIcon = (trend: 'up' | 'down' | 'neutral') => {
-    switch (trend) {
-      case 'up':
-        return <TrendingUp className="h-3 w-3" aria-hidden="true" />
-      case 'down':
-        return <TrendingDown className="h-3 w-3" aria-hidden="true" />
-      case 'neutral':
-        return <Minus className="h-3 w-3" aria-hidden="true" />
-    }
-  }
-
-  const getTrendColor = (trend: 'up' | 'down' | 'neutral') => {
-    switch (trend) {
-      case 'up':
-        return 'text-success'
-      case 'down':
-        return 'text-destructive'
-      case 'neutral':
-        return 'text-muted-foreground'
-    }
-  }
-
-  const renderSparkline = () => {
-    if (!sparklineData || sparklineData.length < 2) return null
-
-    const max = Math.max(...sparklineData)
-    const min = Math.min(...sparklineData)
-    const range = max - min || 1
-
-    const points = sparklineData
-      .map((value, index) => {
-        const x = (index / (sparklineData.length - 1)) * 100
-        const y = 100 - ((value - min) / range) * 100
-        return `${x},${y}`
-      })
-      .join(' ')
-
-    const isPositive = sparklineData[sparklineData.length - 1] > sparklineData[0]
-
-    return (
-      <div className="h-8 w-full">
-        <svg aria-hidden="true" viewBox="0 0 100 100" className="h-full w-full">
-          <polyline
-            points={points}
-            fill="none"
-            className={isPositive ? 'stroke-success' : 'stroke-destructive'}
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
-    )
-  }
+  const TrendIcon = change && TREND_ICON[change.trend]
 
   const cardContent = (
-    <Card className={cn('glass', className)}>
-      <CardContent className="p-6">
-        <div className="space-y-4">
-          {/* Header */}
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">{title}</p>
-              <p className="text-2xl font-bold mt-1 tabular-nums">{value}</p>
-            </div>
-            {sparklineData.length > 0 && <div className="h-8 w-16">{renderSparkline()}</div>}
-          </div>
-
-          {/* Change indicator */}
-          {change && (
-            <div className="flex items-center space-x-2">
-              <div className={cn('flex items-center space-x-1', getTrendColor(change.trend))}>
-                {getTrendIcon(change.trend)}
-                <span className="text-sm font-medium">
-                  {change.trend === 'up' ? '+' : ''}
-                  {change.value}%
-                </span>
-              </div>
-              <span className="text-xs text-muted-foreground">vs {timeRange}</span>
-            </div>
-          )}
-
-          {/* Time range */}
-          <div className="text-xs text-muted-foreground">{timeRange}</div>
+    <Card glass className={cn('flex items-center gap-4 p-5', className)}>
+      {icon && (
+        <div className="flex size-12 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary-soft text-link [&_svg]:size-5">
+          {icon}
         </div>
-      </CardContent>
+      )}
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-xs font-medium text-muted-foreground">{title}</p>
+        <p className="mt-1 text-2xl font-semibold tabular-nums">{value}</p>
+        <div className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
+          {change && TrendIcon && (
+            <span className={cn('flex items-center gap-1 font-medium', TREND_COLOR[change.trend])}>
+              <TrendIcon className="size-3" aria-hidden="true" />
+              {change.trend === 'up' ? '+' : ''}
+              {change.value}%
+            </span>
+          )}
+          {description && <span className="truncate">{description}</span>}
+        </div>
+      </div>
+      {sparklineData.length > 1 && <MiniBars values={sparklineData} />}
     </Card>
   )
 
-  if (tooltip) {
-    return (
-      <TooltipProvider delayDuration={0}>
-        <Tooltip>
-          <TooltipTrigger asChild>{cardContent}</TooltipTrigger>
-          <TooltipContent>
-            <p className="text-sm">{tooltip}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    )
-  }
+  if (!tooltip) return cardContent
 
-  return cardContent
+  return (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip>
+        <TooltipTrigger asChild>{cardContent}</TooltipTrigger>
+        <TooltipContent>
+          <p className="text-sm">{tooltip}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
 }

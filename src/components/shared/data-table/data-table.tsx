@@ -80,15 +80,15 @@ export function DataTable<T extends { id: string }>({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border">
+      <div className="glass overflow-hidden rounded-2xl border bg-card">
         <div className="overflow-x-auto">
           <table className="w-full caption-bottom text-sm">
-            <thead className="[&_tr]:border-b">
+            <thead className="bg-muted/40 [&_tr]:border-b">
               <tr>
                 {shownColumns.map((column) => (
                   <th
                     key={column.key}
-                    className="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                    className="h-12 px-5 text-left align-middle text-xs font-medium uppercase tracking-wide text-muted-foreground"
                   >
                     <SortableHeader<T>
                       column={{
@@ -102,7 +102,7 @@ export function DataTable<T extends { id: string }>({
                   </th>
                 ))}
                 {showActions && (
-                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  <th className="h-12 px-5 text-left align-middle text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     {t('actions.title')}
                   </th>
                 )}
@@ -129,14 +129,14 @@ export function DataTable<T extends { id: string }>({
                 </tr>
               ) : (
                 data.map((item) => (
-                  <tr key={item.id} className="border-b transition-colors hover:bg-muted/50">
+                  <tr key={item.id} className="border-b transition-colors hover:bg-muted/40">
                     {shownColumns.map((column) => (
-                      <td key={column.key} className="p-4 align-middle">
+                      <td key={column.key} className="px-5 py-4 align-middle">
                         {column.cell(item)}
                       </td>
                     ))}
                     {showActions && (
-                      <td className="p-4 align-middle">
+                      <td className="px-5 py-4 align-middle">
                         <RowActions
                           onView={() => onView(item)}
                           onEdit={() => onEdit(item)}
@@ -152,7 +152,7 @@ export function DataTable<T extends { id: string }>({
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2 py-4">
+      <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
           <span>{t('showing')}</span>
           <span className="font-medium">
@@ -172,7 +172,7 @@ export function DataTable<T extends { id: string }>({
               value={pageSize.toString()}
               onValueChange={(value) => onPageSizeChange(Number(value))}
             >
-              <SelectTrigger className="w-16 h-8">
+              <SelectTrigger className="h-9 w-20 rounded-xl">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -189,7 +189,7 @@ export function DataTable<T extends { id: string }>({
           <div className="flex items-center space-x-1">
             <Button
               variant="outline"
-              size="icon-sm"
+              size="icon"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage <= 1}
               aria-label={t('previous')}
@@ -207,9 +207,9 @@ export function DataTable<T extends { id: string }>({
                 ) : (
                   <Button
                     key={page}
-                    variant={currentPage === page ? 'default' : 'outline'}
+                    variant={currentPage === page ? 'default' : 'ghost'}
                     size="sm"
-                    className="min-w-8 px-2 tabular-nums"
+                    className="min-w-9 px-2 tabular-nums"
                     aria-current={currentPage === page ? 'page' : undefined}
                     onClick={() => onPageChange(page)}
                   >
@@ -221,7 +221,7 @@ export function DataTable<T extends { id: string }>({
 
             <Button
               variant="outline"
-              size="icon-sm"
+              size="icon"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage >= totalPages}
               aria-label={t('next')}

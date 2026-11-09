@@ -26,31 +26,29 @@ export function QuickActionCard({
 }: QuickActionCardProps) {
   return (
     <Card
+      glass
       className={cn(
-        'group cursor-pointer transition-[transform,box-shadow,border-color] duration-200 hover:shadow-md hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100 border-border/50 hover:border-border glass',
+        'group cursor-pointer transition-[box-shadow,border-color] duration-200 hover:border-primary/50 hover:shadow-md motion-reduce:transition-none',
         className
       )}
     >
       <Link href={href} className="block">
-        <CardContent className="p-6">
+        <CardContent className="p-5 sm:p-6">
           <div className="space-y-4">
-            {/* Icon and Title */}
             <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
+              <div className="flex items-center justify-center size-10 shrink-0 rounded-full border border-primary/30 bg-primary-soft text-link">
                 {icon}
               </div>
               <h3 className="font-semibold text-lg">{title}</h3>
             </div>
 
-            {/* Description */}
             <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
 
-            {/* Action Button */}
             <div className="flex items-center justify-between">
               <Button
                 variant="ghost"
                 size="sm"
-                className="group/btn p-0 h-auto text-primary hover:bg-transparent"
+                className="group/btn p-0 h-auto text-xs text-link hover:bg-transparent"
               >
                 <span className="mr-1">{buttonText}</span>
                 <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />

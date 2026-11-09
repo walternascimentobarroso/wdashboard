@@ -1,15 +1,18 @@
 'use client'
 
-import { Plus } from 'lucide-react'
+import { Plus, UserCheck, UserPlus, Users, UserX } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { KPICard } from '@/components/dashboard/kpi-card'
 import { ColumnToggle } from '@/components/shared/data-table/column-toggle'
 import { DataTable } from '@/components/shared/data-table/data-table'
 import { ExportButton } from '@/components/shared/data-table/export-button'
 import { LoadingState } from '@/components/shared/data-table/loading-state'
-import { Breadcrumb } from '@/components/ui/breadcrumb'
+import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -33,11 +36,25 @@ import type {
 } from '@/features/users/types'
 import { transformUserForExport } from '@/lib/export-utils'
 
+const NEW_USER_WINDOW_MS = 30 * 24 * 60 * 60 * 1000
+
+function countUsers(users: User[]) {
+  const since = Date.now() - NEW_USER_WINDOW_MS
+  const active = users.filter((user) => user.status === 'active').length
+  return {
+    total: users.length,
+    active,
+    inactive: users.length - active,
+    recent: users.filter((user) => new Date(user.createdAt).getTime() >= since).length,
+  }
+}
+
 export default function UsersPage() {
   const t = useTranslations()
 
   const columns = useUserColumns()
   const {
+    items: users,
     displayItems: displayUsers,
     filteredItems: filteredUsers,
     loading,
@@ -70,6 +87,27 @@ export default function UsersPage() {
     'actions',
   ])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+
+  const stats = useMemo(() => countUsers(users), [users])
+
+  const openCreate = () => setIsCreateModalOpen(true)
+
+  const header = (
+    <PageHeader
+      title={t('users.title')}
+      description={t('users.description')}
+      breadcrumb={[
+        { label: t('navigation.dashboard'), href: '/dashboard' },
+        { label: t('users.title') },
+      ]}
+      actions={
+        <Button onClick={openCreate}>
+          <Plus />
+          {t('users.create')}
+        </Button>
+      }
+    />
+  )
 
   const handleCreateUser = async (userData: CreateUserRequest | UpdateUserRequest) => {
     try {
@@ -176,7 +214,7 @@ export default function UsersPage() {
   }
 
   const handlePageSizeChange = (pageSize: number) => {
-    setPagination(1, pageSize) // Reset to first page when changing page size
+    setPagination(1, pageSize)
   }
 
   if (loading && !hasUsers) {
@@ -185,91 +223,106 @@ export default function UsersPage() {
 
   if (!hasUsers) {
     return (
-      <div className="container mx-auto py-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">{t('users.title')}</h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            {t('users.addUser')}
-          </Button>
-        </div>
-        <EmptyState onCreateUser={() => setIsCreateModalOpen(true)} />
+      <div className="space-y-6">
+        {header}
+        <EmptyState onCreateUser={openCreate} />
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      {/* Breadcrumb */}
-      <Breadcrumb items={[{ label: t('users.title') }]} />
+    <div className="space-y-6">
+      {header}
 
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">{t('users.title')}</h1>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <KPICard
+          title={t('users.kpi.total')}
+          value={stats.total}
+          icon={<Users />}
+          description={t('users.kpi.totalDesc')}
+        />
+        <KPICard
+          title={t('users.kpi.active')}
+          value={stats.active}
+          icon={<UserCheck />}
+          description={t('users.kpi.activeDesc')}
+        />
+        <KPICard
+          title={t('users.kpi.inactive')}
+          value={stats.inactive}
+          icon={<UserX />}
+          description={t('users.kpi.inactiveDesc')}
+        />
+        <KPICard
+          title={t('users.kpi.new')}
+          value={stats.recent}
+          icon={<UserPlus />}
+          description={t('users.kpi.newDesc')}
+        />
       </div>
 
-      {/* Controls - Filters on left, buttons on right */}
-      <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <Input
-            placeholder={t('users.searchPlaceholder')}
-            aria-label={t('users.searchPlaceholder')}
-            value={filters.search}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="min-w-[160px] w-[200px]"
-          />
-          <Select value={filters.role || 'all'} onValueChange={handleRoleFilterChange}>
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder={t('users.roles.admin')} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t('users.allRoles')}</SelectItem>
-              <SelectItem value="admin">{t('users.roles.admin')}</SelectItem>
-              <SelectItem value="user">{t('users.roles.user')}</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={filters.status || 'all'} onValueChange={handleStatusFilterChange}>
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder={t('users.statuses.active')} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t('users.allStatuses')}</SelectItem>
-              <SelectItem value="active">{t('users.statuses.active')}</SelectItem>
-              <SelectItem value="inactive">{t('users.statuses.inactive')}</SelectItem>
-            </SelectContent>
-          </Select>
+      <Card className="p-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_auto] lg:items-end">
+          <div className="space-y-2">
+            <Label htmlFor="users-search">{t('users.filters.search')}</Label>
+            <Input
+              id="users-search"
+              placeholder={t('users.searchPlaceholder')}
+              value={filters.search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="users-role">{t('users.columns.role')}</Label>
+            <Select value={filters.role || 'all'} onValueChange={handleRoleFilterChange}>
+              <SelectTrigger id="users-role" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{t('users.allRoles')}</SelectItem>
+                <SelectItem value="admin">{t('users.roles.admin')}</SelectItem>
+                <SelectItem value="user">{t('users.roles.user')}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="users-status">{t('users.columns.status')}</Label>
+            <Select value={filters.status || 'all'} onValueChange={handleStatusFilterChange}>
+              <SelectTrigger id="users-status" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{t('users.allStatuses')}</SelectItem>
+                <SelectItem value="active">{t('users.statuses.active')}</SelectItem>
+                <SelectItem value="inactive">{t('users.statuses.inactive')}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex gap-2">
+            <ExportButton
+              table={{
+                title: t('users.title'),
+                filename: 'users',
+                columns: columns.map(({ key, label }) => ({ key, header: label })),
+                rows: transformUserForExport(filteredUsers),
+              }}
+              disabled={loading}
+            />
+            <ColumnToggle
+              columns={columns}
+              visibleColumns={visibleColumns}
+              onChange={setVisibleColumns}
+            />
+          </div>
         </div>
+      </Card>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          <ExportButton
-            table={{
-              title: t('users.title'),
-              filename: 'users',
-              columns: columns.map(({ key, label }) => ({ key, header: label })),
-              rows: transformUserForExport(filteredUsers),
-            }}
-            disabled={loading}
-          />
-
-          <ColumnToggle
-            columns={columns}
-            visibleColumns={visibleColumns}
-            onChange={setVisibleColumns}
-          />
-
-          <Button onClick={() => setIsCreateModalOpen(true)} size="sm">
-            <Plus className="mr-2 h-4 w-4" />
-            {t('users.addUser')}
-          </Button>
+      {error && (
+        <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-destructive">
+          {error}
         </div>
-      </div>
+      )}
 
-      {/* Error Display */}
-      {error && <div className="bg-destructive/15 text-destructive p-3 rounded-md">{error}</div>}
-
-      {/* Users Table */}
       {hasFilteredUsers ? (
         <DataTable
           columns={columns}
@@ -289,10 +342,9 @@ export default function UsersPage() {
           visibleColumns={visibleColumns}
         />
       ) : (
-        <EmptyState onCreateUser={() => setIsCreateModalOpen(true)} filtered={true} />
+        <EmptyState onCreateUser={openCreate} filtered />
       )}
 
-      {/* Create User Modal */}
       <UserForm
         open={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
@@ -308,7 +360,6 @@ export default function UsersPage() {
         user={selectedUser}
       />
 
-      {/* Edit User Modal */}
       <UserForm
         open={isEditModalOpen}
         onOpenChange={setIsEditModalOpen}
@@ -319,7 +370,6 @@ export default function UsersPage() {
         user={selectedUser}
       />
 
-      {/* Delete Confirmation Dialog */}
       <DeleteDialog
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
