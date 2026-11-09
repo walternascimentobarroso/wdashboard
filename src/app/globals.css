@@ -12,10 +12,16 @@
   --card-foreground: #0a0a0a;
   --popover: #ffffff;
   --popover-foreground: #0a0a0a;
-  --primary: #9ae600;
+  --accent-lime: #9ae600;
+  --accent-red: #ff1f1f;
+  --accent-orange: #e67c00;
+  --accent-cyan: #00cee6;
+  --accent-violet: #9f1fff;
+  --accent-magenta: #ff1fcf;
+  --primary: var(--accent-lime);
   --primary-foreground: #0a0a0a;
-  --primary-soft: #f3fbe3;
-  --link: #5e8c00;
+  --primary-soft: color-mix(in srgb, var(--primary) 10%, #ffffff);
+  --link: color-mix(in srgb, var(--primary) 60%, #000000);
   --secondary: #f7f9fb;
   --secondary-foreground: #0a0a0a;
   --muted: #f0f2f3;
@@ -32,7 +38,7 @@
   --info-foreground: #ffffff;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #9ae600;
+  --ring: var(--primary);
   --sidebar: #ffffff;
   --sidebar-foreground: #0a0a0a;
   --sidebar-surface: linear-gradient(
@@ -62,10 +68,20 @@
   );
   --card-edge-glow: 0 1px 2px 0 #0000000a;
   --nav-active-bg: #ffffff;
-  --nav-active-tint: linear-gradient(90deg, #9ae60029 0%, #9ae6000d 38%, transparent 76%);
+  --nav-active-tint: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--primary) 16%, transparent) 0%,
+    color-mix(in srgb, var(--primary) 5%, transparent) 38%,
+    transparent 76%
+  );
   --nav-active-sheen: linear-gradient(160deg, #ffffff8c 0%, #ffffff26 34%, transparent 62%);
-  --nav-active-rim: linear-gradient(120deg, #6a941273 0%, #0000000d 40%, #00000005 100%);
-  --chart-1: #9ae600;
+  --nav-active-rim: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--link) 45%, transparent) 0%,
+    #0000000d 40%,
+    #00000005 100%
+  );
+  --chart-1: var(--primary);
   --chart-2: #737373;
   --chart-3: #e17100;
   --chart-4: #0084d1;
@@ -82,10 +98,8 @@
   --card-foreground: #f5f5f5;
   --popover: #0e1011;
   --popover-foreground: #fafafa;
-  --primary: #9ae600;
-  --primary-foreground: #0a0a0a;
-  --primary-soft: #1b2a04;
-  --link: #9ae600;
+  --primary-soft: color-mix(in srgb, var(--primary) 15%, #000000);
+  --link: var(--primary);
   --secondary: #262626;
   --secondary-foreground: #f5f5f5;
   --muted: #1c1d1f;
@@ -102,7 +116,7 @@
   --info-foreground: #0a0a0a;
   --border: #ffffff1a;
   --input: #ffffff1a;
-  --ring: #9ae600;
+  --ring: var(--primary);
   --sidebar: #0e1011;
   --sidebar-foreground: #f5f5f5;
   --sidebar-surface: linear-gradient(
@@ -148,14 +162,44 @@
   );
   --card-edge-glow: inset 0 0 46px #c8cdd20d, inset 0 0 13px #c8cdd20a;
   --nav-active-bg: #1c1d1f;
-  --nav-active-tint: linear-gradient(90deg, #9ae60033 0%, #9ae60012 38%, transparent 76%);
+  --nav-active-tint: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--primary) 20%, transparent) 0%,
+    color-mix(in srgb, var(--primary) 7%, transparent) 38%,
+    transparent 76%
+  );
   --nav-active-sheen: linear-gradient(160deg, #ffffff1a 0%, #ffffff08 34%, transparent 62%);
-  --nav-active-rim: linear-gradient(120deg, #c8f07840 0%, #ffffff17 40%, #ffffff0a 100%);
-  --chart-1: #9ae600;
+  --nav-active-rim: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--primary) 25%, transparent) 0%,
+    #ffffff17 40%,
+    #ffffff0a 100%
+  );
+  --chart-1: var(--primary);
   --chart-2: #a1a1a1;
   --chart-3: #ffb900;
   --chart-4: #38bdf8;
   --chart-5: #ff6467;
+}
+
+/* Accent picker (Settings > Appearance): set on <html> as data-accent, persisted in localStorage. */
+[data-accent="red"] {
+  --primary: var(--accent-red);
+  --primary-foreground: #ffffff;
+}
+[data-accent="orange"] {
+  --primary: var(--accent-orange);
+}
+[data-accent="cyan"] {
+  --primary: var(--accent-cyan);
+}
+[data-accent="violet"] {
+  --primary: var(--accent-violet);
+  --primary-foreground: #ffffff;
+}
+[data-accent="magenta"] {
+  --primary: var(--accent-magenta);
+  --primary-foreground: #ffffff;
 }
 
 @theme inline {

@@ -4,6 +4,7 @@ import './globals.css'
 import { cookies, headers } from 'next/headers'
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import { Toaster } from '@/components/ui/sonner'
+import { ACCENT_INIT_SCRIPT } from '@/hooks/useAccent'
 import { getMessages } from '@/lib/getMessages'
 import { Providers } from './providers'
 
@@ -47,6 +48,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static constant, no user input */}
+        <script dangerouslySetInnerHTML={{ __html: ACCENT_INIT_SCRIPT }} />
+      </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"

@@ -559,6 +559,18 @@
   "settings": {
     "description": "Manage your account and preferences",
     "account": "Account settings",
-    "appearance": "Appearance"
+    "appearance": "Appearance",
+    "accent": {
+      "title": "Accent color",
+      "description": "Select your accent color",
+      "colors": {
+        "lime": "Lime (default)",
+        "red": "Neon red",
+        "orange": "Neon orange",
+        "cyan": "Neon cyan",
+        "violet": "Neon violet",
+        "magenta": "Neon magenta"
+      }
+    }
   }
 }

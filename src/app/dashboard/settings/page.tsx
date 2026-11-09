@@ -1,6 +1,18 @@
 'use client'
 
-import { Bell, Calendar, Globe, Key, List, Mail, Palette, User, UserCog } from 'lucide-react'
+import {
+  Bell,
+  Calendar,
+  Check,
+  Globe,
+  Key,
+  List,
+  Mail,
+  Moon,
+  Palette,
+  User,
+  UserCog,
+} from 'lucide-react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useTheme } from 'next-themes'
@@ -20,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { ACCENTS, useAccent } from '@/hooks/useAccent'
 import { useLocale } from '@/hooks/useLocale'
 import { readJson } from '@/lib/read-json'
 import { useAuth } from '@/modules/auth/components/AuthProvider'
@@ -54,6 +67,7 @@ export default function SettingsPage() {
   const { user } = useAuth()
   const { theme, setTheme } = useTheme()
   const { locale, changeLocale } = useLocale()
+  const { accent, setAccent } = useAccent()
   const [settings, setSettings] = useState(defaultSettings)
   const [profile, setProfile] = useState<StoredProfile>({})
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
@@ -181,7 +195,7 @@ export default function SettingsPage() {
 
         <SettingsCard title={t('settings.appearance')} icon={<Palette />}>
           <SettingsRow
-            icon={<Palette />}
+            icon={<Moon />}
             title={t('profile.preferences.theme')}
             description={t('profile.preferences.themeDesc')}
             action={
@@ -198,6 +212,34 @@ export default function SettingsPage() {
                   <SelectItem value="system">{t('profile.preferences.themeSystem')}</SelectItem>
                 </SelectContent>
               </Select>
+            }
+          />
+          <SettingsRow
+            icon={<Palette />}
+            title={t('settings.accent.title')}
+            description={t('settings.accent.description')}
+            action={
+              <div className="flex flex-wrap justify-end gap-2">
+                {ACCENTS.map((color) => (
+                  <button
+                    key={color}
+                    type="button"
+                    aria-label={t(`settings.accent.colors.${color}`)}
+                    aria-pressed={accent === color}
+                    onClick={() => setAccent(color)}
+                    style={{ backgroundColor: `var(--accent-${color})` }}
+                    className="flex size-7 items-center justify-center rounded-full ring-offset-2 ring-offset-card transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring aria-pressed:ring-2 aria-pressed:ring-primary motion-reduce:transition-none"
+                  >
+                    {accent === color && (
+                      <Check
+                        className="size-4 text-primary-foreground"
+                        strokeWidth={3}
+                        aria-hidden
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
             }
           />
           <SettingsRow

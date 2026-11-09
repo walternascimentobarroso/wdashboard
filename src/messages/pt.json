@@ -559,6 +559,18 @@
   "settings": {
     "description": "Gerir a sua conta e preferências",
     "account": "Definições da conta",
-    "appearance": "Aparência"
+    "appearance": "Aparência",
+    "accent": {
+      "title": "Cor de destaque",
+      "description": "Escolhe a cor de destaque",
+      "colors": {
+        "lime": "Lima (predefinida)",
+        "red": "Vermelho néon",
+        "orange": "Laranja néon",
+        "cyan": "Ciano néon",
+        "violet": "Violeta néon",
+        "magenta": "Magenta néon"
+      }
+    }
   }
 }
