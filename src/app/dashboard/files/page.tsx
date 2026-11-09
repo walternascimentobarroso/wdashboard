@@ -114,7 +114,7 @@ export default function FilesPage() {
       {filteredFiles.length === 0 ? (
         <EmptyStateFiles />
       ) : (
-        <Card glass className="divide-y divide-border p-0">
+        <Card className="divide-y divide-border p-0">
           {filteredFiles.map((file) => (
             <div key={file.id} className="flex items-center gap-4 p-4 sm:px-6">
               <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary-soft text-xs font-semibold text-link">

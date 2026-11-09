@@ -26,7 +26,6 @@ export function QuickActionCard({
 }: QuickActionCardProps) {
   return (
     <Card
-      glass
       className={cn(
         'group cursor-pointer transition-[box-shadow,border-color] duration-200 hover:border-primary/50 hover:shadow-md motion-reduce:transition-none',
         className

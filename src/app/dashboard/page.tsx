@@ -86,7 +86,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card glass className="lg:col-span-2">
+        <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="text-lg">{t('dashboard.quickActions.title')}</CardTitle>
           </CardHeader>

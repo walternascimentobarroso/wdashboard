@@ -62,7 +62,7 @@ export function KPICard({
   const TrendIcon = change && TREND_ICON[change.trend]
 
   const cardContent = (
-    <Card glass className={cn('flex items-center gap-4 p-5', className)}>
+    <Card className={cn('flex items-center gap-4 p-5', className)}>
       {icon && (
         <div className="flex size-12 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary-soft text-link [&_svg]:size-5">
           {icon}

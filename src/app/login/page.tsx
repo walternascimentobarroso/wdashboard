@@ -50,7 +50,7 @@ export default function LoginPage() {
       </header>
 
       <main className="flex flex-1 items-center justify-center px-4 py-8">
-        <div className="login-enter grid w-full max-w-5xl overflow-hidden rounded-2xl border bg-card shadow-sm lg:grid-cols-2">
+        <div className="login-enter grid w-full max-w-5xl overflow-hidden glass rounded-2xl lg:grid-cols-2">
           <aside className="relative hidden min-h-[600px] lg:block">
             <Image
               src="/images/login-hero.webp"

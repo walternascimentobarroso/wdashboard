@@ -70,7 +70,7 @@ interface SettingsCardProps {
 
 export function SettingsCard({ title, icon, children, className }: SettingsCardProps) {
   return (
-    <Card glass className={cn('overflow-hidden', className)}>
+    <Card className={cn('overflow-hidden', className)}>
       <div className="flex items-center gap-2 border-b px-5 py-4 [&_svg]:size-4 [&_svg]:text-link">
         {icon}
         <h2 className="text-lg font-semibold">{title}</h2>

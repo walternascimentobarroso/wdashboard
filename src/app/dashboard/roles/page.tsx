@@ -163,7 +163,7 @@ export default function RolesPage() {
         ))}
       </div>
 
-      <div className="flex flex-col lg:flex-row lg:justify-between gap-4 rounded-2xl border bg-card p-4">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-4 glass rounded-2xl p-4">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Input
             placeholder={t('searchPlaceholder')}

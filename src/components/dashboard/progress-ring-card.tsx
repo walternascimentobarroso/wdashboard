@@ -22,7 +22,7 @@ export function ProgressRingCard({
   footer,
 }: ProgressRingCardProps) {
   return (
-    <Card glass className="h-full">
+    <Card className="h-full">
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>

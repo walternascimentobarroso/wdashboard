@@ -107,7 +107,7 @@ export default function SettingsPage() {
         breadcrumb={[{ label: t('common.settings') }]}
       />
 
-      <Card glass className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
+      <Card className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
         <Avatar className="size-16 rounded-xl">
           <AvatarImage src={avatar} className="rounded-xl" />
           <AvatarFallback className="rounded-xl text-lg">

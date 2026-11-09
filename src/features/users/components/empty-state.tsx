@@ -23,7 +23,7 @@ function EmptyStateContent({
   onCreateUser?: () => void
 }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border bg-card py-12">
+    <div className="flex flex-col items-center justify-center glass rounded-2xl py-12">
       <div className="text-center space-y-4">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-primary/30 bg-primary-soft text-link">
           <Users className="h-6 w-6" />

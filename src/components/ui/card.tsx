@@ -1,15 +1,11 @@
 import type * as React from 'react'
 import { cn } from '@/lib/utils'
 
-function Card({ className, glass, ...props }: React.ComponentProps<'div'> & { glass?: boolean }) {
+function Card({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card"
-      className={cn(
-        'rounded-2xl border bg-card text-card-foreground shadow-[0_1px_2px_0_--alpha(var(--color-foreground)/4%)]',
-        glass && 'glass',
-        className
-      )}
+      className={cn('glass rounded-2xl text-card-foreground', className)}
       {...props}
     />
   )

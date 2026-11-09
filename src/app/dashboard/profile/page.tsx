@@ -153,7 +153,7 @@ export default function ProfilePage() {
         }
       />
 
-      <Card glass className="w-full">
+      <Card className="w-full">
         <CardHeader>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <div className="relative w-fit">
@@ -231,7 +231,7 @@ export default function ProfilePage() {
 
         {/* Personal Information Tab */}
         <TabsContent value="personal" className="space-y-4">
-          <Card glass className="w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5 text-link" />
@@ -393,7 +393,7 @@ export default function ProfilePage() {
         <TabsContent value="activity" className="space-y-4">
           <div className="space-y-6">
             {/* Activity List */}
-            <div className="glass rounded-2xl border bg-card p-6 shadow-sm">
+            <div className="glass rounded-2xl p-6">
               <h3 className="text-lg font-semibold mb-4">{t('profile.activity.recentActivity')}</h3>
               <div className="space-y-4">
                 {[
@@ -488,7 +488,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Summary Section */}
-            <div className="glass rounded-2xl border bg-card p-6 shadow-sm">
+            <div className="glass rounded-2xl p-6">
               <h3 className="text-lg font-semibold mb-4">{t('profile.activity.summary')}</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="rounded-xl bg-muted p-4">

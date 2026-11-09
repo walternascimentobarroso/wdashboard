@@ -80,10 +80,10 @@ export function DataTable<T extends { id: string }>({
 
   return (
     <div className="space-y-4">
-      <div className="glass overflow-hidden rounded-2xl border bg-card">
+      <div className="glass overflow-hidden rounded-2xl">
         <div className="overflow-x-auto">
           <table className="w-full caption-bottom text-sm">
-            <thead className="bg-muted/40 [&_tr]:border-b">
+            <thead className="bg-secondary [&_tr]:border-b">
               <tr>
                 {shownColumns.map((column) => (
                   <th

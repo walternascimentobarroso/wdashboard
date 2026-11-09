@@ -143,7 +143,7 @@ export default function LogsPage() {
       {filteredLogs.length === 0 ? (
         <EmptyStateLogs />
       ) : (
-        <Card glass className="divide-y divide-border p-0">
+        <Card className="divide-y divide-border p-0">
           {filteredLogs.map((log) => (
             <div key={log.id} className="flex items-start gap-3 p-4 sm:px-6">
               <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary-soft">

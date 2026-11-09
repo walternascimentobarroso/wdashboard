@@ -49,7 +49,7 @@ export function Sidebar({
     <TooltipProvider delayDuration={0}>
       <div
         className={cn(
-          'flex h-full shrink-0 flex-col border-r bg-sidebar transition-[width] duration-300 motion-reduce:transition-none',
+          'flex h-full shrink-0 flex-col border-r sidebar-surface transition-[width] duration-300 motion-reduce:transition-none',
           expanded ? 'w-62' : 'w-19',
           className
         )}
@@ -152,7 +152,7 @@ export function SidebarItem({
           itemClass,
           !expanded && 'justify-center px-0',
           active &&
-            'border-border bg-primary-soft text-link shadow-sm hover:bg-primary-soft hover:text-link'
+            'nav-active border-transparent font-medium text-link hover:bg-[var(--nav-active-bg)] hover:text-link'
         )}
       >
         {icon}
