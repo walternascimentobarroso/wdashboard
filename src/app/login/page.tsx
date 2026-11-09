@@ -29,7 +29,7 @@ export default function LoginPage() {
   }, [isAuthenticated, router])
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-shell bg-[linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] bg-[size:48px_48px]">
+    <div className="flex min-h-[100dvh] flex-col bg-[linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] bg-[size:48px_48px]">
       <header className="flex items-center justify-between px-4 py-4 sm:px-8">
         <span className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-foreground">
           <Zap className="size-6 fill-primary text-primary" aria-hidden />

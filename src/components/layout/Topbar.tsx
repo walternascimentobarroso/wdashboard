@@ -73,7 +73,7 @@ export function Topbar({ onSidebarToggle, onSearchOpen }: TopbarProps) {
   }, [onSearchOpen])
 
   return (
-    <header className="flex h-[72px] shrink-0 items-center gap-2 border-b bg-background px-4 md:px-6">
+    <header className="flex h-[72px] shrink-0 items-center gap-2 border-b px-4 md:px-6">
       <Button variant="ghost" size="icon" onClick={onSidebarToggle} className="h-10 w-10 shrink-0">
         <PanelLeft className="h-5 w-5" aria-hidden="true" />
         <span className="sr-only">{t('header.toggleSidebar')}</span>

@@ -101,7 +101,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
 
   if (isMobile) {
     return (
-      <div className={cn('min-h-screen bg-background', className)}>
+      <div className={cn('min-h-screen', className)}>
         <SkipLink label={t('common.skipToContent')} />
         {topbar}
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -120,9 +120,9 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   }
 
   return (
-    <div className={cn('h-screen bg-shell p-3', className)}>
+    <div className={cn('h-screen p-3', className)}>
       <SkipLink label={t('common.skipToContent')} />
-      <div className="flex h-full overflow-hidden rounded-2xl border bg-background shadow-sm">
+      <div className="flex h-full overflow-hidden rounded-2xl border bg-background/30 shadow-sm">
         <Sidebar expanded={sidebarExpanded} onLogout={handleLogout}>
           {renderNavigation(sidebarExpanded)}
         </Sidebar>

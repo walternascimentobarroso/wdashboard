@@ -41,32 +41,46 @@
   --ring: var(--primary);
   --sidebar: #ffffff;
   --sidebar-foreground: #0a0a0a;
-  --sidebar-surface: linear-gradient(
-    135deg,
-    #eef1f2 0%,
-    #eef1f2 10%,
-    #f9fbfb 12.5%,
-    #eef1f2 15%,
-    #eef1f2 100%
+  /* Glass only reads with colour behind it: soft accent-tinted blobs over the page. */
+  --backdrop:
+    radial-gradient(
+      45% 55% at 8% 5%,
+      color-mix(in srgb, var(--primary) 55%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 50% at 95% 15%,
+      color-mix(in srgb, var(--info) 40%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      55% 60% at 65% 100%,
+      color-mix(in srgb, var(--primary) 45%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(var(--background), var(--background));
+  --sidebar-surface: linear-gradient(160deg, #ffffff99 0%, #ffffff4d 100%);
+  --sidebar-glow: inset -1px 0 0 #ffffffb3;
+  --card-sheen: linear-gradient(
+    128deg,
+    #ffffffcc 0%,
+    #ffffff59 16%,
+    #ffffff1a 32%,
+    transparent 50%
   );
-  --sidebar-glow: none;
-  --card-sheen: linear-gradient(transparent, transparent);
-  --card-glare-top: linear-gradient(transparent, transparent);
-  --card-glare-bottom: linear-gradient(transparent, transparent);
-  --card-gradient: linear-gradient(180deg, #ffffff 0%, #fafbfa 100%);
+  --card-glare-top: radial-gradient(48% 52% at 100% 0%, #ffffff8c 0%, transparent 72%);
+  --card-glare-bottom: radial-gradient(52% 56% at 100% 100%, #ffffff66 0%, transparent 72%);
+  --card-gradient: linear-gradient(160deg, #ffffffad 0%, #ffffff70 100%);
   --card-rim: linear-gradient(
     140deg,
-    #00000016 0%,
-    #00000012 10%,
-    #0000000e 22%,
-    #0000000a 36%,
-    #00000008 52%,
-    #00000007 68%,
-    #0000000a 82%,
-    #0000000d 92%,
-    #0000000f 100%
+    #ffffff 0%,
+    #ffffffcc 20%,
+    #ffffff66 50%,
+    #ffffff59 75%,
+    #ffffffb3 100%
   );
-  --card-edge-glow: 0 1px 2px 0 #0000000a;
+  --card-edge-glow:
+    inset 0 1px 0 #ffffff, 0 10px 30px -12px color-mix(in srgb, var(--primary) 35%, #00000026);
   --nav-active-bg: #ffffff;
   --nav-active-tint: linear-gradient(
     90deg,
@@ -119,6 +133,7 @@
   --ring: var(--primary);
   --sidebar: #0e1011;
   --sidebar-foreground: #f5f5f5;
+  --backdrop: linear-gradient(var(--shell), var(--shell));
   --sidebar-surface: linear-gradient(
     135deg,
     #000000 0%,
@@ -203,7 +218,6 @@
 }
 
 @theme inline {
-  --color-shell: var(--shell);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -299,6 +313,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: var(--backdrop);
+    background-attachment: fixed;
   }
 }
 
