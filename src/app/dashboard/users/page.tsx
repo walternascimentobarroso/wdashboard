@@ -7,7 +7,6 @@ import { KPICard } from '@/components/dashboard/kpi-card'
 import { ColumnToggle } from '@/components/shared/data-table/column-toggle'
 import { DataTable } from '@/components/shared/data-table/data-table'
 import { ExportButton } from '@/components/shared/data-table/export-button'
-import { LoadingState } from '@/components/shared/data-table/loading-state'
 import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -217,11 +216,7 @@ export default function UsersPage() {
     setPagination(1, pageSize)
   }
 
-  if (loading && !hasUsers) {
-    return <LoadingState />
-  }
-
-  if (!hasUsers) {
+  if (!hasUsers && !loading) {
     return (
       <div className="space-y-6">
         {header}
@@ -238,24 +233,28 @@ export default function UsersPage() {
         <KPICard
           title={t('users.kpi.total')}
           value={stats.total}
+          loading={loading}
           icon={<Users />}
           description={t('users.kpi.totalDesc')}
         />
         <KPICard
           title={t('users.kpi.active')}
           value={stats.active}
+          loading={loading}
           icon={<UserCheck />}
           description={t('users.kpi.activeDesc')}
         />
         <KPICard
           title={t('users.kpi.inactive')}
           value={stats.inactive}
+          loading={loading}
           icon={<UserX />}
           description={t('users.kpi.inactiveDesc')}
         />
         <KPICard
           title={t('users.kpi.new')}
           value={stats.recent}
+          loading={loading}
           icon={<UserPlus />}
           description={t('users.kpi.newDesc')}
         />
@@ -323,7 +322,7 @@ export default function UsersPage() {
         </div>
       )}
 
-      {hasFilteredUsers ? (
+      {hasFilteredUsers || loading ? (
         <DataTable
           columns={columns}
           data={displayUsers}

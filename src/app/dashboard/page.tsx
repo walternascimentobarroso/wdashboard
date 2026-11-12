@@ -20,7 +20,7 @@ function greetingKey(hour: number) {
 export default function DashboardPage() {
   const t = useTranslations()
   const { user } = useAuth()
-  const { items: users } = useUsers()
+  const { items: users, loading } = useUsers()
 
   const activeUsers = users.filter((member) => member.status === 'active').length
   const activePercent = users.length ? Math.round((activeUsers / users.length) * 100) : 0
@@ -52,6 +52,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <KPICard
+          loading={loading}
           title={t('dashboard.kpi.totalUsers')}
           value="1,234"
           icon={<Users />}
@@ -60,6 +61,7 @@ export default function DashboardPage() {
           tooltip="Total registered users in the system"
         />
         <KPICard
+          loading={loading}
           title={t('dashboard.kpi.activeSessions')}
           value="89"
           icon={<Activity />}
@@ -68,6 +70,7 @@ export default function DashboardPage() {
           tooltip="Currently active user sessions"
         />
         <KPICard
+          loading={loading}
           title={t('dashboard.kpi.filesProcessed')}
           value="567"
           icon={<FileText />}
@@ -76,6 +79,7 @@ export default function DashboardPage() {
           tooltip="Total files processed this week"
         />
         <KPICard
+          loading={loading}
           title={t('dashboard.kpi.systemHealth')}
           value="98.5%"
           icon={<HeartPulse />}
@@ -120,6 +124,7 @@ export default function DashboardPage() {
         <ProgressRingCard
           title={t('dashboard.accounts.title')}
           percent={activePercent}
+          loading={loading}
           ringLabel={t('dashboard.accounts.active')}
           rows={[
             { label: t('dashboard.accounts.total'), value: users.length },

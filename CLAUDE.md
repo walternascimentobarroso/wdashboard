@@ -35,6 +35,7 @@ Princípios do projeto:
 - Preferências (tema, sidebar) persistem em localStorage.
 - Manter separação UI / services / modules.
 - Glassmorphism apenas em cards e dialogs.
+- **Loading com skeleton:** todo o componente que mostra dados carregados (services/hooks com `loading`) recebe uma prop `loading` e desenha `Skeleton` (`components/ui/skeleton`) no lugar dos valores, mantendo o layout. Nada de spinners nem de "0"/vazio durante o carregamento; o estado vazio só aparece depois de `loading` ser `false`. Referências: `DataTable`, `KPICard`, `ProgressRingCard`.
 - **Limpeza ao passar:** sempre que editares um ficheiro, remove nele o código morto — imports, variáveis, funções, componentes e exports sem uso, código comentado e logs de debug. Antes de apagar um export, confirma com grep em `src/` que ninguém o importa. A limpeza fica restrita aos ficheiros já tocados pela tarefa.
 
 ## Verificação visual

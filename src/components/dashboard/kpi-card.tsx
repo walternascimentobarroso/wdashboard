@@ -3,6 +3,7 @@
 import { Minus, TrendingDown, TrendingUp } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Card } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
@@ -20,6 +21,7 @@ interface KPICardProps {
   sparklineData?: number[]
   tooltip?: string
   className?: string
+  loading?: boolean
 }
 
 const TREND_ICON = { up: TrendingUp, down: TrendingDown, neutral: Minus }
@@ -58,6 +60,7 @@ export function KPICard({
   sparklineData = [],
   tooltip,
   className,
+  loading,
 }: KPICardProps) {
   const TrendIcon = change && TREND_ICON[change.trend]
 
@@ -70,7 +73,11 @@ export function KPICard({
       )}
       <div className="min-w-0 flex-1">
         <p className="truncate text-xs font-medium text-muted-foreground">{title}</p>
-        <p className="mt-1 text-2xl font-semibold tabular-nums">{value}</p>
+        {loading ? (
+          <Skeleton className="mt-2 mb-1 h-6 w-16 rounded-md" />
+        ) : (
+          <p className="mt-1 text-2xl font-semibold tabular-nums">{value}</p>
+        )}
         <div className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
           {change && TrendIcon && (
             <span className={cn('flex items-center gap-1 font-medium', TREND_COLOR[change.trend])}>

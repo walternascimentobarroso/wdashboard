@@ -9,7 +9,6 @@ import { ColumnToggle } from '@/components/shared/data-table/column-toggle'
 import { ConfirmDeleteDialog } from '@/components/shared/data-table/confirm-delete-dialog'
 import { DataTable } from '@/components/shared/data-table/data-table'
 import { ExportButton } from '@/components/shared/data-table/export-button'
-import { LoadingState } from '@/components/shared/data-table/loading-state'
 import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/empty-state'
@@ -128,11 +127,7 @@ export default function RolesPage() {
     />
   )
 
-  if (roles.loading && !roles.hasItems) {
-    return <LoadingState />
-  }
-
-  if (!roles.hasItems) {
+  if (!roles.hasItems && !roles.loading) {
     return (
       <div className="space-y-6">
         {header}
@@ -158,6 +153,7 @@ export default function RolesPage() {
             title={t(`kpis.${key}.title`)}
             description={t(`kpis.${key}.description`)}
             value={value}
+            loading={roles.loading}
             icon={<Icon className="h-5 w-5" />}
           />
         ))}
@@ -213,7 +209,7 @@ export default function RolesPage() {
         </div>
       )}
 
-      {roles.hasFilteredItems ? (
+      {roles.hasFilteredItems || roles.loading ? (
         <DataTable
           columns={columns}
           data={roles.displayItems}

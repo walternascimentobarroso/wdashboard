@@ -29,7 +29,7 @@ export function useCrudList<T, F, C, U>(
   { initialFilters, matches, defaultSort, pageSize: explicitPageSize }: CrudListOptions<T, F>
 ) {
   const [items, setItems] = useState<T[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filters, setFilters] = useState<F>(initialFilters)
   const [sorting, setSortingState] = useState<{ column: keyof T; direction: SortDirection }>({
@@ -43,6 +43,8 @@ export function useCrudList<T, F, C, U>(
     setLoading(true)
     setError(null)
     try {
+      // Simulated latency so the skeleton is visible with the mock backend.
+      await new Promise((resolve) => setTimeout(resolve, 1500))
       setItems(await service.getAll())
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load data')

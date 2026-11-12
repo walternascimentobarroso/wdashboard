@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import type { SortDirection } from '@/hooks/useCrudList'
 import { RowActions } from './row-actions'
 
@@ -110,17 +111,24 @@ export function DataTable<T extends { id: string }>({
             </thead>
             <tbody className="[&_tr:last-child]:border-0">
               {loading ? (
-                <tr>
-                  <td colSpan={colSpan} className="h-24 text-center">
-                    <div className="flex items-center justify-center space-x-2" role="status">
-                      <div
-                        aria-hidden="true"
-                        className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"
-                      ></div>
-                      <span>{t('loading')}</span>
-                    </div>
-                  </td>
-                </tr>
+                Array.from({ length: pageSize }, (_, row) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder rows
+                  <tr key={row} className="border-b" aria-busy="true">
+                    {shownColumns.map((column, index) => (
+                      <td key={column.key} className="px-5 py-4 align-middle">
+                        <div className="flex items-center gap-3">
+                          {index === 0 && <Skeleton className="size-8 shrink-0 rounded-full" />}
+                          <Skeleton className="h-3 w-full max-w-40 rounded-full" />
+                        </div>
+                      </td>
+                    ))}
+                    {showActions && (
+                      <td className="px-5 py-4 align-middle">
+                        <Skeleton className="size-8 rounded-lg" />
+                      </td>
+                    )}
+                  </tr>
+                ))
               ) : data.length === 0 ? (
                 <tr>
                   <td colSpan={colSpan} className="h-24 text-center text-muted-foreground">

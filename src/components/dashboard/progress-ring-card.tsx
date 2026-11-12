@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface ProgressRingCardProps {
   title: string
@@ -7,6 +8,7 @@ interface ProgressRingCardProps {
   ringLabel: string
   rows: { label: string; value: number; tone?: 'positive' | 'negative' }[]
   footer?: ReactNode
+  loading?: boolean
 }
 
 const RADIUS = 52
@@ -20,6 +22,7 @@ export function ProgressRingCard({
   ringLabel,
   rows,
   footer,
+  loading,
 }: ProgressRingCardProps) {
   return (
     <Card className="h-full">
@@ -50,7 +53,11 @@ export function ProgressRingCard({
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-semibold tabular-nums">{percent}%</span>
+            {loading ? (
+              <Skeleton className="h-8 w-14 rounded-md" />
+            ) : (
+              <span className="text-3xl font-semibold tabular-nums">{percent}%</span>
+            )}
             <span className="text-xs text-muted-foreground">{ringLabel}</span>
           </div>
         </div>
@@ -59,7 +66,7 @@ export function ProgressRingCard({
             <div key={row.label} className="flex items-center justify-between py-2">
               <dt className="text-muted-foreground">{row.label}</dt>
               <dd className={`font-semibold tabular-nums ${row.tone ? TONE_CLASS[row.tone] : ''}`}>
-                {row.value}
+                {loading ? <Skeleton className="h-4 w-8 rounded-md" /> : row.value}
               </dd>
             </div>
           ))}
