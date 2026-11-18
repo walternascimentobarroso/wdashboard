@@ -317,13 +317,12 @@
       "themeSystem": "System"
     },
     "data": {
-      "title": "Data Management",
-      "description": "Export or delete your account data",
-      "exportData": "Export Data",
-      "exportDataDesc": "Download all your data in JSON format",
+      "title": "Privacy & Data",
+      "exportData": "Download my data",
+      "exportDataDesc": "Export your profile, settings and activity.",
       "export": "Export",
-      "deleteAccount": "Delete Account",
-      "deleteAccountDesc": "Permanently delete your account and all associated data"
+      "deleteAccount": "Delete my account",
+      "deleteAccountDesc": "Request deletion of your account and associated personal data."
     },
     "toasts": {
       "profileUpdated": "Profile updated successfully",

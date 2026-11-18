@@ -10,6 +10,7 @@ import {
   MapPin,
   Settings,
   Shield,
+  ShieldCheck,
   Trash2,
   Upload,
   User,
@@ -20,6 +21,7 @@ import type React from 'react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { PasswordChangeModal } from '@/components/profile/PasswordChangeModal'
+import { ConfirmDeleteDialog } from '@/components/shared/data-table/confirm-delete-dialog'
 import { PageHeader } from '@/components/shared/page-header'
 import { SettingsCard, SettingsRow } from '@/components/shared/settings-row'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -34,7 +36,9 @@ import { useAuth } from '@/modules/auth/components/AuthProvider'
 
 export default function ProfilePage() {
   const t = useTranslations()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
@@ -127,6 +131,12 @@ export default function ProfilePage() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true)
+    await logout()
+    localStorage.clear()
   }
 
   return (
@@ -361,7 +371,7 @@ export default function ProfilePage() {
             />
           </SettingsCard>
 
-          <SettingsCard title={t('profile.data.title')} icon={<Download />}>
+          <SettingsCard title={t('profile.data.title')} icon={<ShieldCheck />}>
             <SettingsRow
               icon={<Download />}
               title={t('profile.data.exportData')}
@@ -382,11 +392,19 @@ export default function ProfilePage() {
                 </p>
                 <p className="text-xs text-destructive">{t('profile.data.deleteAccountDesc')}</p>
               </div>
-              <Button size="sm" variant="destructive">
+              <Button size="sm" variant="destructive" onClick={() => setDeleteOpen(true)}>
                 {t('profile.data.deleteAccount')}
               </Button>
             </div>
           </SettingsCard>
+          <ConfirmDeleteDialog
+            open={deleteOpen}
+            onOpenChange={setDeleteOpen}
+            onConfirm={handleDeleteAccount}
+            loading={isDeleting}
+            title={t('profile.data.deleteAccount')}
+            itemName={user?.email}
+          />
         </TabsContent>
 
         {/* Activity Tab */}

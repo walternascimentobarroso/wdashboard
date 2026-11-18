@@ -317,13 +317,12 @@
       "themeSystem": "Sistema"
     },
     "data": {
-      "title": "Gerenciamento de Dados",
-      "description": "Exporte ou exclua seus dados da conta",
-      "exportData": "Exportar Dados",
-      "exportDataDesc": "Baixe todos seus dados em formato JSON",
+      "title": "Privacidade e Dados",
+      "exportData": "Baixar meus dados",
+      "exportDataDesc": "Exporte seu perfil, configurações e atividade.",
       "export": "Exportar",
-      "deleteAccount": "Excluir Conta",
-      "deleteAccountDesc": "Exclua permanentemente sua conta e todos os dados associados"
+      "deleteAccount": "Excluir minha conta",
+      "deleteAccountDesc": "Solicite a exclusão da sua conta e dos dados pessoais associados."
     },
     "toasts": {
       "profileUpdated": "Perfil atualizado com sucesso",
